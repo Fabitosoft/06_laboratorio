@@ -10,13 +10,35 @@ class EspecialidadAdmin(admin.ModelAdmin):
 
 
 class EspecialistaAdmin(admin.ModelAdmin):
-    list_display = ['nombres', 'apellidos']
+    list_display = [
+        'nombres',
+        'apellidos',
+        'identificacion',
+        'especialidad',
+        'universidad',
+        'registro_profesional',
+        'activo'
+    ]
     search_fields = ['nombres', 'apellidos']
 
 
-class MedicoRemitenteAdmin(admin.ModelAdmin):
-    list_display = ['nombres', 'apellidos']
+class MedicoRemitenteResource(ModelResource):
+    class Meta:
+        model = MedicoRemitente
+
+
+class MedicoRemitenteAdmin(ImportExportModelAdmin):
+    list_display = [
+        'nombres',
+        'apellidos',
+        'especialidad',
+        'especialidad_temporal',
+        'telefono',
+        'telefono_1',
+        'telefono_2'
+    ]
     search_fields = ['nombres', 'apellidos']
+    resource_class = MedicoRemitenteResource
 
 
 admin.site.register(Especialidad, EspecialidadAdmin)

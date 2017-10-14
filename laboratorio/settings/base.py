@@ -60,6 +60,7 @@ MY_APPS = [
     'examenes',
     'medicos',
     'entidades',
+    'pacientes',
 ]
 
 THIRD_PART_APPS = [
