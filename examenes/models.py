@@ -1,6 +1,14 @@
 from django.db import models
 
 
+class AgrupacionExamen(models.Model):
+    nombre = models.CharField(max_length=200)
+
+    class Meta:
+        verbose_name = 'Exámen Agrupado'
+        verbose_name_plural = 'Examenes Agrupados'
+
+
 class Examen(models.Model):
     codigo_cups = models.PositiveIntegerField(help_text='Código de clasificación única en procedimientos en salud',
                                               unique=True)
@@ -11,5 +19,5 @@ class Examen(models.Model):
     tecnica = models.CharField(max_length=100, verbose_name='Técnica', blank=True, null=True)
 
     class Meta:
-        verbose_name = 'Examen'
+        verbose_name = 'Exámen'
         verbose_name_plural = 'Examenes'

@@ -19,6 +19,7 @@ class EspecialistaAdmin(admin.ModelAdmin):
         'registro_profesional',
         'activo'
     ]
+    list_editable = ['activo', ]
     search_fields = ['nombres', 'apellidos']
 
 
