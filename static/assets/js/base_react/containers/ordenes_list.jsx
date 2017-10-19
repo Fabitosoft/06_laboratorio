@@ -6,7 +6,10 @@ import _ from 'lodash';
 
 class TercerosList extends Component {
     componentDidMount() {
-        this.props.fetchOrdenes()
+        this.props.fetchOrdenes();
+        this.props.fetchEntidades();
+        this.props.fetchMedicosRemitentes();
+        this.props.fetchPacientes();
     }
 
     renderTerceros(tercero) {
@@ -32,7 +35,10 @@ class TercerosList extends Component {
 
 function mapPropsToState(state, ownProps) {
     return {
-        ordenes: state.ordenes
+        ordenes: state.ordenes,
+        entidades: state.entidades,
+        medicos_remitentes: state.medicos_remitentes,
+        pacientes: state.pacientes,
     }
 }
 
