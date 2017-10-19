@@ -2,7 +2,12 @@ from .api_routers import DefaultRouter
 
 # Routers provide an easy way of automatically determining the URL conf.
 from ordenes.urls import router as ordenes_router
+from pacientes.urls import router as pacientes_router
+from entidades.urls import router as entidades_router
+from medicos.urls import router as medicos_router
 
 router = DefaultRouter()
 router.extend(ordenes_router)
-
+router.extend(pacientes_router)
+router.extend(entidades_router)
+router.extend(medicos_router)

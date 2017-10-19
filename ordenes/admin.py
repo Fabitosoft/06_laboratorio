@@ -4,7 +4,7 @@ from .models import Orden
 
 
 class OrdenAdmin(admin.ModelAdmin):
-    list_display = ['paciente', 'tipo_pago', 'remitente', 'entidad']
+    list_display = ['paciente', 'tipo_pago', 'medico_remitente', 'entidad']
 
 
 admin.site.register(Orden, OrdenAdmin)
