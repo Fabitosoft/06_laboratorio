@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base/base.html' %}
+{% load render_bundle from webpack_loader %}
 
-</body>
-</html>
+
+{% block title %}
+    Este es el index
+{% endblock %}
+
+{% block content %}
+    <div class="cosa">
+    </div>
+    {% render_bundle 'base' %}
+{% endblock %}

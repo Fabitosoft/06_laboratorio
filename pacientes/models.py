@@ -10,6 +10,11 @@ class Paciente(TimeStampedModel):
         ('TI', 'Tarjeta Identidad'),
     )
 
+    CHOICES_SEXO = (
+        ('femenino', 'Femenino'),
+        ('masculino', 'Masculino')
+    )
+
     tipo_documento = models.CharField(max_length=2, choices=CHOICES_TIPO_DOCUMENTO, default='CC')
     nro_identificacion = models.CharField(max_length=30)
     nombre = models.CharField(max_length=60)
@@ -22,6 +27,7 @@ class Paciente(TimeStampedModel):
     telefono_3 = models.CharField(max_length=20, null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
     email_2 = models.EmailField(null=True, blank=True)
+    genero = models.CharField(choices=CHOICES_SEXO, default='femenino', max_length=20)
 
     class Meta:
         verbose_name_plural = 'Pacientes'

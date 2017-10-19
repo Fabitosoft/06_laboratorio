@@ -61,10 +61,13 @@ MY_APPS = [
     'medicos',
     'entidades',
     'pacientes',
+    'ordenes',
 ]
 
 THIRD_PART_APPS = [
     'import_export',
+    'webpack_loader',
+    'rest_framework',
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -164,3 +167,10 @@ STATICFILES_DIRS = [
 
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'assets/bundles/deve/',
+        'STATS_FILE': os.path.join(SITE_ROOT, 'webpack-stats.json'),
+    }
+}

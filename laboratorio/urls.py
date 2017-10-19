@@ -19,8 +19,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from index.views import IndexView
+from laboratorio.api_urls import router
 
 urlpatterns = [
+    url(r'^api/', include(router.urls)),
     url(r'^admin/', admin.site.urls),
     url(r'^$', IndexView.as_view(), name='index'),
 ]
