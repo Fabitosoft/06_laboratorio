@@ -25,6 +25,20 @@ export function fetchPacientes() {
     }
 }
 
+export function fetchPacientesxParametro(parametro) {
+    return function (dispatch) {
+        const SUB_URL = `pacientes/buscar_nombre?parametro=${parametro}`;
+        const FULL_URL = `${ROOT_URL}${SUB_URL}&${FORMAT}`;
+        axios.get(FULL_URL)
+            .then(response => {
+                    dispatch({type: FETCH_PACIENTES, payload: response})
+                }
+            ).catch(function (error) {
+
+        })
+    }
+}
+
 export function refreshPaciente(tercero) {
     return {
         type: FETCH_PACIENTE,
@@ -58,7 +72,7 @@ export function fetchPaciente(id) {
 export function crearPaciente(values, callback) {
     axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
     axios.defaults.xsrfCookieName = "csrftoken";
-    const request = axios.post(`${ROOT_URL}pacientes/`, values).then(() => callback()).catch(error => {
+    const request = axios.post(`${ROOT_URL}pacientes/`, values).then((response) => callback(response)).catch(error => {
         console.log(error)
     });
     return {
@@ -67,7 +81,8 @@ export function crearPaciente(values, callback) {
     };
 }
 
-export function updatePaciente(id, values, callback) {
+export function updatePaciente(values, callback) {
+    const {id} = values;
     axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
     axios.defaults.xsrfCookieName = "csrftoken";
     const request = axios.put(`${ROOT_URL}pacientes/${id}/`, values).then(() => callback()).catch(error => {
