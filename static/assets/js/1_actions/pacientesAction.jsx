@@ -85,7 +85,7 @@ export function updatePaciente(values, callback) {
     const {id} = values;
     axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
     axios.defaults.xsrfCookieName = "csrftoken";
-    const request = axios.put(`${ROOT_URL}pacientes/${id}/`, values).then(() => callback()).catch(error => {
+    const request = axios.put(`${ROOT_URL}pacientes/${id}/`, values).then((response) => callback(response)).catch(error => {
         console.log(error)
     });
     return {

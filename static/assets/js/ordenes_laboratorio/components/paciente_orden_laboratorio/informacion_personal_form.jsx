@@ -1,8 +1,10 @@
 import React from 'react';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import {Field} from 'redux-form';
+import RadioButton from 'material-ui/RadioButton';
 import {
-    TextField
+    TextField,
+    RadioButtonGroup
 } from 'redux-form-material-ui'
 
 function renderDateTimePicker({input: {onChange, value}, showTime}) {
@@ -51,12 +53,6 @@ export default (props) => {
                     <Field name="fecha_nacimiento" type="date"
                            component={renderDateTimePicker}/>
                 </div>
-                <div className="col-12 col-md-6">
-                    <Field name="genero"
-                           component={TextField}
-                           floatingLabelText="Género"
-                    />
-                </div>
                 <div className="col-12 col-sm-6">
                     <Field name="tipo_documento"
                            component={TextField}
@@ -68,6 +64,18 @@ export default (props) => {
                            component={TextField}
                            floatingLabelText="Número Identificación"
                     />
+                </div>
+                <div className="col-12">
+                    <Field name="genero" component={RadioButtonGroup}>
+                        <RadioButton
+                            value="femenino"
+                            label="Femenino"
+                        />
+                        <RadioButton
+                            value="masculino"
+                            label="Masculino"
+                        />
+                    </Field>
                 </div>
             </div>
         </div>

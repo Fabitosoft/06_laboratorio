@@ -24,16 +24,27 @@ momentLocaliser(moment);
 
 
 class PacienteOrdenLaboratorioForm extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = ({
+            textoBuscado: ''
+        })
+    }
+
     onSubmit(values) {
         const {paciente, setState} = this.props;
-        const callback = () => {
-            console.log('entro a guardar');
-        };
-        const callback_creado = (response) => {
-            console.log('entro a crear');
+        const callback = (response) => {
             setState({
                 paciente: response.data
             });
+        };
+        const callback_creado = (response) => {
+            setState({
+                paciente: response.data,
+                textoBuscado: ''
+            });
+            this.refs.autoComplete.setState({searchText: ''})
         };
         if (paciente) {
             this.props.updatePaciente(values, callback);
@@ -42,17 +53,20 @@ class PacienteOrdenLaboratorioForm extends Component {
         }
     }
 
-    onUpdateInput(texto) {
-        if (texto.length > 3) {
-            this.props.fetchPacientesxParametro(texto);
+    onUpdateInput(textoBuscado) {
+        this.setState({textoBuscado});
+        if (textoBuscado.length > 3) {
+            this.props.fetchPacientesxParametro(textoBuscado);
         }
     }
 
     onNewRequest(value) {
         const {setState} = this.props;
         setState({
-            paciente: value.value
+            paciente: value.value,
+            textoBuscado: ''
         });
+        this.refs.autoComplete.setState({searchText: ''})
     }
 
     render() {
@@ -79,11 +93,13 @@ class PacienteOrdenLaboratorioForm extends Component {
             <div className='row'>
                 <div className='col-12 col-sm-4'>
                     <AutoComplete
+                        ref="autoComplete"
                         floatingLabelText="Número de Cedula"
                         filter={AutoComplete.fuzzyFilter}
                         dataSource={autocoplete}
                         onNewRequest={this.onNewRequest.bind(this)}
                         onUpdateInput={this.onUpdateInput.bind(this)}
+                        searchText={this.state.textoBuscado}
                     />
                 </div>
                 <div className="col-12 col-sm-8">
