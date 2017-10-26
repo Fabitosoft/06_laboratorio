@@ -2,9 +2,11 @@ import React from 'react';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import {Field} from 'redux-form';
 import RadioButton from 'material-ui/RadioButton';
+import MenuItem from 'material-ui/MenuItem';
 import {
     TextField,
-    RadioButtonGroup
+    RadioButtonGroup,
+    SelectField
 } from 'redux-form-material-ui'
 
 function renderDateTimePicker({input: {onChange, value}, showTime}) {
@@ -54,10 +56,17 @@ export default (props) => {
                            component={renderDateTimePicker}/>
                 </div>
                 <div className="col-12 col-sm-6">
-                    <Field name="tipo_documento"
-                           component={TextField}
-                           floatingLabelText="Tipo Documento"
-                    />
+                    <Field
+                        name="tipo_documento"
+                        component={SelectField}
+                        hintText="Tipo de documento"
+                        floatingLabelText="Tipo de documento"
+                    >
+                        <MenuItem value="CC" primaryText="Cédula Ciudadania"/>
+                        <MenuItem value="CE" primaryText="Cédula Extrangería"/>
+                        <MenuItem value="PS" primaryText="Pasaporte"/>
+                        <MenuItem value="TI" primaryText="Tarjeta de Identidad"/>
+                    </Field>
                 </div>
                 <div className="col-12 col-sm-6">
                     <Field name="nro_identificacion"

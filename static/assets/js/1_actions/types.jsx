@@ -25,3 +25,10 @@ export const FETCH_MEDICO_REMITENTE = 'fetch_medico_remitente';
 export const DELETE_MEDICO_REMITENTE = 'delete_medico_remitente';
 export const CREATE_MEDICO_REMITENTE = 'create_medico_remitente';
 export const UPDATE_MEDICO_REMITENTE = 'update_medico_remitente';
+
+//examenes
+export const FETCH_EXAMENES = 'fetch_examenes';
+export const FETCH_EXAMEN = 'fetch_examen';
+export const DELETE_EXAMEN = 'delete_examen';
+export const CREATE_EXAMEN = 'create_examen';
+export const UPDATE_EXAMEN = 'update_examen';

@@ -25,6 +25,20 @@ export function fetchMedicosRemitentes() {
     }
 }
 
+export function fetchMedicoRemitentexParametro(parametro) {
+    return function (dispatch) {
+        const SUB_URL = `medicos_remitentes/buscar_nombre?parametro=${parametro}`;
+        const FULL_URL = `${ROOT_URL}${SUB_URL}&${FORMAT}`;
+        axios.get(FULL_URL)
+            .then(response => {
+                    dispatch({type: FETCH_MEDICOS_REMITENTES, payload: response})
+                }
+            ).catch(function (error) {
+
+        })
+    }
+}
+
 export function refreshMedicosRemitente(tercero) {
     return {
         type: FETCH_MEDICO_REMITENTE,

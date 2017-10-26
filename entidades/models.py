@@ -1,4 +1,5 @@
 from django.db import models
+from examenes.models import Examen
 
 
 class Entidad(models.Model):
@@ -10,6 +11,7 @@ class Entidad(models.Model):
     telefono = models.CharField(max_length=200, null=True, blank=True)
     telefono_2 = models.CharField(max_length=200, null=True, blank=True)
     telefono_3 = models.CharField(max_length=200, null=True, blank=True)
+    examenes = models.ManyToManyField(Examen, through='EntidadExamen')
 
     class Meta:
         verbose_name_plural = 'Entidades'
@@ -28,3 +30,9 @@ class ContactoEntidad(models.Model):
     class Meta:
         verbose_name_plural = 'Contactos Entidad'
         verbose_name = 'Contacto Entidad'
+
+
+class EntidadExamen(models.Model):
+    examen = models.ForeignKey(Examen, on_delete=models.PROTECT, related_name='mis_entidades')
+    entidad = models.ForeignKey(Entidad, on_delete=models.PROTECT)
+    valor_examen = models.DecimalField(max_digits=10, decimal_places=1, default=0)

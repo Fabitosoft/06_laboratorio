@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import validate from './validate';
-import * as actions from '../../../1_actions/index';
 import _ from 'lodash';
 import {connect} from 'react-redux';
 import moment from 'moment';
@@ -28,23 +27,24 @@ class PacienteOrdenLaboratorioForm extends Component {
     constructor(props) {
         super(props);
         this.state = ({
-            textoBuscado: ''
+            textoBuscado: '',
+            mensaje: ''
         })
     }
 
     onSubmit(values) {
-        const {paciente, setState} = this.props;
+        const {paciente, cambiarPaciente} = this.props;
         const callback = (response) => {
-            setState({
-                paciente: response.data
-            });
+            cambiarPaciente(response.data);
+            this.setState({
+                mensaje: 'Se há actualizado al paciente correctamente'
+            })
         };
         const callback_creado = (response) => {
-            setState({
-                paciente: response.data,
-                textoBuscado: ''
+            cambiarPaciente(response.data);
+            this.setState({
+                mensaje: 'Se há creado al paciente correctamente'
             });
-            this.refs.autoComplete.setState({searchText: ''})
         };
         if (paciente) {
             this.props.updatePaciente(values, callback);
@@ -61,49 +61,65 @@ class PacienteOrdenLaboratorioForm extends Component {
     }
 
     onNewRequest(value) {
-        const {setState} = this.props;
-        setState({
-            paciente: value.value,
-            textoBuscado: ''
-        });
-        this.refs.autoComplete.setState({searchText: ''})
+        const {cambiarPaciente} = this.props;
+        cambiarPaciente(value.value);
     }
 
-    render() {
-        const {pacientes, paciente, handleSubmit, load, pristine, reset, submitting} = this.props;
-
-        const autocoplete = _.map(pacientes, paciente => {
-            return {
-                text: paciente.nro_identificacion,
-                value: paciente
-            }
-        });
-
-        let encontrado = null;
-
+    renderMensajePacienteEncontrado() {
+        const {paciente} = this.props;
         if (paciente) {
-            encontrado =
+            return (
                 <div>
                     Se encontró
                     a {paciente.nombre} {paciente.nombre_segundo} {paciente.apellido} {paciente.apellido_segundo}
                 </div>
+            )
         }
+    }
 
+    reset_paciente() {
+        const {cambiarPaciente} = this.props;
+        cambiarPaciente(null);
+        this.setState({
+            mensaje: '',
+            textoBuscado: ''
+        })
+    }
+
+    renderBusquedaAutoComplete() {
+        const {pacientes, paciente} = this.props;
+
+        if (!paciente) {
+            const autocoplete = _.map(pacientes, paciente => {
+                return {
+                    text: paciente.nro_identificacion,
+                    value: paciente
+                }
+            });
+            return (
+                <AutoComplete
+                    ref="autoComplete"
+                    floatingLabelText="Buscar por documento"
+                    filter={AutoComplete.fuzzyFilter}
+                    dataSource={autocoplete}
+                    onNewRequest={this.onNewRequest.bind(this)}
+                    onUpdateInput={this.onUpdateInput.bind(this)}
+                    searchText={this.state.textoBuscado}
+                />
+            )
+        }
+    }
+
+    render() {
+        const {handleSubmit, pristine, reset, submitting} = this.props;
         return (
             <div className='row'>
                 <div className='col-12 col-sm-4'>
-                    <AutoComplete
-                        ref="autoComplete"
-                        floatingLabelText="Número de Cedula"
-                        filter={AutoComplete.fuzzyFilter}
-                        dataSource={autocoplete}
-                        onNewRequest={this.onNewRequest.bind(this)}
-                        onUpdateInput={this.onUpdateInput.bind(this)}
-                        searchText={this.state.textoBuscado}
-                    />
+                    {this.renderBusquedaAutoComplete()}
                 </div>
                 <div className="col-12 col-sm-8">
-                    {encontrado}
+                    {this.renderMensajePacienteEncontrado()}
+                    {this.state.mensaje}
                 </div>
                 <div className='col-12'>
                     <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
@@ -117,6 +133,9 @@ class PacienteOrdenLaboratorioForm extends Component {
                                 <button type="button" disabled={pristine || submitting} onClick={reset}>
                                     Deshacer Cambios
                                 </button>
+                                <button type="button" onClick={this.reset_paciente.bind(this)}>
+                                    Limpiar
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -129,21 +148,17 @@ class PacienteOrdenLaboratorioForm extends Component {
 
 function mapPropsToState(state, ownProps) {
     const {paciente} = ownProps;
-    let paciente_inicial = null;
-    if (paciente) {
-        paciente_inicial = paciente;
-    }
     return {
-        pacientes: state.pacientes,
-        initialValues: paciente_inicial,
+        initialValues: paciente,
     }
 }
 
 PacienteOrdenLaboratorioForm = reduxForm({
     form: "updatePacienteForm",
+    enableReinitialize: true,
     validate
 })(PacienteOrdenLaboratorioForm);
 
-PacienteOrdenLaboratorioForm = (connect(mapPropsToState, actions)(PacienteOrdenLaboratorioForm));
+PacienteOrdenLaboratorioForm = (connect(mapPropsToState, null)(PacienteOrdenLaboratorioForm));
 
 export default PacienteOrdenLaboratorioForm;

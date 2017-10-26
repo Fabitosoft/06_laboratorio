@@ -23,6 +23,9 @@ class MedicoRemitente(TimeStampedModel):
     telefono_1 = models.CharField(max_length=120, null=True, blank=True)
     telefono_2 = models.CharField(max_length=120, null=True, blank=True)
 
+    def getFullName(self):
+        return '%s %s' % (self.nombres, self.apellidos)
+
     class Meta:
         verbose_name_plural = 'Médicos Remitentes'
         verbose_name = 'Médico Remitente'

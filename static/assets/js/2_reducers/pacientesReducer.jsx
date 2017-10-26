@@ -9,7 +9,6 @@ import _ from 'lodash';
 export default function (state = [], action) {
     switch (action.type) {
         case FETCH_PACIENTES:
-            console.log(action.payload.data);
             return _.mapKeys(action.payload.data, 'id');
         case FETCH_PACIENTE:
             console.log('entro a fetch tercero en reducer');

@@ -18,6 +18,5 @@ class PacienteViewSet(viewsets.ModelViewSet):
         qs = Paciente.objects.filter(
             Q(nro_identificacion__icontains=parametro)
         )
-        print(parametro)
         serializer = self.get_serializer(qs, many=True)
         return Response(serializer.data)

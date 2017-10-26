@@ -6,4 +6,4 @@ from .models import MedicoRemitente
 class MedicoRemitenteSerializer(serializers.ModelSerializer):
     class Meta:
         model = MedicoRemitente
-        fields = '__all__'
+        fields = ['id', 'nombres', 'apellidos', 'especialidad_temporal', 'telefono', 'getFullName']

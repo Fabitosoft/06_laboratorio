@@ -1,3 +1,4 @@
+export * from './examenesAction';
 export * from './ordenesAction';
 export * from './pacientesAction';
 export * from './medicosRemitentesAction';
