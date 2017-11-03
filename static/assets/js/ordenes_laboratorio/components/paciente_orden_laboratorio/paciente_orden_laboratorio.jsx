@@ -3,23 +3,10 @@ import {Link} from 'react-router-dom';
 import validate from './validate';
 import _ from 'lodash';
 import {connect} from 'react-redux';
-import moment from 'moment';
-import momentLocaliser from 'react-widgets-moment';
 import {Field, reduxForm} from 'redux-form';
 import AutoComplete from 'material-ui/AutoComplete';
 import InformacionPersonalForm from '../../components/paciente_orden_laboratorio/informacion_personal_form';
 import InformacionContactoForm from '../../components/paciente_orden_laboratorio/informacion_contacto_form';
-import {
-    Checkbox,
-    RadioButtonGroup,
-    SelectField,
-    TextField,
-    Toggle,
-    DatePicker
-} from 'redux-form-material-ui'
-
-moment.locale('es');
-momentLocaliser(moment);
 
 
 class PacienteOrdenLaboratorioForm extends Component {
@@ -101,6 +88,7 @@ class PacienteOrdenLaboratorioForm extends Component {
                     ref="autoComplete"
                     floatingLabelText="Buscar por documento"
                     filter={AutoComplete.fuzzyFilter}
+                    fullWidth={true}
                     dataSource={autocoplete}
                     onNewRequest={this.onNewRequest.bind(this)}
                     onUpdateInput={this.onUpdateInput.bind(this)}

@@ -34,5 +34,5 @@ class ContactoEntidad(models.Model):
 
 class EntidadExamen(models.Model):
     examen = models.ForeignKey(Examen, on_delete=models.PROTECT, related_name='mis_entidades')
-    entidad = models.ForeignKey(Entidad, on_delete=models.PROTECT)
+    entidad = models.ForeignKey(Entidad, on_delete=models.PROTECT, related_name='mis_examenes')
     valor_examen = models.DecimalField(max_digits=10, decimal_places=1, default=0)

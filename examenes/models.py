@@ -19,7 +19,6 @@ class Examen(models.Model):
     tecnica = models.CharField(max_length=100, verbose_name='Técnica', blank=True, null=True)
     costo_referencia = models.DecimalField(max_digits=10, decimal_places=1, default=0,
                                            verbose_name='Costo Referencia del Examen')
-
     def __str__(self):
         return self.nombre
 

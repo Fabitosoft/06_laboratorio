@@ -19,6 +19,9 @@ class Orden(TimeStampedModel):
                                          blank=True)
     tipo_pago = models.CharField(max_length=30, choices=RELACION_COBRO_CHOICES, default='efectivo')
     entidad = models.ForeignKey(Entidad, on_delete=models.PROTECT, related_name='mis_ordenes')
-    nombre_contacto_alternativo = models.CharField(max_length=200, verbose_name='Nombre Contacto')
-    numero_contacto_alternativo = models.CharField(max_length=100, verbose_name='Número Contacto')
-    direccion_contacto_alternativo = models.CharField(max_length=200, verbose_name='Dirección Contacto')
+    nombre_contacto_alternativo = models.CharField(max_length=200, verbose_name='Nombre Contacto', null=True,
+                                                   blank=True)
+    numero_contacto_alternativo = models.CharField(max_length=100, verbose_name='Número Contacto', null=True,
+                                                   blank=True)
+    direccion_contacto_alternativo = models.CharField(max_length=200, verbose_name='Dirección Contacto', null=True,
+                                                      blank=True)

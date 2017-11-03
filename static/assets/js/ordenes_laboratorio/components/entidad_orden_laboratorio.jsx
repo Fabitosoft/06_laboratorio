@@ -21,6 +21,7 @@ export default class EntidadLaboratorio extends Component {
             <div className='row'>
                 <div className="col-12">
                     <AutoComplete
+                        fullWidth={true}
                         floatingLabelText="Entidad"
                         filter={AutoComplete.fuzzyFilter}
                         dataSource={autocopleteEntidades}

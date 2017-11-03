@@ -27,6 +27,7 @@ export default class MedicoRemitente extends Component {
             <div className='row'>
                 <div className="col-12">
                     <AutoComplete
+                        fullWidth={true}
                         floatingLabelText="Médico Remitente"
                         filter={AutoComplete.fuzzyFilter}
                         dataSource={autocopleteMedicosRemitentes}

@@ -4,6 +4,7 @@
   "description": "",
   "main": "webpack.base.config.js",
   "dependencies": {
+    "accounting": "^0.4.1",
     "material-ui": "^0.19.4",
     "moment": "^2.19.1",
     "react-widgets": "^4.0.2",

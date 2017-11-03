@@ -10,6 +10,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import reducers from './reducers';
 
 import NuevaOrdenLaboratorio from './containers/nueva_orden_laboratorio';
+import OrdenLaboratorioDetail from './containers/orden_laboratorio_detail';
+import App from './containers/app';
 
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise, thunk)(createStore);
 
@@ -23,6 +25,8 @@ ReactDOM.render(
                 <div>
                     <Switch>
                         <Route path='/ordenes/nueva/' component={NuevaOrdenLaboratorio}/>
+                        <Route path='/ordenes/:id/' component={OrdenLaboratorioDetail}/>
+                        <Route path='/ordenes/' component={App}/>
                     </Switch>
                 </div>
             </BrowserRouter>
