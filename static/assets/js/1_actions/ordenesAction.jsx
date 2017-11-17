@@ -11,17 +11,39 @@ import axios from 'axios';
 const ROOT_URL = '/api/';
 const FORMAT = 'format=json';
 
-export function fetchOrdenes() {
+export function fetchOrdenes(callback = null, callback_error = null) {
     return function (dispatch) {
         const SUB_URL = 'ordenes/';
         const FULL_URL = `${ROOT_URL}${SUB_URL}?${FORMAT}`;
         axios.get(FULL_URL)
             .then(response => {
-                    dispatch({type: FETCH_ORDENES, payload: response})
+                dispatch({type: FETCH_ORDENES, payload: response});
+                if (callback) {
+                    callback(response.data)
                 }
-            ).catch(function (error) {
+            }).catch(error => {
+            if (callback_error) {
+                callback_error(error)
+            }
+        });
+    }
+}
 
-        })
+export function fetchOrdenesxParametro(parametro, callback = null, callback_error = null) {
+    return function (dispatch) {
+        const SUB_URL = `ordenes/buscar_x_parametro?parametro=${parametro}`;
+        const FULL_URL = `${ROOT_URL}${SUB_URL}&${FORMAT}`;
+        axios.get(FULL_URL)
+            .then(response => {
+                dispatch({type: FETCH_ORDENES, payload: response});
+                if (callback) {
+                    callback(response.data)
+                }
+            }).catch(error => {
+            if (callback_error) {
+                callback_error(error)
+            }
+        });
     }
 }
 
@@ -39,42 +61,58 @@ export function deleteOrden(id) {
     }
 }
 
-export function fetchOrden(id) {
+export function fetchOrden(id, callback = null, callback_error = null) {
     return function (dispatch) {
         const SUB_URL = `ordenes/${id}/`;
         const FULL_URL = `${ROOT_URL}${SUB_URL}?${FORMAT}`;
         axios.get(FULL_URL)
             .then(response => {
-
-                    dispatch({type: FETCH_ORDEN, payload: response})
+                dispatch({type: FETCH_ORDEN, payload: response})
+                if (callback) {
+                    callback(response.data)
                 }
-            ).catch(function (error) {
-
-        })
+            }).catch(error => {
+            if (callback_error) {
+                callback_error(error)
+            }
+        });
     }
 }
 
 
-export function crearOrden(values, callback) {
-    axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-    axios.defaults.xsrfCookieName = "csrftoken";
-    const request = axios.post(`${ROOT_URL}ordenes/`, values).then(() => callback()).catch(error => {
-        console.log(error)
-    });
-    return {
-        type: CREATE_ORDEN,
-        payload: request
-    };
+export function crearOrden(values, callback = null, callback_error = null) {
+    return function (dispatch) {
+        axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+        axios.defaults.xsrfCookieName = "csrftoken";
+        axios.post(`${ROOT_URL}ordenes/`, values)
+            .then(response => {
+                dispatch({type: CREATE_ORDEN, payload: response});
+                if (callback) {
+                    callback(response.data)
+                }
+            }).catch(error => {
+            if (callback_error) {
+                callback_error(error)
+            }
+        });
+    }
 }
 
-export function updateOrden(id, values, callback) {
-    axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-    axios.defaults.xsrfCookieName = "csrftoken";
-    const request = axios.put(`${ROOT_URL}ordenes/${id}/`, values).then(() => callback()).catch(error => {
-        console.log(error)
-    });
-    return {
-        type: UPDATE_ORDEN,
-        payload: request
-    };
+export function updateOrden(values, callback = null, callback_error = null) {
+    return function (dispatch) {
+        const {id} = values;
+        axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+        axios.defaults.xsrfCookieName = "csrftoken";
+        axios.put(`${ROOT_URL}ordenes/${id}/`, values)
+            .then(response => {
+                dispatch({type: UPDATE_ORDEN, payload: response});
+                if (callback) {
+                    callback(response.data)
+                }
+            }).catch(error => {
+            if (callback_error) {
+                callback_error(error)
+            }
+        });
+    }
 }

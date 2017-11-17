@@ -21,8 +21,7 @@ class NuevaOrdenLaboratorio extends Component {
             formaPago: null,
             contactoAlternativo: '',
             numeroContactoAlternativo: '',
-            direccionContactoAlternativo: '',
-            examenesOrden: []
+            direccionContactoAlternativo: ''
         }
     }
 
@@ -30,11 +29,28 @@ class NuevaOrdenLaboratorio extends Component {
         this.props.fetchEntidades();
     }
 
+    calcularTotales() {
+        const {examenesOrden} = this.state;
+        let valor_total = 0;
+        let valor_descuento = 0;
+        let valor_final = 0;
+
+        examenesOrden.map(examen => {
+            console.log(examen);
+            valor_total += parseInt(examen.valor, 10);
+            valor_descuento += parseInt(examen.valor_descuento, 10);
+            valor_final += parseInt(examen.valor_final, 10);
+        });
+
+        this.setState({valor_total, valor_descuento, valor_final});
+    }
+
     crearOrdenLaboratorio() {
         const {paciente, entidad, formaPago, medicoRemitente} = this.state;
 
-        const callback = () => {
-            console.log('creo');
+        const callback = (response) => {
+            console.log(response);
+            this.props.history.push(`/ordenes/${response.data.id}`);
         };
 
         let orden_laboratorio = {
@@ -43,11 +59,14 @@ class NuevaOrdenLaboratorio extends Component {
             entidad: entidad.id,
             nombre_contacto_alternativo: this.state.contactoAlternativo,
             numero_contacto_alternativo: this.state.numeroContactoAlternativo,
-            direccion_contacto_alternativo: this.state.direccionContactoAlternativo
+            direccion_contacto_alternativo: this.state.direccionContactoAlternativo,
+            valor_total: this.state.valor_total,
+            valor_descuento: this.state.valor_descuento,
+            valor_final: this.state.valor_final
         };
 
         if (medicoRemitente) {
-            orden_laboratorio = {...orden_laboratorio, medico_remitente: medicoRemitente.id,}
+            orden_laboratorio = {...orden_laboratorio, medico_remitente: medicoRemitente.id};
         }
 
         this.props.crearOrden(orden_laboratorio, callback)
@@ -71,23 +90,27 @@ class NuevaOrdenLaboratorio extends Component {
         this.setState({medicoRemitente})
     }
 
-    adicionarExamen(examen) {
-        const {examenesOrden} = this.state;
-        this.setState({examenesOrden: [...examenesOrden, examen]})
-    }
-
-    cambiarDescuento(index, valor) {
-        const {examenesOrden} = this.state;
-        let examen = examenesOrden[index];
-        examen.descuento = valor;
-        examen.valor_final = examen.valor - valor;
-        this.setState({examenesOrden: [...examenesOrden.slice(0, index), examen, ...examenesOrden.slice(index + 1)]})
-    }
-
-    eliminarExamen(index) {
-        const {examenesOrden} = this.state;
-        this.setState({examenesOrden: [...examenesOrden.slice(0, index), ...examenesOrden.slice(index + 1)]})
-    }
+    // adicionarExamen(examen) {
+    //     const {examenesOrden} = this.state;
+    //     this.setState({examenesOrden: [...examenesOrden, examen]});
+    //     this.calcularTotales();
+    // }
+    //
+    // cambiarDescuento(index, porcentaje) {
+    //     const {examenesOrden} = this.state;
+    //     let examen = examenesOrden[index];
+    //     examen.descuento = porcentaje;
+    //     examen.valor_descuento = (examen.valor * (porcentaje / 100));
+    //     examen.valor_final = examen.valor - examen.valor_descuento;
+    //     this.setState({examenesOrden: [...examenesOrden.slice(0, index), examen, ...examenesOrden.slice(index + 1)]});
+    //     this.calcularTotales();
+    // }
+    //
+    // eliminarExamen(index) {
+    //     const {examenesOrden} = this.state;
+    //     this.setState({examenesOrden: [...examenesOrden.slice(0, index), ...examenesOrden.slice(index + 1)]});
+    //     this.calcularTotales();
+    // }
 
     renderBotonCrearOrden() {
         const {paciente, entidad, formaPago} = this.state;
@@ -185,15 +208,14 @@ class NuevaOrdenLaboratorio extends Component {
                                             />
                                         </div>
 
-                                        <div className="col-12">
-                                            <ExamenesOrdenBusqueda
-                                                entidad={this.state.entidad}
-                                                examenesOrden={this.state.examenesOrden}
-                                                adicionarExamen={this.adicionarExamen.bind(this)}
-                                                eliminarExamen={this.eliminarExamen.bind(this)}
-                                                cambiarDescuento={this.cambiarDescuento.bind(this)}
-                                            />
-                                        </div>
+                                        {/*<div className="col-12">*/}
+                                        {/*<ExamenesOrdenBusqueda*/}
+                                        {/*adicionarExamen={this.adicionarExamen.bind(this)}*/}
+                                        {/*eliminarExamen={this.eliminarExamen.bind(this)}*/}
+                                        {/*cambiarDescuento={this.cambiarDescuento.bind(this)}*/}
+                                        {/*{...this.state}*/}
+                                        {/*/>*/}
+                                        {/*</div>*/}
 
                                     </div>
                                     {this.renderBotonCrearOrden()}
@@ -220,3 +242,5 @@ function mapPropsToState(state, ownProps) {
 }
 
 export default connect(mapPropsToState, actions)(NuevaOrdenLaboratorio)
+
+

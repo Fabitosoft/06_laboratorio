@@ -29,6 +29,9 @@ class Paciente(TimeStampedModel):
     email_2 = models.EmailField(null=True, blank=True)
     genero = models.CharField(choices=CHOICES_SEXO, default='femenino', max_length=20)
 
+    def get_full_name(self):
+        return '%s %s %s %s' % (self.nombre, self.nombre_segundo, self.apellido, self.apellido_segundo)
+
     class Meta:
         verbose_name_plural = 'Pacientes'
         verbose_name = 'Paciente'

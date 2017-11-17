@@ -4,6 +4,7 @@ from model_utils.models import TimeStampedModel
 from pacientes.models import Paciente
 from medicos.models import MedicoRemitente
 from entidades.models import Entidad
+from examenes.models import Examen
 
 
 class Orden(TimeStampedModel):
@@ -25,3 +26,16 @@ class Orden(TimeStampedModel):
                                                    blank=True)
     direccion_contacto_alternativo = models.CharField(max_length=200, verbose_name='Dirección Contacto', null=True,
                                                       blank=True)
+    valor_total = models.DecimalField(max_digits=10, decimal_places=1, default=0,
+                                      verbose_name='Valor Total')
+    valor_descuento = models.DecimalField(max_digits=10, decimal_places=1, default=0,
+                                          verbose_name='Valor Descuento')
+    valor_final = models.DecimalField(max_digits=10, decimal_places=1, default=0,
+                                      verbose_name='Valor Final')
+    examenes = models.ManyToManyField(Examen, through='OrdenExamen', related_name='mis_examenes')
+
+
+class OrdenExamen(models.Model):
+    examen = models.ForeignKey(Examen,related_name='resultados')
+    orden = models.ForeignKey(Orden,related_name='resultados')
+    valor_resultado = models.CharField(max_length=300, default='')

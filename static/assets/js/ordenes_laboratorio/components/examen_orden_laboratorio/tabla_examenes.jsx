@@ -12,6 +12,7 @@ export default class TablaExamenesOrden extends Component {
                 <td scope="row"><input onChange={(e) => {
                     cambiarDescuento(index, e.target.value)
                 }} type="text" value={examen.descuento}/></td>
+                <td scope="row">{formatMoney(Number(examen.valor_descuento), "$", 0, ".", ",")}</td>
                 <td scope="row">{formatMoney(Number(examen.valor_final), "$", 0, ".", ",")}</td>
                 <td scope="row"><a onClick={() => {
                     eliminarExamen(index)
@@ -21,13 +22,7 @@ export default class TablaExamenesOrden extends Component {
     }
 
     render() {
-        const {examenesOrden} = this.props;
-
-        let valor_total = 0;
-
-        examenesOrden.map(examen => {
-            valor_total += parseInt(examen.valor_final, 10);
-        });
+        const {examenesOrden, valor_total, valor_descuento, valor_final} = this.props;
 
         return (
             <div>
@@ -37,7 +32,8 @@ export default class TablaExamenesOrden extends Component {
                     <tr>
                         <th scope="col">Nombre</th>
                         <th scope="col">Valor</th>
-                        <th scope="col">$ Descuento</th>
+                        <th scope="col">% Descuento</th>
+                        <th scope="col">Valor Descuento</th>
                         <th scope="col">Valor Final</th>
                         <th scope="col">Eliminar</th>
                     </tr>
@@ -50,9 +46,10 @@ export default class TablaExamenesOrden extends Component {
                     <tfoot>
                     <tr>
                         <td>Valor Total</td>
-                        <td></td>
-                        <td></td>
                         <td>{formatMoney(Number(valor_total), "$", 0, ".", ",")}</td>
+                        <td></td>
+                        <td>{formatMoney(Number(valor_descuento), "$", 0, ".", ",")}</td>
+                        <td>{formatMoney(Number(valor_final), "$", 0, ".", ",")}</td>
                         <td></td>
                     </tr>
                     </tfoot>

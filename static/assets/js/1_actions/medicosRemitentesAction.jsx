@@ -53,18 +53,23 @@ export function deleteMedicosRemitente(id) {
     }
 }
 
-export function fetchMedicosRemitente(id) {
+export function fetchMedicosRemitente(id, callback = null, callback_error = null) {
     return function (dispatch) {
         const SUB_URL = `medicos_remitentes/${id}/`;
         const FULL_URL = `${ROOT_URL}${SUB_URL}?${FORMAT}`;
         axios.get(FULL_URL)
             .then(response => {
-
                     dispatch({type: FETCH_MEDICO_REMITENTE, payload: response})
+                    if (callback) {
+                        callback(response.data);
+                    }
                 }
-            ).catch(function (error) {
-
-        })
+            ).catch(error => {
+                if (callback_error) {
+                    callback_error(error);
+                }
+            }
+        );
     }
 }
 
@@ -81,14 +86,22 @@ export function crearMedicosRemitente(values, callback) {
     };
 }
 
-export function updateMedicosRemitente(id, values, callback) {
-    axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-    axios.defaults.xsrfCookieName = "csrftoken";
-    const request = axios.put(`${ROOT_URL}medicos_remitentes/${id}/`, values).then(() => callback()).catch(error => {
-        console.log(error)
-    });
-    return {
-        type: UPDATE_MEDICO_REMITENTE,
-        payload: request
-    };
+export function updateMedicosRemitente(id, values, callback = null, callback_error = null) {
+    return function (dispatch) {
+        axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+        axios.defaults.xsrfCookieName = "csrftoken";
+        axios.put(`${ROOT_URL}medicos_remitentes/${id}/`, values)
+            .then(response => {
+                    dispatch({type: UPDATE_MEDICO_REMITENTE, payload: response});
+                    if (callback) {
+                        callback(response.data);
+                    }
+                }
+            ).catch(error => {
+                if (callback_error) {
+                    callback_error(error);
+                }
+            }
+        );
+    }
 }

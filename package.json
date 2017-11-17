@@ -5,8 +5,10 @@
   "main": "webpack.base.config.js",
   "dependencies": {
     "accounting": "^0.4.1",
+    "json-loader": "^0.5.7",
     "material-ui": "^0.19.4",
-    "moment": "^2.19.1",
+    "moment": "^2.19.2",
+    "moment-timezone": "^0.5.14",
     "react-widgets": "^4.0.2",
     "react-widgets-moment": "^4.0.2",
     "redux-form-material-ui": "^4.3.0"

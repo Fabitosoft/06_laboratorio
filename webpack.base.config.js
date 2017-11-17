@@ -7,7 +7,8 @@ var BundleTracker = require('webpack-bundle-tracker');
 module.exports = {
     context: __dirname,
     entry: {
-        'base': './static/assets/js/ordenes_laboratorio/index'
+        'base': './static/assets/js/ordenes_laboratorio/index',
+        'laboratorio': './static/assets/js/laboratorio/index'
     },
     output: {
         path: path.resolve('./static/assets/bundles/'),
@@ -19,10 +20,11 @@ module.exports = {
         loaders: [
             {
                 loader: 'babel-loader',
-                exclude: '/node_modules/',
-                query: {
-                    presets: ['env', "stage-1", 'react']
-                }
+                exclude: '/node_modules/'
+            },
+            {
+                test: /\.json$/,
+                loader: 'json-loader'
             }
         ]
     },

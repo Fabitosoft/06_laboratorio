@@ -23,7 +23,7 @@ from laboratorio.api_urls import router
 
 urlpatterns = [
     url(r'^api/', include(router.urls)),
-    url(r'^ordenes/', IndexView.as_view(), name='index'),
+    url(r'^app/', IndexView.as_view(), name='index'),
     url(r'^admin/', admin.site.urls),
     url(r'^$', IndexView.as_view(), name='index'),
 ]

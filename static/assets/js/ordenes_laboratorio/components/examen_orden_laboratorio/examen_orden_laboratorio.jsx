@@ -29,9 +29,10 @@ export default class ExamenesOrdenBusqueda extends Component {
                     text: examen.examen.nombre,
                     value: {
                         ...examen.examen,
-                        valor: examen.valor_examen,
+                        valor: parseInt(examen.valor_examen),
                         descuento: 0,
-                        valor_final: examen.valor_examen
+                        valor_descuento: 0,
+                        valor_final: parseInt(examen.valor_examen)
                     }
                 }
             });
@@ -39,9 +40,7 @@ export default class ExamenesOrdenBusqueda extends Component {
                 <div>
                     {this.renderAutocomplete(autocopleteExamenes)}
                     <TablaExamenes
-                        cambiarDescuento={cambiarDescuento}
-                        examenesOrden={examenesOrden}
-                        eliminarExamen={eliminarExamen}
+                        {...this.props}
                     />
                 </div>
             )
