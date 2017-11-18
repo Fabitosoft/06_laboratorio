@@ -28,6 +28,9 @@ class OrdenViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(qs, many=True)
         return Response(serializer.data)
 
+    def perform_create(self, serializer):
+        serializer.save(elaborado_por=self.request.user)
+
 
 class OrdenExamenViewSet(viewsets.ModelViewSet):
     queryset = OrdenExamen.objects.all().order_by('pk')

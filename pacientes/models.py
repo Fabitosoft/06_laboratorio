@@ -16,7 +16,7 @@ class Paciente(TimeStampedModel):
     )
 
     tipo_documento = models.CharField(max_length=2, choices=CHOICES_TIPO_DOCUMENTO, default='CC')
-    nro_identificacion = models.CharField(max_length=30)
+    nro_identificacion = models.CharField(max_length=30, unique=True)
     nombre = models.CharField(max_length=60)
     nombre_segundo = models.CharField(max_length=60, null=True, blank=True)
     apellido = models.CharField(max_length=60)

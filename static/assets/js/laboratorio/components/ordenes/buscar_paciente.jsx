@@ -37,7 +37,7 @@ export default class BuscarPaciente extends Component {
             const nombre_paciente = `${nombre} ${nombre_segundo} ${apellido} ${apellido_segundo}`;
             return (
                 <div className="row">
-                    <div className="col-12">Nombre: {nombre_paciente}</div>
+                    <div className="col-12 col-md-6">Nombre: {nombre_paciente}</div>
                     <div className="col-12 col-md-6">Identificacion: {`${nro_identificacion} ${tipo_documento}`}</div>
                     <div className="col-12 col-md-6">Email: {email}</div>
                     <div className="col-12 col-md-6">Teléfono: {telefono}</div>

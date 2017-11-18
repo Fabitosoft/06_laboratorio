@@ -60,7 +60,7 @@ class CrearOrdenLaboratorio extends Component {
     cambiarDescuento(examen, porcentaje) {
         const {fetchOrden, updateOrdenExamen} = this.props;
         const {orden} = examen;
-        examen.descuento = parseInt(porcentaje);
+        examen.descuento = parseFloat(porcentaje);
         examen.valor_descuento = (examen.valor_total * (porcentaje / 100));
         examen.valor_final = examen.valor_total - examen.valor_descuento;
         examen.resultado = 'Pendiente...';
@@ -320,6 +320,7 @@ class CrearOrdenLaboratorio extends Component {
         if (id) {
             titulo = `Orden de Laboratorio Nro. ${id}`;
         }
+        document.title = titulo;
         return (
             <div>
                 <div className="row p-4" id="react-no-print">
@@ -367,7 +368,7 @@ class CrearOrdenLaboratorio extends Component {
                             {...this.props}
                         />
                     </div>
-                    <div className="col-12 p2">
+                    <div className="col-12 p-5">
                         <h2>Contacto Alternativo</h2>
                         <div className="row">
                             <div className="col-12 col-md-6">

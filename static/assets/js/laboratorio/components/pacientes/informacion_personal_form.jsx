@@ -10,10 +10,9 @@ import {
 } from 'redux-form-material-ui'
 
 
-import moment from 'moment';
 import momentLocaliser from 'react-widgets-moment';
+import moment from 'moment-timezone';
 
-moment.locale('es');
 momentLocaliser(moment);
 
 
@@ -23,13 +22,20 @@ momentLocaliser(moment);
 
 export default class InformacionPersonalForm extends Component {
     renderDateTimePicker({input: {onChange, value}, showTime}) {
+        const now = moment();
+        const fechaHoy = moment(now, "YYYY MM DD", "es")
+        const fecha_nacimiento = moment(value, "YYYY MM DD", "es").tz('America/Bogota');
+        const diferencia = fechaHoy.diff(fecha_nacimiento, "years");
+
         return (
-            <DateTimePicker
-                onChange={onChange}
-                format="YYYY-MM-DD"
-                time={false}
-                value={!value ? null : new Date(value)}
-            />
+            <div>
+                <DateTimePicker
+                    onChange={onChange}
+                    format="YYYY-MM-DD"
+                    time={false}
+                    value={!value ? null : new Date(value)}
+                />{diferencia} años
+            </div>
         )
     }
 
