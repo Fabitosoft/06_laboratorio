@@ -1,18 +1,25 @@
-.p0 {
-  padding: 0;
+.impresion {
+  font-size: 11px;
 }
-.p1 {
-  padding: 1rem;
+.impresion .logo {
+  height: 100px;
 }
-.p2 {
-  padding: 2rem;
+.impresion .cabezote {
+  font-size: 11px;
 }
-.p3 {
-  padding: 3rem;
+.impresion .orden .datos-generales {
+  font-size: 10px;
 }
-.p4 {
-  padding: 4rem;
+.impresion .orden table {
+  font-size: 9px;
 }
-.p5 {
-  padding: 5rem;
+.impresion .orden table td,
+.impresion .orden table th {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+.impresion .orden .campo {
+  border: solid 1px #000;
 }

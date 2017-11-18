@@ -11,7 +11,6 @@ export default function (state = [], action) {
         case FETCH_ENTIDADES:
             return _.mapKeys(action.payload.data, 'id');
         case FETCH_ENTIDAD:
-            console.log('entro a fetch tercero en reducer');
             return {...state, [action.payload.data.id]: action.payload.data};
         case DELETE_ENTIDAD:
             return _.omit(state, action.payload);

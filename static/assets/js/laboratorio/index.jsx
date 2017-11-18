@@ -26,8 +26,10 @@ ReactDOM.render(
     < Provider store={store}>
         <MuiThemeProvider muiTheme={getMuiTheme()}>
             <BrowserRouter>
-                <div>
-                    <Menu/>
+                <div className='p-2 m-2'>
+                    <div id="react-no-print">
+                        <Menu/>
+                    </div>
                     <Switch>
                         <Route path='/app/ordenes_laboratorio/crear/' component={OrdenLaboratorioCrear}/>
                         <Route path='/app/ordenes_laboratorio/lista/' component={OrdenLaboratorioLista}/>

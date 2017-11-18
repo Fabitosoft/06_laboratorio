@@ -67,7 +67,7 @@ export function fetchOrden(id, callback = null, callback_error = null) {
         const FULL_URL = `${ROOT_URL}${SUB_URL}?${FORMAT}`;
         axios.get(FULL_URL)
             .then(response => {
-                dispatch({type: FETCH_ORDEN, payload: response})
+                dispatch({type: FETCH_ORDEN, payload: response});
                 if (callback) {
                     callback(response.data)
                 }

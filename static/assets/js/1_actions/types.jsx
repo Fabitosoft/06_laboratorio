@@ -5,6 +5,11 @@ export const DELETE_ORDEN = 'delete_orden';
 export const CREATE_ORDEN = 'create_orden';
 export const UPDATE_ORDEN = 'update_orden';
 
+//orden_examen
+export const CREATE_ORDEN_EXAMEN = 'create_orden_examen';
+export const UPDATE_ORDEN_EXAMEN = 'update_orden_examen';
+export const DELETE_ORDEN_EXAMEN = 'delete_orden_examen';
+
 //pacientes
 export const FETCH_PACIENTES = 'fetch_pacientes';
 export const FETCH_PACIENTE = 'fetch_paciente';

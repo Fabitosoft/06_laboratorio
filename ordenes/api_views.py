@@ -2,10 +2,10 @@ from django.db.models import Q
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
 
-from .models import Orden
+from .models import Orden, OrdenExamen
 from rest_framework import viewsets
 
-from .api_serializers import OrdenSerializer
+from .api_serializers import OrdenSerializer, OrdenExamenSerializer
 
 
 class OrdenViewSet(viewsets.ModelViewSet):
@@ -27,3 +27,8 @@ class OrdenViewSet(viewsets.ModelViewSet):
             ).distinct().order_by('-pk')
         serializer = self.get_serializer(qs, many=True)
         return Response(serializer.data)
+
+
+class OrdenExamenViewSet(viewsets.ModelViewSet):
+    queryset = OrdenExamen.objects.all().order_by('pk')
+    serializer_class = OrdenExamenSerializer

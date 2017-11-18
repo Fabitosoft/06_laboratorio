@@ -11,7 +11,6 @@ export default function (state = [], action) {
         case FETCH_MEDICOS_REMITENTES:
             return _.mapKeys(action.payload.data, 'id');
         case FETCH_MEDICO_REMITENTE:
-            console.log('entro a fetch tercero en reducer');
             return {...state, [action.payload.data.id]: action.payload.data};
         case DELETE_MEDICO_REMITENTE:
             return _.omit(state, action.payload);

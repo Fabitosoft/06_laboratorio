@@ -62,7 +62,6 @@ export function deletePaciente(id) {
 }
 
 export function fetchPaciente(id, callback = null, callback_error = null) {
-    console.log('llego al fetch');
     return function (dispatch) {
         const SUB_URL = `pacientes/${id}/`;
         const FULL_URL = `${ROOT_URL}${SUB_URL}?${FORMAT}`;
