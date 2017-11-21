@@ -23,3 +23,9 @@
 .impresion .orden .campo {
   border: solid 1px #000;
 }
+table .fa-check {
+  color: #008000;
+}
+table .fa-exclamation-triangle {
+  color: #f00;
+}

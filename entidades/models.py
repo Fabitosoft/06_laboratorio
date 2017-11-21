@@ -12,6 +12,7 @@ class Entidad(models.Model):
     telefono_2 = models.CharField(max_length=200, null=True, blank=True)
     telefono_3 = models.CharField(max_length=200, null=True, blank=True)
     examenes = models.ManyToManyField(Examen, through='EntidadExamen')
+    activo = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = 'Entidades'
@@ -24,7 +25,7 @@ class Entidad(models.Model):
 class ContactoEntidad(models.Model):
     nombre = models.CharField(max_length=150, blank=True, null=True)
     correo_electronico = models.EmailField()
-    entidad = models.ForeignKey(Entidad)
+    entidad = models.ForeignKey(Entidad, related_name='mis_contactos')
     enviar_correo = models.BooleanField(default=False)
 
     class Meta:
@@ -36,3 +37,4 @@ class EntidadExamen(models.Model):
     examen = models.ForeignKey(Examen, on_delete=models.PROTECT, related_name='mis_entidades')
     entidad = models.ForeignKey(Entidad, on_delete=models.PROTECT, related_name='mis_examenes')
     valor_examen = models.DecimalField(max_digits=10, decimal_places=1, default=0)
+    activo = models.BooleanField(default=True)

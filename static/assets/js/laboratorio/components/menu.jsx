@@ -41,6 +41,17 @@ const MenuExampleNested = () => (
                         ]}
                     />
                 </IconMenu>
+                <IconMenu iconButtonElement={<IconButton><FontIcon className="fa fa-hospital-o"/></IconButton>
+                }>
+                    <MenuItem
+                        primaryText="Entidades"
+                        rightIcon={<ArrowDropRight/>}
+                        menuItems={[
+                            <MenuItem primaryText="Crear" containerElement={<Link to="/app/entidades/crear/"/>}/>,
+                            <MenuItem primaryText="Lista" containerElement={<Link to="/app/entidades/lista/"/>}/>,
+                        ]}
+                    />
+                </IconMenu>
             </Paper>
         </ToolbarGroup>
     </Toolbar>

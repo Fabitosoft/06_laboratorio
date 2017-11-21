@@ -11,5 +11,6 @@ class ExamenSerializer(serializers.ModelSerializer):
             'codigo_cups',
             'nombre',
             'valor_referencia',
-            'unidad_medida'
+            'unidad_medida',
+            'costo_referencia'
         ]

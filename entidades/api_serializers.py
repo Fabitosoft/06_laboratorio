@@ -1,15 +1,19 @@
 from rest_framework import serializers
 
-from .models import Entidad, EntidadExamen
-
-from examenes.api_serializers import ExamenSerializer
+from .models import Entidad, EntidadExamen, ContactoEntidad
 
 
-# id',
-#             'codigo_cups',
-#             'nombre',
-#             'valor_referencia',
-#             'unidad_medida'
+class ContactoEntidadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactoEntidad
+        fields = [
+            'id',
+            'entidad',
+            'nombre',
+            'correo_electronico',
+            'enviar_correo'
+        ]
+
 
 class EntidadExamenSerializer(serializers.ModelSerializer):
     examen_nombre = serializers.CharField(source='examen.nombre', read_only=True)
@@ -17,23 +21,37 @@ class EntidadExamenSerializer(serializers.ModelSerializer):
     examen_codigo_cups = serializers.CharField(source='examen.codigo_cups', read_only=True)
     examen_valor_referencia = serializers.CharField(source='examen.valor_referencia', read_only=True)
     examen_unidad_medida = serializers.CharField(source='examen.unidad_medida', read_only=True)
+    examen_costo_referencia = serializers.CharField(source='examen.costo_referencia', read_only=True)
 
     class Meta:
         model = EntidadExamen
         fields = [
             'id',
+            'examen',
+            'entidad',
+            'activo',
             'examen_id',
             'examen_codigo_cups',
             'examen_valor_referencia',
             'examen_nombre',
             'examen_unidad_medida',
-            'valor_examen'
+            'valor_examen',
+            'examen_costo_referencia'
         ]
 
 
 class EntidadSerializer(serializers.ModelSerializer):
     mis_examenes = EntidadExamenSerializer(read_only=True, many=True)
+    mis_contactos = ContactoEntidadSerializer(read_only=True, many=True)
 
     class Meta:
         model = Entidad
-        fields = ['id', 'nombre', 'nit', 'mis_examenes']
+        fields = [
+            'id',
+            'nombre',
+            'nit',
+            'mis_examenes',
+            'direccion',
+            'activo',
+            'mis_contactos'
+        ]

@@ -19,3 +19,15 @@ class ExamenViewSet(viewsets.ModelViewSet):
         )
         serializer = self.get_serializer(qs, many=True)
         return Response(serializer.data)
+
+    @list_route(methods=['get'])
+    def buscar_x_parametro(self, request):
+        parametro = request.GET.get('parametro')
+        print(parametro)
+        qs = None
+        if len(parametro) > 0:
+            qs = Examen.objects.filter(
+                nombre__icontains=parametro
+            ).distinct()
+        serializer = self.get_serializer(qs, many=True)
+        return Response(serializer.data)

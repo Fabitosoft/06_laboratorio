@@ -25,17 +25,21 @@ export function fetchExamenes() {
     }
 }
 
-export function fetcExamenesxEntidad(id_entidad) {
+export function fetchExamenesxParametro(parametro, callback = null, callback_error = null) {
     return function (dispatch) {
-        const SUB_URL = `examenes/examenes_entidad?id_entidad=${id_entidad}`;
+        const SUB_URL = `examenes/buscar_x_parametro?parametro=${parametro}`;
         const FULL_URL = `${ROOT_URL}${SUB_URL}&${FORMAT}`;
         axios.get(FULL_URL)
             .then(response => {
-                    dispatch({type: FETCH_EXAMENES, payload: response})
+                dispatch({type: FETCH_EXAMENES, payload: response});
+                if (callback) {
+                    callback(response.data)
                 }
-            ).catch(function (error) {
-
-        })
+            }).catch(error => {
+            if (callback_error) {
+                callback_error(error)
+            }
+        });
     }
 }
 
