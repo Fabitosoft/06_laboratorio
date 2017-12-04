@@ -10,20 +10,29 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import reducers from './reducers';
 import {Notify} from 'react-redux-notify';
 
-import App from './containers/app';
 
-import PacienteCrearActualizar from './containers/pacientes/crearActualizar';
-import OrdenLaboratorioCrear from './containers/ordenes/crearActualizar';
-import OrdenLaboratorioLista from './containers/ordenes/lista';
+import PacientesLista from './01_pacientes/containers/paciente_lista';
+import PacientesCrear from './01_pacientes/containers/paciente_crear';
+import PacientesEditar from './01_pacientes/containers/paciente_editar';
 
 
-import EntidadesLista from './containers/entidades/entidad_lista';
-import EntidadesCrear from './containers/entidades/entidad_crear';
-import EntidadesEditar from './containers/entidades/entidad_editar';
-import ContactoEntidadCrear from './containers/entidades/mis_contactos/crear_contacto_entidad';
-import ExamenEntidadCrear from './containers/entidades/mis_examenes/crear_examen_entidad';
+import OrdenLaboratorioCrear from './02_ordenes_laboratorio/containers/orden_crear';
+//import OrdenLaboratorioEditar from './02_ordenes_laboratorio/containers/crearActualizar';
+import OrdenLaboratorioEditar from './02_ordenes_laboratorio/containers/orden_detail';
+import OrdenLaboratorioLista from './02_ordenes_laboratorio/containers/orden_lista';
 
-import Menu from './components/menu';
+
+import EntidadesLista from './03_entidades/containers/entidad_lista';
+import EntidadesCrear from './03_entidades/containers/entidad_crear';
+import EntidadesEditar from './03_entidades/containers/entidad_editar';
+
+import ContactoEntidadCrear from './03_entidades/containers/mis_contactos/crear_contacto_entidad';
+
+import ExamenEntidadCrear from './03_entidades/containers/mis_examenes/crear_examen_entidad';
+
+import ExamenesPorResultadoLista from './containers/examenes_ordenes/examenes_ordenes_lista'
+
+import Menu from './components/menu/menu';
 
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise, thunk)(createStore);
 
@@ -48,9 +57,15 @@ ReactDOM.render(
 
                         <Route path='/app/ordenes_laboratorio/crear/' component={OrdenLaboratorioCrear}/>
                         <Route path='/app/ordenes_laboratorio/lista/' component={OrdenLaboratorioLista}/>
-                        <Route path='/app/ordenes_laboratorio/detail/:id' component={OrdenLaboratorioCrear}/>
-                        <Route path='/app/paciente/crear/' component={PacienteCrearActualizar}/>
-                        <Route path='/app/paciente/modificar/' component={App}/>
+                        <Route path='/app/ordenes_laboratorio/detail/:id' component={OrdenLaboratorioEditar}/>
+
+
+                        <Route path='/app/paciente/lista/' component={PacientesLista}/>
+                        <Route path='/app/paciente/crear/' component={PacientesCrear}/>
+                        <Route path='/app/paciente/editar/:id' component={PacientesEditar}/>
+
+
+                        <Route path='/app/examenes_ordenes/por_resultados/' component={ExamenesPorResultadoLista}/>
                     </Switch>
                 </div>
             </BrowserRouter>

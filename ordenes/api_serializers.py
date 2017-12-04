@@ -12,7 +12,7 @@ class OrdenExamenSerializer(serializers.ModelSerializer):
 
 
 class OrdenSerializer(serializers.ModelSerializer):
-    paciente_nombre = serializers.CharField(source='paciente.get_full_name', read_only=True)
+    paciente_nombre = serializers.CharField(source='paciente.full_name', read_only=True)
     mis_examenes = OrdenExamenSerializer(many=True, read_only=True)
     cajero = serializers.CharField(source='elaborado_por.get_full_name', read_only=True)
 

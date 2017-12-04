@@ -8,7 +8,13 @@ class OrdenExamenInLine(admin.TabularInline):
 
 
 class OrdenAdmin(admin.ModelAdmin):
-    list_display = ['paciente', 'tipo_pago', 'medico_remitente', 'entidad']
+    list_display = [
+        'paciente',
+        'tipo_pago',
+        'medico_remitente',
+        'entidad',
+        'estado'
+    ]
     inlines = [OrdenExamenInLine, ]
 
 

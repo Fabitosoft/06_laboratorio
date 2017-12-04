@@ -4,7 +4,7 @@ import {
     DELETE_ENTIDAD,
     CREATE_ENTIDAD,
     UPDATE_ENTIDAD
-} from './types';
+} from './02_types';
 
 import axios from 'axios';
 

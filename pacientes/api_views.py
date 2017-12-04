@@ -13,10 +13,25 @@ class PacienteViewSet(viewsets.ModelViewSet):
     serializer_class = PacienteSerializer
 
     @list_route(methods=['get'])
-    def buscar_nombre(self, request):
+    def buscar_x_parametro(self, request):
         parametro = request.GET.get('parametro')
         qs = Paciente.objects.filter(
-            Q(nro_identificacion__icontains=parametro)
+            Q(nro_identificacion__icontains=parametro) |
+            Q(nombre__icontains=parametro) |
+            Q(nombre_segundo__icontains=parametro) |
+            Q(apellido__icontains=parametro) |
+            Q(apellido_segundo__icontains=parametro)
         )
         serializer = self.get_serializer(qs, many=True)
         return Response(serializer.data)
+
+    @list_route(methods=['get'])
+    def validar_nuevo_paciente(self, request) -> Response:
+        validacion_reponse = {}
+        nro_identificacion = self.request.GET.get('nro_identificacion', None)
+        tipo_documento = self.request.GET.get('tipo_documento', None)
+
+        if nro_identificacion and tipo_documento and Paciente.existe_documento(tipo_documento, nro_identificacion):
+            validacion_reponse.update({'nro_identificacion': 'Ya exite'})
+
+        return Response(validacion_reponse)

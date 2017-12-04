@@ -2,11 +2,11 @@ import {
     FETCH_PACIENTES,
     FETCH_PACIENTE,
     DELETE_PACIENTE
-} from '../1_actions/types';
+} from '../1_actions/02_types';
 
 import _ from 'lodash';
 
-export default function (state = [], action) {
+export default function (state = {}, action) {
     switch (action.type) {
         case FETCH_PACIENTES:
             return _.mapKeys(action.payload.data, 'id');

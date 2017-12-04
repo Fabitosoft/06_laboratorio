@@ -4,7 +4,7 @@ import {
     DELETE_ORDEN,
     CREATE_ORDEN,
     UPDATE_ORDEN
-} from './types';
+} from './02_types';
 
 import axios from 'axios';
 

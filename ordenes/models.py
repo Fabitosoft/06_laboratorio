@@ -10,10 +10,10 @@ from examenes.models import Examen
 
 class Orden(TimeStampedModel):
     RELACION_COBRO_CHOICES = (
-        ('efectivo', 'Efectivo'),
-        ('tarjeta', 'Tarjeta'),
-        ('relacion_cobro', 'Relación de Cobro'),
-        ('cortesia', 'Cortesía'),
+        ('EFECTIVO', 'Efectivo'),
+        ('TARJETA', 'Tarjeta'),
+        ('RELACION DE COBRO', 'Relación de Cobro'),
+        ('CORTESIA', 'Cortesía'),
     )
 
     ORDEN_ESTADO_CHOICES = (

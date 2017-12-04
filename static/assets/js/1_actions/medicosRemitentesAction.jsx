@@ -4,7 +4,7 @@ import {
     DELETE_MEDICO_REMITENTE,
     CREATE_MEDICO_REMITENTE,
     UPDATE_MEDICO_REMITENTE
-} from './types';
+} from './02_types';
 
 import axios from 'axios';
 

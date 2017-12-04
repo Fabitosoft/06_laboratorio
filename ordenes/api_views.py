@@ -9,7 +9,14 @@ from .api_serializers import OrdenSerializer, OrdenExamenSerializer
 
 
 class OrdenViewSet(viewsets.ModelViewSet):
-    queryset = Orden.objects.all()
+    queryset = Orden.objects.select_related(
+        'medico_remitente',
+        'paciente',
+        'entidad',
+        'elaborado_por'
+    ).prefetch_related(
+        'mis_examenes'
+    ).all()
     serializer_class = OrdenSerializer
 
     @list_route(methods=['get'])
@@ -17,7 +24,7 @@ class OrdenViewSet(viewsets.ModelViewSet):
         parametro = request.GET.get('parametro')
         qs = None
         if len(parametro) > 0:
-            qs = Orden.objects.filter(
+            qs = self.get_queryset().filter(
                 Q(paciente__nombre__icontains=parametro) |
                 Q(paciente__nombre_segundo__icontains=parametro) |
                 Q(paciente__apellido__icontains=parametro) |
@@ -35,3 +42,9 @@ class OrdenViewSet(viewsets.ModelViewSet):
 class OrdenExamenViewSet(viewsets.ModelViewSet):
     queryset = OrdenExamen.objects.all().order_by('pk')
     serializer_class = OrdenExamenSerializer
+
+    @list_route(methods=['get'])
+    def para_resultados(self, request):
+        qs = OrdenExamen.objects.filter(orden__estado=1, examen_estado__in=[0, 1])
+        serializer = self.get_serializer(qs, many=True)
+        return Response(serializer.data)

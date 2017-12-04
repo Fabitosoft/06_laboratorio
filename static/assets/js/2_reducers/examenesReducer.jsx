@@ -2,7 +2,7 @@ import {
     FETCH_EXAMENES,
     FETCH_EXAMEN,
     DELETE_EXAMEN
-} from '../1_actions/types';
+} from '../1_actions/02_types';
 
 import _ from 'lodash';
 

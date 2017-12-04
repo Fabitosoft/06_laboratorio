@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import * as actions from '../../1_actions/index';
+import * as actions from '../../1_actions/01_index';
 import {Link} from 'react-router-dom';
 
 class OrdenLaboratorio extends Component {

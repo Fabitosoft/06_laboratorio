@@ -1,23 +1,42 @@
+@page
+  size letter
+  margin 0
+
+@media print
+  .impresion
+    &-orden-laboratorio
+      margin 10px
+      max-height 15px
+      border initial
+      border-radius initial
+      width initial
+      box-shadow initial
+      background initial
+      page-break-after always
+
 .impresion
-  font-size 11px
-  .logo
-    height 100px
-  .cabezote
+  &-orden-laboratorio
     font-size 11px
-  .orden
-    .datos-generales
-      font-size 10px
-    table
-      td, th
-        padding-top 0 !important
-        padding-bottom 0 !important
-        margin-top 0 !important
-        margin-bottom 0 !important
-      font-size 9px
-    .campo
-      border solid 1px black
+
+    .logo
+      height 100px
+    .cabezote
+      font-size 11px
+    .orden
+      .datos-generales
+        font-size 10px
+      table
+        td, th
+          padding-top 0 !important
+          padding-bottom 0 !important
+          margin-top 0 !important
+          margin-bottom 0 !important
+        font-size 9px
+      .campo
+        border solid 1px black
 
 table
+  font-size 0.8rem
   .fa-check
     color green
   .fa-exclamation-triangle

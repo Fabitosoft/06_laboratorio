@@ -2,7 +2,7 @@ import {
     FETCH_ORDENES,
     FETCH_ORDEN,
     DELETE_ORDEN
-} from '../1_actions/types';
+} from '../1_actions/02_types';
 
 import _ from 'lodash';
 

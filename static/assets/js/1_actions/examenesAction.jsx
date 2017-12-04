@@ -4,7 +4,7 @@ import {
     DELETE_EXAMEN,
     CREATE_EXAMEN,
     UPDATE_EXAMEN
-} from './types';
+} from './02_types';
 
 import axios from 'axios';
 

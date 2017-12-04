@@ -2,7 +2,7 @@ import {
     FETCH_MEDICOS_REMITENTES,
     FETCH_MEDICO_REMITENTE,
     DELETE_MEDICO_REMITENTE
-} from '../1_actions/types';
+} from '../1_actions/02_types';
 
 import _ from 'lodash';
 

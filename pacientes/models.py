@@ -11,8 +11,8 @@ class Paciente(TimeStampedModel):
     )
 
     CHOICES_SEXO = (
-        ('femenino', 'Femenino'),
-        ('masculino', 'Masculino')
+        ('F', 'Femenino'),
+        ('M', 'Masculino')
     )
 
     tipo_documento = models.CharField(max_length=2, choices=CHOICES_TIPO_DOCUMENTO, default='CC')
@@ -28,9 +28,23 @@ class Paciente(TimeStampedModel):
     email = models.EmailField(null=True, blank=True)
     email_2 = models.EmailField(null=True, blank=True)
     genero = models.CharField(choices=CHOICES_SEXO, default='femenino', max_length=20)
+    grupo_sanguineo = models.CharField(max_length=60, null=True, blank=True)
 
-    def get_full_name(self):
-        return '%s %s %s %s' % (self.nombre, self.nombre_segundo, self.apellido, self.apellido_segundo)
+    @staticmethod
+    def existe_documento(tipo_documento: str, nro_identificacion: str) -> bool:
+        return Paciente.objects.filter(tipo_documento=tipo_documento, nro_identificacion=nro_identificacion).exists()
+
+    @property
+    def full_name(self):
+        nombre_segundo = ''
+        if self.nombre_segundo:
+            nombre_segundo = ' %s' % (self.nombre_segundo)
+
+        apellido_segundo = ''
+        if self.apellido_segundo:
+            apellido_segundo = ' %s' % (self.apellido_segundo)
+
+        return '%s%s %s%s' % (self.nombre, nombre_segundo, self.apellido, apellido_segundo)
 
     class Meta:
         verbose_name_plural = 'Pacientes'

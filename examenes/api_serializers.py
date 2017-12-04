@@ -4,6 +4,8 @@ from .models import Examen
 
 
 class ExamenSerializer(serializers.ModelSerializer):
+    subgrupo_cups_nombre = serializers.CharField(source='subgrupo_cups.nombre', read_only=True)
+
     class Meta:
         model = Examen
         fields = [
@@ -12,5 +14,7 @@ class ExamenSerializer(serializers.ModelSerializer):
             'nombre',
             'valor_referencia',
             'unidad_medida',
-            'costo_referencia'
+            'costo_referencia',
+            'subgrupo_cups',
+            'subgrupo_cups_nombre'
         ]

@@ -3,7 +3,7 @@ import {
     FETCH_ENTIDAD,
     DELETE_ENTIDAD,
     UPDATE_ENTIDAD
-} from '../1_actions/types';
+} from '../1_actions/02_types';
 
 import _ from 'lodash';
 

@@ -4,7 +4,7 @@ import {
     DELETE_PACIENTE,
     CREATE_PACIENTE,
     UPDATE_PACIENTE
-} from './types';
+} from './02_types';
 
 import axios from 'axios';
 
@@ -31,7 +31,7 @@ export function fetchPacientes(callback = null, callback_error = null) {
 
 export function fetchPacientesxParametro(parametro, callback = null, callback_error = null) {
     return function (dispatch) {
-        const SUB_URL = `pacientes/buscar_nombre?parametro=${parametro}`;
+        const SUB_URL = `pacientes/buscar_x_parametro?parametro=${parametro}`;
         const FULL_URL = `${ROOT_URL}${SUB_URL}&${FORMAT}`;
         axios.get(FULL_URL)
             .then(response => {
