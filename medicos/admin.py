@@ -11,16 +11,18 @@ class EspecialidadAdmin(admin.ModelAdmin):
 
 class EspecialistaAdmin(admin.ModelAdmin):
     list_display = [
-        'nombres',
-        'apellidos',
-        'identificacion',
+        'nombre',
+        'nombre_segundo',
+        'apellido',
+        'apellido_segundo',
+        'nro_identificacion',
         'especialidad',
         'universidad',
         'registro_profesional',
         'activo'
     ]
     list_editable = ['activo', ]
-    search_fields = ['nombres', 'apellidos']
+    search_fields = ['nombre', 'nombre_segundo', 'apellido', 'apellido_segundo', ]
 
 
 class MedicoRemitenteResource(ModelResource):

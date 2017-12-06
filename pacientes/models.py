@@ -27,7 +27,7 @@ class Paciente(TimeStampedModel):
     telefono_3 = models.CharField(max_length=20, null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
     email_2 = models.EmailField(null=True, blank=True)
-    genero = models.CharField(choices=CHOICES_SEXO, default='femenino', max_length=20)
+    genero = models.CharField(choices=CHOICES_SEXO, default='F', max_length=20)
     grupo_sanguineo = models.CharField(max_length=60, null=True, blank=True)
 
     @staticmethod

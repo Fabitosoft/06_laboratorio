@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import BusquedaAutoComplete from './../../../components/buscadores_autocomplete/busqueda_autocoplete';
+import BusquedaAutoComplete from '../busqueda_autocoplete';
 
 export default class BuscarMedicoRemitente extends Component {
     render() {

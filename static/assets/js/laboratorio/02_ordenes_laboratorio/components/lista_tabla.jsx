@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import {Field} from 'redux-form';
 import moment from 'moment-timezone';
 import {Link} from 'react-router-dom';
+
+moment.tz.setDefault("America/Bogota");
+moment.locale('es');
 
 export default class TablaLista extends Component {
 

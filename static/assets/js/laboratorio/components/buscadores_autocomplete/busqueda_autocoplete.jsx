@@ -20,12 +20,12 @@ export default class BusquedaAutoComplete extends Component {
     }
 
     onUpdateInput(textoBuscado) {
-        const {busquedaAction, setSearchText} = this.props;
+        const {busquedaAction, setSearchText, min_caracteres} = this.props;
         this.setState({textoBuscado});
         if (setSearchText) {
             setSearchText(textoBuscado)
         }
-        if (textoBuscado.length > 3) {
+        if (textoBuscado.length > (min_caracteres ? min_caracteres : 3)) {
             busquedaAction(textoBuscado);
         }
     }

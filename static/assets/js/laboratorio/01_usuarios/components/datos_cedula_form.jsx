@@ -18,7 +18,7 @@ momentLocaliser(moment);
 const upper = value => value && value.toUpperCase();
 const lower = value => value && value.toLowerCase();
 
-class UsuarioForm extends Component {
+export default class DatosCedulaForm extends Component {
     renderDateTimePicker({input: {onChange, value}, showTime}) {
         const now = moment();
         const fechaHoy = moment(now, "YYYY MM DD", "es");
@@ -42,6 +42,9 @@ class UsuarioForm extends Component {
     render() {
         return (
             <div className="row">
+                <div className="col-12">
+                    <h4>Información Personal</h4>
+                </div>
                 <div className="col-12 col-md-6 col-xl-3">
                     <Field
                         fullWidth={true}
@@ -83,39 +86,6 @@ class UsuarioForm extends Component {
                         hintText="Segundo Apellido"
                         floatingLabelText="Segundo Apellido"
                         normalize={upper}
-                        autoComplete="off"
-                    />
-                </div>
-                <div className="col-12 col-md-6 col-xl-6">
-                    <Field
-                        fullWidth={true}
-                        name="email"
-                        component={TextField}
-                        hintText="Correo Electrónico"
-                        floatingLabelText="Correo Electrónico"
-                        normalize={lower}
-                        autoComplete="off"
-                    />
-                </div>
-                <div className="col-12 col-md-6 col-xl-3">
-                    <Field
-                        fullWidth={true}
-                        name="telefono"
-                        component={TextField}
-                        hintText="Teléfono"
-                        floatingLabelText="Teléfono"
-                        normalize={lower}
-                        autoComplete="off"
-                    />
-                </div>
-                <div className="col-12 col-md-6 col-xl-3">
-                    <Field
-                        fullWidth={true}
-                        name="telefono_2"
-                        component={TextField}
-                        hintText="Teléfono Dos"
-                        floatingLabelText="Teléfono Dos"
-                        normalize={lower}
                         autoComplete="off"
                     />
                 </div>
@@ -188,5 +158,3 @@ class UsuarioForm extends Component {
         )
     }
 }
-
-export default UsuarioForm;

@@ -15,6 +15,10 @@ const MenuPersonas = () => (
             primaryText="Pacientes"
             containerElement={<Link to="/app/paciente/lista/"/>}
         />
+        <MenuItem
+            primaryText="Especialistas"
+            containerElement={<Link to="/app/especialista/lista/"/>}
+        />
     </IconMenu>
 )
 

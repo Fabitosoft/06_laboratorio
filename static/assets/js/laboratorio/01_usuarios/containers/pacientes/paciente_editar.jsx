@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import * as actions from '../../../1_actions/01_index';
+import * as actions from '../../../../1_actions/01_index';
 
-import PacienteEditarForm from '../components/paciente_form_editar';
+import PacienteEditarForm from '../../components/pacientes/paciente_form_editar';
 
 
 class PacienteEditar extends Component {

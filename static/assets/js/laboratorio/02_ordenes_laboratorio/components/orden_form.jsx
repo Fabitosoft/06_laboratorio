@@ -6,9 +6,9 @@ import {
     SelectField
 } from 'redux-form-material-ui'
 
-import BuscarEntidad from '../components/buscar/buscar_entidad';
-import BuscarMedicoRemitente from '../components/buscar/buscar_medico_remitente';
-import BuscarPaciente from '../components/buscar/buscar_paciente';
+import BuscarEntidad from '../../components/buscadores_autocomplete/buscar/buscar_entidad';
+import BuscarMedicoRemitente from '../../components/buscadores_autocomplete/buscar/buscar_medico_remitente';
+import BuscarPaciente from '../../components/buscadores_autocomplete/buscar/buscar_paciente';
 
 
 const upper = value => value && value.toUpperCase();

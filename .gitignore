@@ -2,3 +2,4 @@
 secretsLocal.json
 node_modules/**
 static/assets/bundles/deve/*
+/media

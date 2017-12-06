@@ -1,3 +1,7 @@
+//utilidades
+export const FETCH_CIUDADES = 'fetch_ciudades';
+
+
 //ordenes
 export const FETCH_ORDENES = 'fetch_ordenes';
 export const FETCH_ORDEN = 'fetch_orden';
@@ -17,6 +21,20 @@ export const FETCH_PACIENTE = 'fetch_paciente';
 export const DELETE_PACIENTE = 'delete_paciente';
 export const CREATE_PACIENTE = 'create_paciente';
 export const UPDATE_PACIENTE = 'update_paciente';
+
+//especialistas
+export const FETCH_ESPECIALISTAS = 'fetch_especialistas';
+export const FETCH_ESPECIALISTA = 'fetch_especialista';
+export const DELETE_ESPECIALISTA = 'delete_especialista';
+export const CREATE_ESPECIALISTA = 'create_especialista';
+export const UPDATE_ESPECIALISTA = 'update_especialista';
+
+//especialidades
+export const FETCH_ESPECIALIDADES = 'fetch_especialidades';
+export const FETCH_ESPECIALIDAD = 'fetch_especialidad';
+export const DELETE_ESPECIALIDAD = 'delete_especialidad';
+export const CREATE_ESPECIALIDAD = 'create_especialidad';
+export const UPDATE_ESPECIALIDAD = 'update_especialidad';
 
 //entidades
 export const FETCH_ENTIDADES = 'fetch_entidades';

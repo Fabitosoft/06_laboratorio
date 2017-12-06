@@ -1,15 +1,19 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {reduxForm} from 'redux-form';
+import {reduxForm, Field} from 'redux-form';
+import * as actions from '../../../../1_actions/01_index'
 
 import validate from './validate_form';
 import asyncValidate from './asyncValidateCrear';
 
-import PacienteForm from './paciente_form';
-import LectorCedulaForm from './lector_cedula_form';
+import CedulaForm from '../datos_cedula_form';
+import DatosEspecialistaForm from './datos_especialistas_form';
+import LectorCedulaForm from '../lector_cedula_form';
 
-class PacienteCrearForm extends Component {
+import BuscarEspecialidad from '../../../components/buscadores_autocomplete/buscar/buscar_especialidad';
+
+class EspecialistaCrearForm extends Component {
     renderOpcionBarrasCedula() {
         const {
             cargarDatosDesdeLector,
@@ -36,17 +40,38 @@ class PacienteCrearForm extends Component {
 
     renderFormulario() {
         const {
-            pristine,
             submitting,
+            handleSubmit,
+            fetchEspecialidadxParametro,
+            especialidades,
+            setState,
             onSubmit,
-            handleSubmit
+            searchText_especialidad
         } = this.props;
-
         return (
             <div className="row">
                 <div className="col-12">
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <PacienteForm/>
+                        <CedulaForm/>
+                        <DatosEspecialistaForm/>
+                        <div className="row">
+                            <div className="col-12 col-md-6 col-xl-3">
+                                <Field
+                                    busquedaAction={fetchEspecialidadxParametro}
+                                    especialidades={especialidades}
+                                    setStateInstance={especialidad => {
+                                        setState({especialidad})
+
+                                    }}
+                                    searchText={searchText_especialidad}
+                                    setSearchText={searchText_especialidad => {
+                                        setState({searchText_especialidad})
+                                    }}
+                                    name="especialidad"
+                                    component={BuscarEspecialidad}
+                                />
+                            </div>
+                        </div>
                         <div className="row">
                             <div className="col-12">
                                 <button type="button" className="btn btn-secondary"
@@ -54,12 +79,12 @@ class PacienteCrearForm extends Component {
                                         disabled={submitting}>
                                     Limpiar
                                 </button>
-                                <Link to="/app/paciente/lista/">
+                                <Link to="/app/especialista/lista/">
                                     <button type="button" className="btn btn-secondary">
                                         Cancelar
                                     </button>
                                 </Link>
-                                <button type="submit" className="btn btn-primary" disabled={pristine || submitting}>
+                                <button type="submit" className="btn btn-primary" disabled={submitting}>
                                     Crear
                                 </button>
                             </div>
@@ -89,18 +114,19 @@ class PacienteCrearForm extends Component {
 function mapPropsToState(state, ownProps) {
     const {cedula} = ownProps;
     return {
-        initialValues: cedula
+        initialValues: cedula,
+        especialidades: state.especialidades
     }
 }
 
-PacienteCrearForm = reduxForm({
-    form: "pacienteCrearForm",
+EspecialistaCrearForm = reduxForm({
+    form: "especialistaCrearForm",
     validate,
-    asyncValidate,
-    asyncBlurFields: ['nro_identificacion', 'tipo_documento'],
+    //asyncValidate,
+    //asyncBlurFields: ['nro_identificacion', 'tipo_documento'],
     enableReinitialize: true
-})(PacienteCrearForm);
+})(EspecialistaCrearForm);
 
-PacienteCrearForm = (connect(mapPropsToState, null)(PacienteCrearForm));
+EspecialistaCrearForm = (connect(mapPropsToState, actions)(EspecialistaCrearForm));
 
-export default PacienteCrearForm;
+export default EspecialistaCrearForm;

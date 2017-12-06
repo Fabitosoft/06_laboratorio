@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import * as actions from './../../../1_actions/01_index';
+import * as actions from '../../../../1_actions/01_index';
 import TextField from 'material-ui/TextField';
 import {Link} from 'react-router-dom';
 
-import Tabla from '../components/lista/paciente_lista_tabla';
+import Tabla from '../../components/especialistas/lista/especialista_lista_tabla';
 
-class PacienteLista extends Component {
+class EspecialistaLista extends Component {
     constructor(props) {
         super(props);
         this.state = ({
@@ -15,19 +15,26 @@ class PacienteLista extends Component {
     }
 
     buscarPorParametro(busqueda) {
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
         this.setState({busqueda});
         if (busqueda.length >= 3) {
-            this.props.fetchPacientesxParametro(busqueda);
+            this.props.fetchEspecialistasxParametro(
+                busqueda,
+                null,
+                error_callback
+            );
         }
     }
 
     renderTabla() {
-        const {notificarAction, pacientes} = this.props;
+        const {notificarAction, especialistas} = this.props;
         if (this.state.busqueda.length < 3) {
             return (<div>Nada que buscar</div>)
         } else {
             return <Tabla
-                pacientes={pacientes}
+                especialistas={especialistas}
                 notificarAction={notificarAction}
             />
         }
@@ -39,7 +46,7 @@ class PacienteLista extends Component {
             <div className="row">
 
                 <div className="col-12">
-                    <h3 className="h3-responsive">Pacientes <Link to={`/app/paciente/crear/`}>
+                    <h3 className="h3-responsive">Especialistas <Link to={`/app/especialista/crear/`}>
                         <i
                             className="fa fa-plus"
                             aria-hidden="true"></i>
@@ -65,8 +72,8 @@ class PacienteLista extends Component {
 
 function mapPropsToState(state, ownProps) {
     return {
-        pacientes: state.pacientes
+        especialistas: state.especialistas
     }
 }
 
-export default connect(mapPropsToState, actions)(PacienteLista);
+export default connect(mapPropsToState, actions)(EspecialistaLista);

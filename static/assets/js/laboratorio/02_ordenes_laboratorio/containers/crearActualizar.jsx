@@ -5,9 +5,9 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 
-import BuscarEntidad from '../components/buscar/buscar_entidad';
-import BuscarMedicoRemitente from '../components/buscar/buscar_medico_remitente';
-import BuscarPaciente from '../components/buscar/buscar_paciente';
+import BuscarEntidad from '../../components/buscadores_autocomplete/buscar/buscar_entidad';
+import BuscarMedicoRemitente from '../../components/buscadores_autocomplete/buscar/buscar_medico_remitente';
+import BuscarPaciente from '../../components/buscadores_autocomplete/buscar/buscar_paciente';
 import ExamenesOrden from '../components/orden_examenes';
 import OrdenImpresionRecibo from '../components/orden_recibo_impresion';
 

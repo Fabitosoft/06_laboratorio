@@ -10,14 +10,15 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import reducers from './reducers';
 import {Notify} from 'react-redux-notify';
 
+import PacientesLista from './01_usuarios/containers/pacientes/paciente_lista';
+import PacientesCrear from './01_usuarios/containers/pacientes/paciente_crear';
+import PacientesEditar from './01_usuarios/containers/pacientes/paciente_editar';
 
-import PacientesLista from './01_pacientes/containers/paciente_lista';
-import PacientesCrear from './01_pacientes/containers/paciente_crear';
-import PacientesEditar from './01_pacientes/containers/paciente_editar';
-
+import EspecialistasCrear from './01_usuarios/containers/especialistas/especialista_crear';
+import EspecialistasLista from './01_usuarios/containers/especialistas/especialista_lista';
+import EspecialistasEditar from './01_usuarios/containers/especialistas/especialista_editar';
 
 import OrdenLaboratorioCrear from './02_ordenes_laboratorio/containers/orden_crear';
-//import OrdenLaboratorioEditar from './02_ordenes_laboratorio/containers/crearActualizar';
 import OrdenLaboratorioEditar from './02_ordenes_laboratorio/containers/orden_detail';
 import OrdenLaboratorioLista from './02_ordenes_laboratorio/containers/orden_lista';
 
@@ -63,6 +64,10 @@ ReactDOM.render(
                         <Route path='/app/paciente/lista/' component={PacientesLista}/>
                         <Route path='/app/paciente/crear/' component={PacientesCrear}/>
                         <Route path='/app/paciente/editar/:id' component={PacientesEditar}/>
+
+                        <Route path='/app/especialista/lista/' component={EspecialistasLista}/>
+                        <Route path='/app/especialista/crear/' component={EspecialistasCrear}/>
+                        <Route path='/app/especialista/editar/:id' component={EspecialistasEditar}/>
 
 
                         <Route path='/app/examenes_ordenes/por_resultados/' component={ExamenesPorResultadoLista}/>

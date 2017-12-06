@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import BuscarExamen from './buscar/buscar_examen';
+import BuscarExamen from '../../components/buscadores_autocomplete/buscar/buscar_examen';
 import OrdenExamenesTabla from './orden_examenes_tabla';
 
 export default class OrdenExamenes extends Component {

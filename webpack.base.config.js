@@ -7,7 +7,7 @@ var BundleTracker = require('webpack-bundle-tracker');
 module.exports = {
     context: __dirname,
     entry: {
-        'base': './static/assets/js/ordenes_laboratorio/index',
+        //'base': './static/assets/js/ordenes_laboratorio/index',
         'laboratorio': './static/assets/js/laboratorio/index'
     },
     output: {
