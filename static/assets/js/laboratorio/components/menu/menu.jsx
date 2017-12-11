@@ -5,6 +5,8 @@ import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
 import PersonasMenu from './personas';
 import OrdenesMenu from './ordenes';
 import EntidadesMenu from './entidades';
+import ExamenesMenu from './examenes';
+import MiCuentaMenu from './mi_cuenta';
 
 const style = {
     display: 'inline-block',
@@ -18,6 +20,8 @@ const MenuExampleNested = () => (
                 <PersonasMenu/>
                 <OrdenesMenu/>
                 <EntidadesMenu/>
+                <ExamenesMenu/>
+                <MiCuentaMenu/>
 
                 {/*<IconMenu iconButtonElement={<IconButton><FontIcon className="fa fa-hospital-o"/></IconButton>*/}
                 {/*}>*/}

@@ -28,6 +28,7 @@ class MedicoRemitenteSerializer(serializers.ModelSerializer):
 
 class EspecialistaSerializer(serializers.ModelSerializer):
     firma_url = serializers.SerializerMethodField()
+    especialidad_nombre = serializers.CharField(source='especialidad.nombre', read_only=True)
 
     class Meta:
         model = Especialista
@@ -44,6 +45,7 @@ class EspecialistaSerializer(serializers.ModelSerializer):
             'fecha_nacimiento',
             'grupo_sanguineo',
             'especialidad',
+            'especialidad_nombre',
             'universidad',
             'registro_profesional',
             'activo',

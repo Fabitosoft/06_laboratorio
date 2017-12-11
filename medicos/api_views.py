@@ -35,7 +35,7 @@ class EspecialidadViewSet(viewsets.ModelViewSet):
 
 
 class EspecialistaViewSet(viewsets.ModelViewSet):
-    queryset = Especialista.objects.all()
+    queryset = Especialista.objects.select_related('especialidad').all()
     serializer_class = EspecialistaSerializer
     permission_classes = (permissions.IsAuthenticated,)
 

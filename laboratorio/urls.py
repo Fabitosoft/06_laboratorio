@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^app/', IndexView.as_view(), name='index'),
     url(r'^admin/', admin.site.urls),
+    url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^$', IndexView.as_view(), name='index'),
 ]
 

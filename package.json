@@ -13,7 +13,8 @@
     "react-redux-notify": "^2.0.0",
     "react-widgets": "^4.0.2",
     "react-widgets-moment": "^4.0.2",
-    "redux-form-material-ui": "^4.3.0"
+    "redux-form-material-ui": "^4.3.0",
+    "redux-freeze": "^0.1.5"
   },
   "devDependencies": {
     "axios": "^0.16.2",

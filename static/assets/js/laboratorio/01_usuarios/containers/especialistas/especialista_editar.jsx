@@ -80,7 +80,7 @@ class EspecialistaEditar extends Component {
                                     notificarAction(`Se ha editado con éxito el especialista ${especialista.full_name}`);
                                     throw new SubmissionError({especialidad: null});
                                 },
-                                error_callback
+                                //error_callback
                             )
                         },
                         error_callback
@@ -97,7 +97,7 @@ class EspecialistaEditar extends Component {
 
         let firma_imagen = null;
         if (especialista) {
-            firma_imagen = <img src={especialista.firma_url}/>
+            firma_imagen = <img className="img-fluid" src={especialista.firma_url}/>
         }
         return (
             <div className="row">
@@ -117,7 +117,7 @@ class EspecialistaEditar extends Component {
                         <div className="col-12">
                             <h4>Firma</h4>
                         </div>
-                        <div className="col-12">
+                        <div className="col-3">
                             {firma_imagen}
                         </div>
                         <div className="col-12">

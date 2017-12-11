@@ -6,40 +6,48 @@ import {
     UPDATE_EXAMEN
 } from './02_types';
 
+import {createRequest} from "./00_general_fuctions";
+
 import axios from 'axios';
 
-const ROOT_URL = '/api/';
+const axios_instance = axios.create({
+    baseURL: '/api/examenes'
+});
 const FORMAT = 'format=json';
 
-export function fetchExamenes() {
+export function fetchExamenes(callback = null, callback_error = null) {
     return function (dispatch) {
-        const SUB_URL = 'examenes/';
-        const FULL_URL = `${ROOT_URL}${SUB_URL}?${FORMAT}`;
-        axios.get(FULL_URL)
-            .then(response => {
-                    dispatch({type: FETCH_EXAMENES, payload: response})
-                }
-            ).catch(function (error) {
+        const SUB_URL = '/';
+        const FULL_URL = `${SUB_URL}?${FORMAT}`;
 
-        })
+        const request = axios_instance.get(FULL_URL);
+        const dispatches = (response) => {
+            dispatch({type: FETCH_EXAMENES, payload: response})
+        };
+        createRequest(
+            request,
+            dispatches,
+            callback,
+            callback_error
+        );
     }
 }
 
 export function fetchExamenesxParametro(parametro, callback = null, callback_error = null) {
     return function (dispatch) {
-        const SUB_URL = `examenes/buscar_x_parametro?parametro=${parametro}`;
-        const FULL_URL = `${ROOT_URL}${SUB_URL}&${FORMAT}`;
-        axios.get(FULL_URL)
-            .then(response => {
-                dispatch({type: FETCH_EXAMENES, payload: response});
-                if (callback) {
-                    callback(response.data)
-                }
-            }).catch(error => {
-            if (callback_error) {
-                callback_error(error)
-            }
-        });
+        const SUB_URL = `/buscar_x_parametro?parametro=${parametro}`;
+        const FULL_URL = `${SUB_URL}&${FORMAT}`;
+
+        const request = axios_instance.get(FULL_URL);
+        const dispatches = (response) => {
+            dispatch({type: FETCH_EXAMENES, payload: response})
+        };
+        createRequest(
+            request,
+            dispatches,
+            callback,
+            callback_error
+        );
     }
 }
 
@@ -57,42 +65,50 @@ export function deleteExamen(id) {
     }
 }
 
-export function fetchExamen(id) {
+export function fetchExamen(id, callback = null, callback_error = null) {
     return function (dispatch) {
-        const SUB_URL = `examenes/${id}/`;
-        const FULL_URL = `${ROOT_URL}${SUB_URL}?${FORMAT}`;
-        axios.get(FULL_URL)
-            .then(response => {
-
-                    dispatch({type: FETCH_EXAMEN, payload: response})
-                }
-            ).catch(function (error) {
-
-        })
+        const SUB_URL = `/${id}/`;
+        const FULL_URL = `${SUB_URL}?${FORMAT}`;
+        const request = axios_instance.get(FULL_URL);
+        const dispatches = (response) => {
+            dispatch({type: FETCH_EXAMEN, payload: response})
+        };
+        createRequest(
+            request,
+            dispatches,
+            callback,
+            callback_error
+        );
     }
 }
 
 
-export function crearExamen(values, callback) {
+export function crearExamen(values, callback = null, callback_error = null) {
     axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
     axios.defaults.xsrfCookieName = "csrftoken";
-    const request = axios.post(`${ROOT_URL}examenes/`, values).then(() => callback()).catch(error => {
-        console.log(error)
-    });
-    return {
-        type: CREATE_EXAMEN,
-        payload: request
+    const request = axios_instance.post(`/`, values);
+    const dispatches = (response) => {
+        dispatch({type: CREATE_EXAMEN, payload: response})
     };
+    createRequest(
+        request,
+        dispatches,
+        callback,
+        callback_error
+    );
 }
 
-export function updateExamen(id, values, callback) {
+export function updateExamen(id, values, callback = null, callback_error = null) {
     axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
     axios.defaults.xsrfCookieName = "csrftoken";
-    const request = axios.put(`${ROOT_URL}examenes/${id}/`, values).then(() => callback()).catch(error => {
-        console.log(error)
-    });
-    return {
-        type: UPDATE_EXAMEN,
-        payload: request
+    const request = axios_instance.put(`/`, values);
+    const dispatches = (response) => {
+        dispatch({type: UPDATE_EXAMEN, payload: response})
     };
+    createRequest(
+        request,
+        dispatches,
+        callback,
+        callback_error
+    );
 }

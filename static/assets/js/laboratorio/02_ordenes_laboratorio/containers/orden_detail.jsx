@@ -53,7 +53,6 @@ class EditarOrdenLaboratorio extends Component {
 
         const callback = (response) => {
             fetchOrden(response.id, orden => {
-                console.log('llego')
                 notificarAction(`Se ha actualizado la orden de laboratorio nro: ${orden.id}`);
             })
         };
@@ -61,46 +60,48 @@ class EditarOrdenLaboratorio extends Component {
     }
 
     adicionarExamen(examen) {
-        const {crearOrdenExamen, fetchOrden} = this.props;
-        crearOrdenExamen(examen, response => {
-            fetchOrden(response.orden, orden_laboratorio => {
-                this.calcularTotales(orden_laboratorio)
-            });
-        });
-    }
+        const {match: {params: {id}}, createOrdenExamen, fetchOrden, notificarAction, orden} = this.props;
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
+        const examen_orden = {
+            ...examen,
+            examen: examen.examen_id,
+            valor_total: parseFloat(examen.valor_examen),
+            paciente_nombre: orden.paciente_nombre,
+            orden: id,
+            descuento: 0,
+            valor_descuento: 0,
+            valor_final: parseFloat(examen.valor_examen)
+        };
 
-    calcularTotales(orden_laboratorio) {
-        const {updateOrden} = this.props;
-        const {mis_examenes} = orden_laboratorio;
-        let valor_total = 0;
-        let valor_descuento = 0;
-        let valor_final = 0;
-        mis_examenes.map(examen => {
-            valor_total += parseInt(examen.valor_total, 10);
-            valor_descuento += parseInt(examen.valor_descuento, 10);
-            valor_final += parseInt(examen.valor_final, 10);
-        });
-        orden_laboratorio.valor_total = valor_total;
-        orden_laboratorio.valor_descuento = valor_descuento;
-        orden_laboratorio.valor_final = valor_final;
-        updateOrden(orden_laboratorio, orden_laboratorio => {
-            this.setState({orden_laboratorio})
-        });
+        createOrdenExamen(
+            examen_orden,
+            response => {
+                notificarAction(`Se há adicionado correctamente el examen ${response.examen_nombre}`);
+                fetchOrden(response.orden);
+            },
+            error_callback
+        );
     }
 
     cambiarDescuento(examen, porcentaje) {
-        const {fetchOrden, updateOrdenExamen} = this.props;
+        const {fetchOrden, updateOrdenExamen, notificarAction} = this.props;
         const {orden} = examen;
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
         examen.descuento = parseFloat(porcentaje);
         examen.valor_descuento = (examen.valor_total * (porcentaje / 100));
         examen.valor_final = examen.valor_total - examen.valor_descuento;
-        examen.resultado = 'Pendiente...';
 
-        updateOrdenExamen(examen, response => {
-            fetchOrden(orden, orden_laboratorio => {
-                this.calcularTotales(orden_laboratorio)
-            });
-        })
+        updateOrdenExamen(examen,
+            response => {
+                notificarAction(`Se ha asignado correctamente el descuento al examen ${response.examen_nombre}`);
+                fetchOrden(orden);
+            },
+            error_callback
+        )
     }
 
     eliminarExamen(examen) {
@@ -141,8 +142,7 @@ class EditarOrdenLaboratorio extends Component {
                         className='btn btn-primary'
                         onClick={
                             () => {
-                                orden.estado = 1;
-                                updateOrden(orden, response => {
+                                updateOrden({...orden, estado: 1}, response => {
                                     fetchOrden(orden.id, orden_laboratorio => {
                                         this.setState({orden_laboratorio})
                                     });

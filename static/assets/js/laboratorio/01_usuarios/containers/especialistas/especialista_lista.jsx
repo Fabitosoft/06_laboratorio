@@ -28,14 +28,36 @@ class EspecialistaLista extends Component {
         }
     }
 
+    actualizarEspecialista(especialista, mensaje) {
+        const {
+            updateEspecialista,
+            notificarAction,
+            fetchEspecialista,
+
+        } = this.props;
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
+        updateEspecialista({...especialista},
+            response => {
+                fetchEspecialista(response.id,
+                    especialista => {
+                        notificarAction(`${mensaje} ${especialista.full_name}`)
+                    },
+                    error_callback
+                )
+            }, error_callback
+        )
+    }
+
     renderTabla() {
-        const {notificarAction, especialistas} = this.props;
+        const {especialistas} = this.props;
         if (this.state.busqueda.length < 3) {
             return (<div>Nada que buscar</div>)
         } else {
             return <Tabla
+                actualizarEspecialista={this.actualizarEspecialista.bind(this)}
                 especialistas={especialistas}
-                notificarAction={notificarAction}
             />
         }
     }

@@ -40,14 +40,13 @@ path.append(DJANGO_ROOT)
 ########## END PATH CONFIGURATION
 
 
-
-
 # Application definition
 
 ########## APP CONFIGURATION
 DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.sites',
+    'registration',
     'django.contrib.redirects',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -61,7 +60,7 @@ MY_APPS = [
     'medicos',
     'entidades',
     'pacientes',
-    'ordenes',
+    'ordenes'
 ]
 
 THIRD_PART_APPS = [

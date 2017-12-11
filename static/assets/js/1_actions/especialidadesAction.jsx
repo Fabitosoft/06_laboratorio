@@ -30,7 +30,6 @@ export function fetchEspecialidades(callback = null, callback_error = null) {
             callback,
             callback_error
         )
-
     }
 }
 
@@ -105,16 +104,16 @@ export function updateEspecialidad(id, values, callback = null, callback_error =
     return function (dispatch) {
         axios_instance.defaults.xsrfHeaderName = "X-CSRFTOKEN";
         axios_instance.defaults.xsrfCookieName = "csrftoken";
-        axios_instance.put(`/${id}/`, values, config)
-            .then(response => {
-                dispatch({type: UPDATE_ESPECIALIDAD, payload: response});
-                if (callback) {
-                    callback(response.data)
-                }
-            }).catch(error => {
-            if (callback_error) {
-                callback_error(error)
-            }
-        });
+
+        const request = axios_instance.put(`/${id}/`, values, config)
+        const dispatches = (response) => {
+            dispatch({type: UPDATE_ESPECIALIDAD, payload: response})
+        };
+        createRequest(
+            request,
+            dispatches,
+            callback,
+            callback_error
+        )
     }
 }

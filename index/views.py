@@ -1,6 +1,7 @@
-from django.shortcuts import render
 from django.views.generic import TemplateView
 
+from braces.views import LoginRequiredMixin
 
-class IndexView(TemplateView):
+
+class IndexView(LoginRequiredMixin, TemplateView):
     template_name = 'intranet/index.html'

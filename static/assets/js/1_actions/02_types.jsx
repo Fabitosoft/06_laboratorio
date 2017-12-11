@@ -14,6 +14,7 @@ export const CREATE_ORDEN_EXAMEN = 'create_orden_examen';
 export const UPDATE_ORDEN_EXAMEN = 'update_orden_examen';
 export const DELETE_ORDEN_EXAMEN = 'delete_orden_examen';
 export const FETCH_ORDENES_EXAMEN = 'fetch_ordenes_examen';
+export const FETCH_ORDEN_EXAMEN = 'fetch_orden_examen';
 
 //pacientes
 export const FETCH_PACIENTES = 'fetch_pacientes';

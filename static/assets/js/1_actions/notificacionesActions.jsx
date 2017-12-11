@@ -57,12 +57,12 @@ export function notificarErrorAjaxAction(error, tiempo = 7000) {
                 default:
                     mensaje += `Otro mensaje no especificado:`;
             }
-            if (error.response.data) {
+            if (error.response && error.response.data) {
                 _.map(error.response.data, item => {
                     mensaje += `(${item})`
                 })
             }
-            if (error.config.baseURL) {
+            if (error.config && error.config.baseURL) {
                 mensaje += `(${error.config.baseURL})`
             }
             mensaje += ` ${mensaje_final}.`

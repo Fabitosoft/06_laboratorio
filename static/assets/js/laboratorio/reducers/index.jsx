@@ -14,7 +14,7 @@ import NotifyReducer from 'react-redux-notify';
 const rootReducer = combineReducers({
     ordenes: ordenesReducer,
     examenes: examenesReducer,
-    ordenesExamenes: examenesOrdenesReducer,
+    ordenes_examenes: examenesOrdenesReducer,
     entidades: entidadesReducer,
     medicos_remitentes: medicosRemitentesReducer,
     pacientes: pacientesReducer,

@@ -31,7 +31,8 @@ export default class BusquedaAutoComplete extends Component {
     }
 
     render() {
-        const {dataSource, label, searchText, setSearchText} = this.props;
+        const {dataSource, label, searchText} = this.props;
+
         return (
             <AutoComplete
                 ref={`autoComplete${label.upperFirst}`}

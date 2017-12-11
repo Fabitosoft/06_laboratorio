@@ -1,4 +1,3 @@
-print('entro')
 from .base import *
 
 ############### SECRET FILE
@@ -78,7 +77,8 @@ DATABASES = {
         'USER': get_secret("DATABASE_LOCAL", "USER"),
         'PASSWORD': get_secret("DATABASE_LOCAL", "PASSWORD"),
         'HOST': get_secret("DATABASE_LOCAL", "HOST"),
-        'PORT': get_secret("DATABASE_LOCAL", "PORT")
+        'PORT': get_secret("DATABASE_LOCAL", "PORT"),
+        'ATOMIC_REQUESTS': True
     }
 }
 ########## END DATABASE CONFIGURATION

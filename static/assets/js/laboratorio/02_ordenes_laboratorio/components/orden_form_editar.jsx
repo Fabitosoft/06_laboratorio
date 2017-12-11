@@ -27,7 +27,7 @@ class OrdenEditarForm extends Component {
                                         disabled={pristine || submitting}>
                                     Deshacer Cambios
                                 </button>
-                                <Link to="/app/paciente/lista/">
+                                <Link to="/app/ordenes_laboratorio/lista/">
                                     <button type="button" className="btn btn-secondary">
                                         Cancelar
                                     </button>

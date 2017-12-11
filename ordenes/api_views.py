@@ -40,11 +40,23 @@ class OrdenViewSet(viewsets.ModelViewSet):
 
 
 class OrdenExamenViewSet(viewsets.ModelViewSet):
-    queryset = OrdenExamen.objects.all().order_by('pk')
+    queryset = OrdenExamen.objects.select_related(
+        'orden',
+        'orden__paciente',
+        'examen',
+        'examen__subgrupo_cups',
+        'orden__entidad'
+    ).all().order_by('pk')
     serializer_class = OrdenExamenSerializer
 
     @list_route(methods=['get'])
-    def para_resultados(self, request):
-        qs = OrdenExamen.objects.filter(orden__estado=1, examen_estado__in=[0, 1])
+    def en_proceso(self, request):
+        qs = self.get_queryset().filter(orden__estado=1, examen_estado=0)
         serializer = self.get_serializer(qs, many=True)
         return Response(serializer.data)
+
+    def perform_create(self, serializer):
+        serializer.save(creado_por=self.request.user)
+
+    def perform_update(self, serializer):
+        serializer.save(modificado_por=self.request.user)

@@ -23,6 +23,11 @@ import OrdenLaboratorioEditar from './02_ordenes_laboratorio/containers/orden_de
 import OrdenLaboratorioLista from './02_ordenes_laboratorio/containers/orden_lista';
 
 
+import OrdenExamenDetail from './04_examenes/containers/orden_examen/orden_examen_detail';
+
+import ExamenesEnProceso from './04_examenes/containers/orden_examen/en_proceso/examenes_en_proceso_lista';
+
+
 import EntidadesLista from './03_entidades/containers/entidad_lista';
 import EntidadesCrear from './03_entidades/containers/entidad_crear';
 import EntidadesEditar from './03_entidades/containers/entidad_editar';
@@ -68,6 +73,12 @@ ReactDOM.render(
                         <Route path='/app/especialista/lista/' component={EspecialistasLista}/>
                         <Route path='/app/especialista/crear/' component={EspecialistasCrear}/>
                         <Route path='/app/especialista/editar/:id' component={EspecialistasEditar}/>
+
+
+                        <Route path='/app/orden_examen/editar/:id' component={OrdenExamenDetail}/>
+
+
+                        <Route path='/app/examenes/en_proceso/lista/' component={ExamenesEnProceso}/>
 
 
                         <Route path='/app/examenes_ordenes/por_resultados/' component={ExamenesPorResultadoLista}/>

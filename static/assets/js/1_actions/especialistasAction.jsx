@@ -103,22 +103,22 @@ export function createEspecialista(values, callback = null, callback_error = nul
     }
 }
 
-export function updateEspecialista(values, callback = null, callback_error = null, config = null) {
+export function updateEspecialista(values, callback = null, callback_error = null) {
     return function (dispatch) {
         const {id} = values;
         axios_instance.defaults.xsrfHeaderName = "X-CSRFTOKEN";
         axios_instance.defaults.xsrfCookieName = "csrftoken";
-        axios_instance.put(`/${id}/`, values, config)
-            .then(response => {
-                dispatch({type: UPDATE_ESPECIALISTA, payload: response});
-                if (callback) {
-                    callback(response.data)
-                }
-            }).catch(error => {
-            if (callback_error) {
-                callback_error(error)
-            }
-        });
+
+        const request = axios_instance.put(`/${id}/`, values);
+        const dispatches = (response) => {
+            dispatch({type: UPDATE_ESPECIALISTA, payload: response})
+        };
+        createRequest(
+            request,
+            dispatches,
+            callback,
+            callback_error
+        )
     }
 }
 
@@ -126,16 +126,15 @@ export function updateEspecialistaFirma(id, values, callback = null, callback_er
     return function (dispatch) {
         axios_instance.defaults.xsrfHeaderName = "X-CSRFTOKEN";
         axios_instance.defaults.xsrfCookieName = "csrftoken";
-        axios_instance.put(`/${id}/`, values, config)
-            .then(response => {
-                dispatch({type: UPDATE_ESPECIALISTA, payload: response});
-                if (callback) {
-                    callback(response.data)
-                }
-            }).catch(error => {
-            if (callback_error) {
-                callback_error(error)
-            }
-        });
+        const request = axios_instance.put(`/${id}/`, values, config);
+        const dispatches = (response) => {
+            dispatch({type: UPDATE_ESPECIALISTA, payload: response})
+        };
+        createRequest(
+            request,
+            dispatches,
+            callback,
+            callback_error
+        )
     }
 }

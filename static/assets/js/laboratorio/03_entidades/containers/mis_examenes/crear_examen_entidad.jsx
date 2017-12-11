@@ -4,6 +4,7 @@ import * as actions from '../../../../1_actions/01_index';
 import {Field, reduxForm} from 'redux-form';
 import {Link} from 'react-router-dom';
 import AutoComplete from 'material-ui/AutoComplete';
+import BuscarExamen from '../../../components/buscadores_autocomplete/buscar/buscar_examen';
 import {formatMoney} from 'accounting';
 import {
     TextField
@@ -15,7 +16,8 @@ class ExamenEntidadCrear extends Component {
     constructor(props) {
         super(props);
         this.state = ({
-            examen: null
+            examen: null,
+            searchText_examen: ''
         })
     }
 
@@ -24,26 +26,9 @@ class ExamenEntidadCrear extends Component {
         fetchEntidad(id_entidad);
     }
 
-    onUpdateInputExamenes(textoBuscado) {
-        const {fetchExamenesxParametro} = this.props;
-        if (textoBuscado.length > 2) {
-            fetchExamenesxParametro(textoBuscado);
-        } else {
-            this.setState({examen: null});
-        }
-    }
-
-    onNewRequestExamenes(examen, tipo) {
-        if (tipo === -1) {
-            this.setState({examen: null});
-        } else {
-            this.setState({examen});
-        }
-    }
-
     onSubmit(values) {
         const {crearExamenEntidad, match: {params: {id_entidad}}, notificarAction} = this.props;
-        const examen = {...values, entidad: id_entidad, examen: this.state.examen.value.id};
+        const examen = {...values, entidad: id_entidad, examen: this.state.examen.id};
         crearExamenEntidad(examen, response => {
             notificarAction(`Se ha agregado el examen ${response.examen_nombre} con valor ${formatMoney(Number(values.valor_examen), "$", 0, ".", ",")}`, null, 7000);
             this.props.history.push(`/app/entidades/editar/${id_entidad}`);
@@ -53,7 +38,7 @@ class ExamenEntidadCrear extends Component {
     renderBotonGuardar() {
         const {
             pristine,
-            submitting,
+            submitting
         } = this.props;
         if (this.state.examen) {
             return (
@@ -72,10 +57,11 @@ class ExamenEntidadCrear extends Component {
             submitting,
             entidad,
             match: {params: {id_entidad}},
-            examenes
+            examenes,
+            fetchExamenesxParametro
         } = this.props;
         const cancelar_link_to = `/app/entidades/editar/${id_entidad}`;
-        const {examen} = this.state;
+        const {examen, searchText_examen} = this.state;
 
         if (!entidad) {
             return (
@@ -87,33 +73,29 @@ class ExamenEntidadCrear extends Component {
             return (examen.examen_id)
         });
 
-        const examenes_nuevos = _.pickBy(examenes, examen => {
+        const autocopleteExamenes = _.pickBy(examenes, examen => {
             return !examenes_actuales.includes(examen.id)
-        });
-
-        const autocopleteExamenes = _.map(examenes_nuevos, examen => {
-            return {
-                text: examen.nombre,
-                value: examen
-            }
         });
 
         let mi_costo_referencia = null;
         if (examen) {
-            const {value: {costo_referencia}} = examen;
+            const {costo_referencia} = examen;
             mi_costo_referencia = `Costo Referencia: ${formatMoney(Number(costo_referencia), "$", 0, ".", ",")}`
         }
 
         return (
             <div>
                 <h1>Crear Examen Entidad</h1>
-                <AutoComplete
-                    fullWidth={true}
-                    floatingLabelText="Examenes"
-                    filter={AutoComplete.fuzzyFilter}
-                    dataSource={autocopleteExamenes}
-                    onNewRequest={this.onNewRequestExamenes.bind(this)}
-                    onUpdateInput={this.onUpdateInputExamenes.bind(this)}
+                <BuscarExamen
+                    examenes={autocopleteExamenes}
+                    busquedaAction={fetchExamenesxParametro}
+                    setStateInstance={examen => {
+                        this.setState({examen})
+                    }}
+                    searchText={searchText_examen}
+                    setSearchText={searchText_examen => {
+                        this.setState({searchText_examen})
+                    }}
                 />
                 <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                     <Field name="valor_examen"
