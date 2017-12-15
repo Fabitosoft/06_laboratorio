@@ -35,9 +35,17 @@ class EspecialidadViewSet(viewsets.ModelViewSet):
 
 
 class EspecialistaViewSet(viewsets.ModelViewSet):
-    queryset = Especialista.objects.select_related('especialidad').all()
+    queryset = Especialista.objects.select_related('especialidad', 'user').all()
     serializer_class = EspecialistaSerializer
     permission_classes = (permissions.IsAuthenticated,)
+
+    @list_route(methods=['get'])
+    def mi_cuenta(self, request):
+        qs = self.get_queryset().filter(
+            user_id=request.user.id
+        ).distinct()
+        serializer = self.get_serializer(qs, many=True)
+        return Response(serializer.data)
 
     @list_route(methods=['get'])
     def buscar_x_parametro(self, request):

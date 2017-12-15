@@ -41,6 +41,10 @@ export default class DatosEspecialistaForm extends Component {
                         autoComplete="off"
                     />
                 </div>
+                <div className="col-12 col-md-6">
+                    <Field name="email" component={TextField} floatingLabelText="Correo Electrónico"
+                           hintText="Correo Electrónico"/>
+                </div>
             </div>
         )
     }

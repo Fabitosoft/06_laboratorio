@@ -15,9 +15,12 @@ class PacienteLista extends Component {
     }
 
     buscarPorParametro(busqueda) {
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
         this.setState({busqueda});
         if (busqueda.length >= 3) {
-            this.props.fetchPacientesxParametro(busqueda);
+            this.props.fetchPacientesxParametro(busqueda, null, error_callback);
         }
     }
 

@@ -1,6 +1,8 @@
 //utilidades
 export const FETCH_CIUDADES = 'fetch_ciudades';
 
+//mi_cuente
+export const FETCH_MI_CUENTA_ESPECIALISTA = 'fetch_mi_cuenta_especialista';
 
 //ordenes
 export const FETCH_ORDENES = 'fetch_ordenes';
@@ -12,7 +14,6 @@ export const UPDATE_ORDEN = 'update_orden';
 //orden_examen
 export const CREATE_ORDEN_EXAMEN = 'create_orden_examen';
 export const UPDATE_ORDEN_EXAMEN = 'update_orden_examen';
-export const DELETE_ORDEN_EXAMEN = 'delete_orden_examen';
 export const FETCH_ORDENES_EXAMEN = 'fetch_ordenes_examen';
 export const FETCH_ORDEN_EXAMEN = 'fetch_orden_examen';
 

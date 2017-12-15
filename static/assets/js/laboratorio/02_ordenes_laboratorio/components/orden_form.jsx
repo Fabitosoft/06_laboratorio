@@ -15,6 +15,33 @@ const upper = value => value && value.toUpperCase();
 const lower = value => value && value.toLowerCase();
 
 class OrdenForm extends Component {
+
+    fetchEntidadesxParametro(busqueda) {
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
+        const {fetchEntidadesxParametro} = this.props;
+        fetchEntidadesxParametro(busqueda, null, error_callback);
+    }
+
+    fetchMedicoRemitentexParametro(busqueda) {
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
+        const {fetchMedicoRemitentexParametro} = this.props;
+        fetchMedicoRemitentexParametro(busqueda, null, error_callback);
+    }
+
+
+    fetchPacientesxParametro(busqueda) {
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
+        const {fetchPacientesxParametro} = this.props;
+        fetchPacientesxParametro(busqueda, null, error_callback);
+    }
+
+
     render() {
         const {
             entidades,
@@ -47,7 +74,7 @@ class OrdenForm extends Component {
                 </div>
                 <div className="col-12 col-md-6">
                     <BuscarEntidad
-                        busquedaAction={fetchEntidadesxParametro}
+                        busquedaAction={this.fetchEntidadesxParametro.bind(this)}
                         entidades={entidades}
                         setStateInstance={entidad => {
                             setState({entidad})
@@ -60,7 +87,7 @@ class OrdenForm extends Component {
                 </div>
                 <div className="col-12 col-md-6">
                     <BuscarMedicoRemitente
-                        busquedaAction={fetchMedicoRemitentexParametro}
+                        busquedaAction={this.fetchMedicoRemitentexParametro.bind(this)}
                         medicos_remitentes={medicos_remitentes}
                         setStateInstance={medico_remitente => {
                             setState({medico_remitente})
@@ -76,7 +103,7 @@ class OrdenForm extends Component {
                     <BuscarPaciente
                         paciente={paciente}
                         pacientes={pacientes}
-                        busquedaAction={fetchPacientesxParametro}
+                        busquedaAction={this.fetchPacientesxParametro.bind(this)}
                         setStateInstance={paciente => {
                             setState({paciente})
                         }}
@@ -95,6 +122,7 @@ class OrdenForm extends Component {
                                    component={TextField}
                                    floatingLabelText="Nombre Contacto Alternativo"
                                    autoComplete="off"
+                                   normalize={upper}
                             />
                         </div>
                         <div className="col-12 col-md-6">
@@ -103,6 +131,7 @@ class OrdenForm extends Component {
                                    component={TextField}
                                    floatingLabelText="Número Contacto Alternativo"
                                    autoComplete="off"
+                                   normalize={upper}
                             />
                         </div>
                         <div className="col-12">
@@ -111,6 +140,7 @@ class OrdenForm extends Component {
                                    component={TextField}
                                    floatingLabelText="Dirección Contacto Alternativo"
                                    autoComplete="off"
+                                   normalize={upper}
                             />
                         </div>
                     </div>

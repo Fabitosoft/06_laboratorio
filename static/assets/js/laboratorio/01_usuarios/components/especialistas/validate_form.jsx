@@ -6,7 +6,8 @@ const validate = values => {
         'grupo_sanguineo',
         'tipo_documento',
         'nro_identificacion',
-        'genero'
+        'genero',
+        'email'
     ];
     requiredFields.forEach(field => {
         if (!values[field]) {

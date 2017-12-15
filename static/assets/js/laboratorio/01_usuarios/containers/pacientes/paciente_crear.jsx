@@ -16,10 +16,15 @@ class PacienteCrear extends Component {
 
     onSubmit(values) {
         const {crearPaciente, notificarAction, history} = this.props;
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
         crearPaciente(values, (response) => {
-            notificarAction(`Se ha creado con éxito el paciente ${response.full_name}`);
-            history.push('/app/paciente/lista/');
-        });
+                notificarAction(`Se ha creado con éxito el paciente ${response.full_name}`);
+                history.push('/app/paciente/lista/');
+            },
+            error_callback
+        );
     }
 
     render() {

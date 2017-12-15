@@ -18,11 +18,11 @@ const MenuExamenes = () => (
         />
         <MenuItem
             primaryText="Con Resultados"
-            containerElement={<Link to="/app/ordenes_laboratorio/lista/"/>}
+            containerElement={<Link to="/app/examenes/con_resultados/lista/"/>}
         />
         <MenuItem
             primaryText="Verificados"
-            containerElement={<Link to="/app/ordenes_laboratorio/lista/"/>}
+            containerElement={<Link to="/app/examenes/verificados/lista/"/>}
         />
         <Divider/>
         <MenuItem

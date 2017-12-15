@@ -122,8 +122,8 @@ function mapPropsToState(state, ownProps) {
 EspecialistaCrearForm = reduxForm({
     form: "especialistaCrearForm",
     validate,
-    //asyncValidate,
-    //asyncBlurFields: ['nro_identificacion', 'tipo_documento'],
+    asyncValidate,
+    asyncBlurFields: ['nro_identificacion', 'tipo_documento'],
     enableReinitialize: true
 })(EspecialistaCrearForm);
 

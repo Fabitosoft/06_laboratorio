@@ -60,13 +60,14 @@ MY_APPS = [
     'medicos',
     'entidades',
     'pacientes',
-    'ordenes'
+    'ordenes',
 ]
 
 THIRD_PART_APPS = [
     'import_export',
     'webpack_loader',
     'rest_framework',
+    'imagekit',
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

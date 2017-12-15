@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {formatMoney} from 'accounting';
+import {Link} from 'react-router-dom';
 
 export default class OrdenExamenesTablaItem extends Component {
     constructor(props) {
@@ -13,13 +14,19 @@ export default class OrdenExamenesTablaItem extends Component {
     }
 
     renderEliminar() {
-        const {examen, eliminarExamen, orden} = this.props;
+        const {examen, eliminarExamen, orden, examen: {examen_estado_nombre, examen_estado}} = this.props;
+        const link_to = `/app/orden_examen/editar/${examen.id}`;
         if (orden.estado === 0) {
             return (
                 <a onClick={() => {
                     eliminarExamen(examen)
                 }}>
                     <i className="fa fa-minus-square" aria-hidden="true"></i></a>
+            )
+        } else {
+            return (
+                <span>{examen_estado === 2 || examen_estado === 3 ?
+                    <Link to={link_to}>{examen_estado_nombre}</Link> : examen_estado_nombre}</span>
             )
         }
     }
@@ -47,7 +54,7 @@ export default class OrdenExamenesTablaItem extends Component {
     }
 
     render() {
-        const {cambiarDescuento, examen} = this.props;
+        const {examen} = this.props;
         return (
             <tr>
                 <td scope="row">{examen.examen_nombre}</td>

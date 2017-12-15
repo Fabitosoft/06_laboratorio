@@ -1,6 +1,27 @@
 from rest_framework import serializers
 
-from .models import Orden, OrdenExamen, HistorialOrdenExamen
+from .models import Orden, OrdenExamen, HistorialOrdenExamen, OrdenExamenFirmas
+
+
+class OrdenExamenFirmasSerializer(serializers.ModelSerializer):
+    firmado_por = serializers.CharField(source='especialista.full_name', read_only=True)
+    firma_url = serializers.SerializerMethodField()
+    especialidad = serializers.CharField(source='especialista.especialidad.nombre', read_only=True)
+
+    class Meta:
+        model = OrdenExamenFirmas
+        fields = [
+            'id',
+            'especialista',
+            'firmado_por',
+            'especialidad',
+            'firma_url'
+        ]
+
+    def get_firma_url(self, obj):
+        if obj.especialista.firma:
+            return obj.especialista.firma.url
+        return None
 
 
 class HistorialOrdenExamenSerializer(serializers.ModelSerializer):
@@ -15,6 +36,7 @@ class OrdenExamenSerializer(serializers.ModelSerializer):
     sub_categoria_cup_nombre = serializers.CharField(source='examen.subgrupo_cups.nombre', read_only=True)
     entidad_nombre = serializers.CharField(source='orden.entidad.nombre', read_only=True)
     mis_bitacoras = HistorialOrdenExamenSerializer(many=True, read_only=True)
+    mis_firmas = OrdenExamenFirmasSerializer(many=True, read_only=True)
 
     class Meta:
         model = OrdenExamen
@@ -36,7 +58,8 @@ class OrdenExamenSerializer(serializers.ModelSerializer):
             'valor_total',
             'valor_descuento',
             'valor_final',
-            'mis_bitacoras'
+            'mis_bitacoras',
+            'mis_firmas'
         ]
         extra_kwargs = {
             'resultado': {'required': False, 'allow_blank': True, 'allow_null': True},
@@ -46,10 +69,28 @@ class OrdenExamenSerializer(serializers.ModelSerializer):
         }
 
 
+class OrdenExamenParaOrdenSerializer(serializers.ModelSerializer):
+    examen_estado_nombre = serializers.CharField(source='get_examen_estado_display', read_only=True)
+    class Meta:
+        model = OrdenExamen
+        fields = [
+            'id',
+            'examen_estado',
+            'examen_estado_nombre',
+            'examen',
+            'examen_nombre',
+            'descuento',
+            'valor_total',
+            'valor_descuento',
+            'valor_final',
+        ]
+
+
 class OrdenSerializer(serializers.ModelSerializer):
     paciente_nombre = serializers.CharField(source='paciente.full_name', read_only=True)
-    mis_examenes = OrdenExamenSerializer(many=True, read_only=True)
+    mis_examenes = OrdenExamenParaOrdenSerializer(many=True, read_only=True)
     cajero = serializers.CharField(source='elaborado_por.get_full_name', read_only=True)
+    estado_nombre = serializers.CharField(source='get_estado_display', read_only=True)
 
     class Meta:
         model = Orden
@@ -63,6 +104,7 @@ class OrdenSerializer(serializers.ModelSerializer):
             'tipo_pago',
             'entidad',
             'estado',
+            'estado_nombre',
             'nombre_contacto_alternativo',
             'numero_contacto_alternativo',
             'direccion_contacto_alternativo',

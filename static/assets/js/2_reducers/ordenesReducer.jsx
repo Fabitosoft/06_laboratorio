@@ -13,7 +13,7 @@ export default function (state = [], action) {
         case FETCH_ORDEN:
             return {...state, [action.payload.data.id]: action.payload.data};
         case DELETE_ORDEN:
-            return _.omit(state, action.payload);
+            return _.omit(state, action.payload.id);
         default:
             return state;
     }

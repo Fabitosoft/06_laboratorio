@@ -50,7 +50,11 @@ class CrearOrdenLaboratorio extends Component {
             notificarAction(`Se ha creado la orden de laboratorio nro: ${response.id}`);
             this.props.history.push(`/app/ordenes_laboratorio/detail/${response.id}`);
         };
-        crearOrden(nueva_orden, callback)
+
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
+        crearOrden(nueva_orden, callback, error_callback)
     }
 
     render() {

@@ -23,16 +23,24 @@ class ExamenEntidadCrear extends Component {
 
     componentDidMount() {
         const {fetchEntidad, match: {params: {id_entidad}}} = this.props;
-        fetchEntidad(id_entidad);
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
+        fetchEntidad(id_entidad, null, error_callback);
     }
 
     onSubmit(values) {
         const {crearExamenEntidad, match: {params: {id_entidad}}, notificarAction} = this.props;
         const examen = {...values, entidad: id_entidad, examen: this.state.examen.id};
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
         crearExamenEntidad(examen, response => {
-            notificarAction(`Se ha agregado el examen ${response.examen_nombre} con valor ${formatMoney(Number(values.valor_examen), "$", 0, ".", ",")}`, null, 7000);
-            this.props.history.push(`/app/entidades/editar/${id_entidad}`);
-        });
+                notificarAction(`Se ha agregado el examen ${response.examen_nombre} con valor ${formatMoney(Number(values.valor_examen), "$", 0, ".", ",")}`, null, 7000);
+                this.props.history.push(`/app/entidades/editar/${id_entidad}`);
+            },
+            error_callback
+        );
     }
 
     renderBotonGuardar() {

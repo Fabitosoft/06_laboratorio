@@ -21,11 +21,18 @@ class PacienteEditar extends Component {
 
     onSubmit(values) {
         const {updatePaciente, notificarAction, fetchPaciente} = this.props;
-        updatePaciente(values, (response) => {
-            fetchPaciente(response.id, paciente => {
-                notificarAction(`Se ha editado con éxito el paciente ${paciente.full_name}`);
-            });
-        });
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
+        console.log('entro a editar')
+        updatePaciente(values,
+            (response) => {
+                fetchPaciente(response.id, paciente => {
+                    notificarAction(`Se ha editado con éxito el paciente ${paciente.full_name}`);
+                });
+            },
+            error_callback
+        );
     }
 
     render() {

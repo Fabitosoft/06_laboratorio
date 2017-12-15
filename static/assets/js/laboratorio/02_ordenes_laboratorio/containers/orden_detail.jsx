@@ -23,20 +23,25 @@ class EditarOrdenLaboratorio extends Component {
     componentDidMount() {
         const {match: {params: {id}}} = this.props;
         const {fetchOrden, fetchEntidad, fetchMedicosRemitente, fetchPaciente} = this.props;
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
 
         fetchOrden(id, orden => {
-            fetchEntidad(orden.entidad, entidad => {
-                this.setState({entidad, searchText_entidad: entidad.nombre})
-            });
-            if (orden.medico_remitente) {
-                fetchMedicosRemitente(orden.medico_remitente, medico_remitente => {
-                    this.setState({medico_remitente, searchText_medico_remitente: medico_remitente.full_name})
+                fetchEntidad(orden.entidad, entidad => {
+                    this.setState({entidad, searchText_entidad: entidad.nombre})
                 });
-            }
-            fetchPaciente(orden.paciente, paciente => {
-                this.setState({paciente, searchText_paciente: paciente.nro_identificacion})
-            });
-        });
+                if (orden.medico_remitente) {
+                    fetchMedicosRemitente(orden.medico_remitente, medico_remitente => {
+                        this.setState({medico_remitente, searchText_medico_remitente: medico_remitente.full_name})
+                    });
+                }
+                fetchPaciente(orden.paciente, paciente => {
+                    this.setState({paciente, searchText_paciente: paciente.nro_identificacion})
+                });
+            },
+            error_callback
+        );
     }
 
     onSubmit(values) {
@@ -56,7 +61,11 @@ class EditarOrdenLaboratorio extends Component {
                 notificarAction(`Se ha actualizado la orden de laboratorio nro: ${orden.id}`);
             })
         };
-        updateOrden(orden_editada, callback)
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
+
+        updateOrden(orden_editada, callback, error_callback)
     }
 
     adicionarExamen(examen) {
@@ -107,11 +116,17 @@ class EditarOrdenLaboratorio extends Component {
     eliminarExamen(examen) {
         const {deleteOrdenExamen, fetchOrden} = this.props;
         const {orden} = examen;
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
+
         deleteOrdenExamen(examen.id, response => {
-            fetchOrden(orden, orden_laboratorio => {
-                this.calcularTotales(orden_laboratorio);
-            });
-        });
+                fetchOrden(orden, orden_laboratorio => {
+                    this.calcularTotales(orden_laboratorio);
+                });
+            },
+            error_callback
+        );
     }
 
     renderExamenes() {
@@ -132,26 +147,50 @@ class EditarOrdenLaboratorio extends Component {
         }
     }
 
-    renderBotonPagado() {
-        const {orden, updateOrden, fetchOrden} = this.props;
-        if (orden && orden.estado === 0) {
+    renderBotonDescartar() {
+        const {deleteOrden, notificarAction, match: {params: {id}}, orden, orden: {estado}} = this.props;
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
+        if (orden && estado === 0) {
             return (
-                <div className="col-12">
-                    <button
-                        type="button"
-                        className='btn btn-primary'
-                        onClick={
-                            () => {
-                                updateOrden({...orden, estado: 1}, response => {
-                                    fetchOrden(orden.id, orden_laboratorio => {
-                                        this.setState({orden_laboratorio})
-                                    });
+                <button
+                    type="button"
+                    className='btn btn-warning m-2'
+                    onClick={
+                        () => {
+                            deleteOrden(id, response => {
+                                    notificarAction(`Se ha eliminado Correctamente la Orden Nr. ${id}`);
+                                    this.props.history.push(`/app/ordenes_laboratorio/lista/`);
+                                },
+                                error_callback
+                            );
+                        }
+                    }>
+                    Descartar
+                </button>
+            )
+        }
+    }
+
+    renderBotonPagado() {
+        const {orden, updateOrden, fetchOrden, orden: {mis_examenes, estado}} = this.props;
+        if (orden && estado === 0 && mis_examenes.length > 0) {
+            return (
+                <button
+                    type="button"
+                    className='btn btn-primary m-2'
+                    onClick={
+                        () => {
+                            updateOrden({...orden, estado: 1}, response => {
+                                fetchOrden(orden.id, orden_laboratorio => {
+                                    this.setState({orden_laboratorio})
                                 });
-                            }
-                        }>
-                        Pagado
-                    </button>
-                </div>
+                            });
+                        }
+                    }>
+                    Pagado
+                </button>
             )
         }
     }
@@ -210,7 +249,10 @@ class EditarOrdenLaboratorio extends Component {
                         onSubmit={this.onSubmit.bind(this)}
                     />
                     {this.renderExamenes()}
-                    {this.renderBotonPagado()}
+                    <div className="col-12">
+                        {this.renderBotonPagado()}
+                        {this.renderBotonDescartar()}
+                    </div>
                     {this.renderBotonImprimir()}
                 </div>
                 {this.renderImpresion()}

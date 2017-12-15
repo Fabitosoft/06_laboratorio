@@ -15,21 +15,26 @@ class EntidadesLista extends Component {
     }
 
     eliminarEntidad(entidad, callback) {
-        const callback_error = (error) => {
-            const errorMensaje = Object.getOwnPropertyDescriptor(error, 'message').value;
-            console.log(errorMensaje);
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
         };
-        this.props.deleteEntidad(entidad.id, callback, callback_error)
+        this.props.deleteEntidad(entidad.id, callback, error_callback)
     }
 
     actualizarEntidad(entidad, callback) {
-        this.props.updateEntidad(entidad.id, entidad, callback);
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
+        this.props.updateEntidad(entidad.id, entidad, callback, error_callback);
     }
 
     buscarPorParametro(busqueda) {
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
         this.setState({busqueda});
         if (busqueda.length >= 3) {
-            this.props.fetchEntidadesxParametro(busqueda);
+            this.props.fetchEntidadesxParametro(busqueda,null, error_callback);
         }
     }
 

@@ -105,7 +105,7 @@ export function updateEspecialidad(id, values, callback = null, callback_error =
         axios_instance.defaults.xsrfHeaderName = "X-CSRFTOKEN";
         axios_instance.defaults.xsrfCookieName = "csrftoken";
 
-        const request = axios_instance.put(`/${id}/`, values, config)
+        const request = axios_instance.put(`/${id}/`, values)
         const dispatches = (response) => {
             dispatch({type: UPDATE_ESPECIALIDAD, payload: response})
         };

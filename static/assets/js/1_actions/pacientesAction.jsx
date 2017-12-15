@@ -5,45 +5,47 @@ import {
     CREATE_PACIENTE,
     UPDATE_PACIENTE
 } from './02_types';
-
 import axios from 'axios';
+import {createRequest} from "./00_general_fuctions";
 
-const ROOT_URL = '/api/';
+const axios_instance = axios.create({
+    baseURL: '/api/pacientes'
+});
+
 const FORMAT = 'format=json';
 
 export function fetchPacientes(callback = null, callback_error = null) {
     return function (dispatch) {
-        const SUB_URL = 'pacientes/';
-        const FULL_URL = `${ROOT_URL}${SUB_URL}?${FORMAT}`;
-        axios.get(FULL_URL)
-            .then(response => {
-                dispatch({type: FETCH_PACIENTES, payload: response});
-                if (callback) {
-                    callback(response.data)
-                }
-            }).catch(error => {
-            if (callback_error) {
-                callback_error(error)
-            }
-        });
+        const SUB_URL = '/';
+        const FULL_URL = `${SUB_URL}?${FORMAT}`;
+
+        const request = axios_instance.get(FULL_URL);
+        const dispatches = (response) => {
+            dispatch({type: FETCH_PACIENTES, payload: response})
+        };
+        createRequest(
+            request,
+            dispatches,
+            callback,
+            callback_error
+        )
     }
 }
 
 export function fetchPacientesxParametro(parametro, callback = null, callback_error = null) {
     return function (dispatch) {
-        const SUB_URL = `pacientes/buscar_x_parametro?parametro=${parametro}`;
-        const FULL_URL = `${ROOT_URL}${SUB_URL}&${FORMAT}`;
-        axios.get(FULL_URL)
-            .then(response => {
-                dispatch({type: FETCH_PACIENTES, payload: response});
-                if (callback) {
-                    callback(response.data)
-                }
-            }).catch(error => {
-            if (callback_error) {
-                callback_error(error)
-            }
-        });
+        const SUB_URL = `/buscar_x_parametro?parametro=${parametro}`;
+        const FULL_URL = `${SUB_URL}&${FORMAT}`;
+        const request = axios_instance.get(FULL_URL);
+        const dispatches = (response) => {
+            dispatch({type: FETCH_PACIENTES, payload: response})
+        };
+        createRequest(
+            request,
+            dispatches,
+            callback,
+            callback_error
+        )
     }
 }
 
@@ -63,56 +65,54 @@ export function deletePaciente(id) {
 
 export function fetchPaciente(id, callback = null, callback_error = null) {
     return function (dispatch) {
-        const SUB_URL = `pacientes/${id}/`;
-        const FULL_URL = `${ROOT_URL}${SUB_URL}?${FORMAT}`;
-        axios.get(FULL_URL)
-            .then(response => {
-                dispatch({type: FETCH_PACIENTE, payload: response});
-                if (callback) {
-                    callback(response.data)
-                }
-            }).catch(error => {
-            if (callback_error) {
-                callback_error(error)
-            }
-        });
+        const SUB_URL = `/${id}/`;
+        const FULL_URL = `${SUB_URL}?${FORMAT}`;
+
+        const request = axios_instance.get(FULL_URL);
+        const dispatches = (response) => {
+            dispatch({type: FETCH_PACIENTE, payload: response})
+        };
+        createRequest(
+            request,
+            dispatches,
+            callback,
+            callback_error
+        )
     }
 }
 
 
 export function crearPaciente(values, callback = null, callback_error = null) {
     return function (dispatch) {
-        axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-        axios.defaults.xsrfCookieName = "csrftoken";
-        axios.post(`${ROOT_URL}pacientes/`, values)
-            .then(response => {
-                dispatch({type: CREATE_PACIENTE, payload: response});
-                if (callback) {
-                    callback(response.data)
-                }
-            }).catch(error => {
-            if (callback_error) {
-                callback_error(error)
-            }
-        });
+        axios_instance.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+        axios_instance.defaults.xsrfCookieName = "csrftoken";
+        const request = axios_instance.post(`/`, values);
+        const dispatches = (response) => {
+            dispatch({type: CREATE_PACIENTE, payload: response})
+        };
+        createRequest(
+            request,
+            dispatches,
+            callback,
+            callback_error
+        )
     }
 }
 
 export function updatePaciente(values, callback = null, callback_error = null) {
     return function (dispatch) {
         const {id} = values;
-        axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-        axios.defaults.xsrfCookieName = "csrftoken";
-        axios.put(`${ROOT_URL}pacientes/${id}/`, values)
-            .then(response => {
-                dispatch({type: UPDATE_PACIENTE, payload: response});
-                if (callback) {
-                    callback(response.data)
-                }
-            }).catch(error => {
-            if (callback_error) {
-                callback_error(error)
-            }
-        });
+        axios_instance.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+        axios_instance.defaults.xsrfCookieName = "csrftoken";
+        const request = axios_instance.put(`/${id}/`, values);
+        const dispatches = (response) => {
+            dispatch({type: UPDATE_PACIENTE, payload: response})
+        };
+        createRequest(
+            request,
+            dispatches,
+            callback,
+            callback_error
+        )
     }
 }

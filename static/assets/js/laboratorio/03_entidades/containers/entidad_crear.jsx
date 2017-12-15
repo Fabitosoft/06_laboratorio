@@ -13,30 +13,16 @@ import validate from '../components/crear/validate';
 class EntidadesCrear extends Component {
     onSubmit(values) {
         const {crearEntidad, notificarAction} = this.props;
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
         crearEntidad(
             values,
             response => {
                 notificarAction(`Se há creado correctamente la entidad ${response.nombre}`);
                 this.props.history.push(`/app/entidades/editar/${response.id}`);
             },
-            error => {
-                // const error_mensaje = Object.assign({}, error);
-                // if (error_mensaje.response && error_mensaje.response.data) {
-                //     const mensajes = error_mensaje.response.data;
-                //     console.log(mensajes);
-                //     mensajes.map(mensaje => {
-                //         this.notificar(mensaje, 'error')
-                //     })
-                // }
-                // console.log('error', error);
-                // console.log('errorType', typeof error);
-                // console.log('error', Object.assign({}, error));
-                // console.log('getOwnPropertyNames', Object.getOwnPropertyNames(error));
-                // console.log('stackProperty', Object.getOwnPropertyDescriptor(error, 'stack'));
-                // console.log('messageProperty', Object.getOwnPropertyDescriptor(error, 'message'));
-                // console.log('stackEnumerable', error.propertyIsEnumerable('stack'));
-                // console.log('messageEnumerable', error.propertyIsEnumerable('message'));
-            }
+            error_callback
         );
     }
 

@@ -7,14 +7,41 @@ import {TextField} from "redux-form-material-ui";
 const upper = value => value && value.toUpperCase();
 
 class OrdenExamenFormEditar extends Component {
+    renderBotonFirmar() {
+        const {mi_cuenta_especialista, mi_cuenta_especialista: {firma_url}, onFirmar, orden_examen} = this.props;
+        const mis_firmas = orden_examen.mis_firmas.filter(firma => {
+            return firma.especialista === mi_cuenta_especialista.id
+        });
+        if (mis_firmas.length === 0) {
+            if (firma_url) {
+                return (
+                    <button type="button" onClick={() => {
+                        onFirmar()
+                    }} className="btn btn-primary">
+                        Firmar
+                    </button>
+                )
+            }
+        }
+    }
+
     render() {
         const {
             pristine,
             submitting,
             onSubmit,
             reset,
-            handleSubmit
+            handleSubmit,
+            orden_examen: {examen_estado}
         } = this.props;
+
+        let link_to = "/app/examenes/en_proceso/lista/";
+        if (examen_estado === 1) {
+            link_to = "/app/examenes/con_resultados/lista/";
+        } else if (examen_estado === 2 || examen_estado === 3) {
+            link_to = "/app/examenes/verificados/lista/";
+        }
+
         return (
             <div className="row">
                 <div className="col-12">
@@ -79,7 +106,7 @@ class OrdenExamenFormEditar extends Component {
                                         disabled={pristine || submitting}>
                                     Deshacer Cambios
                                 </button>
-                                <Link to="/app/examenes/en_proceso/lista/">
+                                <Link to={link_to}>
                                     <button type="button" className="btn btn-secondary">
                                         Cancelar
                                     </button>
@@ -87,6 +114,7 @@ class OrdenExamenFormEditar extends Component {
                                 <button type="submit" className="btn btn-primary" disabled={pristine || submitting}>
                                     Guardar
                                 </button>
+                                {this.renderBotonFirmar()}
                             </div>
                         </div>
                     </form>

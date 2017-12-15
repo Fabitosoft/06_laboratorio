@@ -17,7 +17,15 @@ const asyncValidate = (values, dispatch, props, blurredField) => {
                 resolve(request.data);
             })
             .catch(errors => {
-                reject(errors);
+                if (!errors.response) {
+                    let errores = {};
+                    props.asyncBlurFields.map(campo => {
+                        errores[campo] = 'ERROR DE CONEXIÓN'
+                    });
+                    resolve(errores);
+                } else {
+                    reject(errors);
+                }
             })
     });
 };

@@ -12,16 +12,24 @@ import validate from './validate';
 class ContactoEntidadCrear extends Component {
     componentDidMount() {
         const {fetchEntidad, match: {params: {id_entidad}}} = this.props;
-        fetchEntidad(id_entidad);
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
+        fetchEntidad(id_entidad, null, error_callback);
     }
 
     onSubmit(values) {
         const {crearContactoEntidad, match: {params: {id_entidad}}, notificarAction} = this.props;
         const contacto = {...values, entidad: id_entidad};
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
         crearContactoEntidad(contacto, (response) => {
-            notificarAction(`Se ha creado ${response.nombre} como contacto`)
-            this.props.history.push(`/app/entidades/editar/${id_entidad}`);
-        });
+                notificarAction(`Se ha creado ${response.nombre} como contacto`)
+                this.props.history.push(`/app/entidades/editar/${id_entidad}`);
+            },
+            error_callback
+        );
     }
 
     render() {

@@ -19,19 +19,38 @@ class EntidadesEditar extends Component {
     }
 
     actualizarContactoEntidad(contacto, callback) {
-        this.props.updateContactoEntidad(contacto.id, contacto, callback)
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
+        this.props.updateContactoEntidad(contacto.id, contacto, callback, error_callback)
     }
 
     actualizarExamenEntidad(examen, callback) {
-        this.props.updateExamenEntidad(examen.id, examen, callback)
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
+        this.props.updateExamenEntidad(examen.id, examen, callback, error_callback)
     }
 
     eliminarContactoEntidad(contacto, callback) {
-        this.props.deleteContactoEntidad(contacto.id, contacto, callback)
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
+        this.props.deleteContactoEntidad(contacto.id, contacto, callback, error_callback)
+    }
+
+    traerEntidad(id, callback) {
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
+        this.props.fetchEntidad(id, callback, error_callback)
     }
 
     onSubmit(values) {
         const {updateEntidad, match: {params: {id}}, fetchEntidad, notificarAction} = this.props;
+        const error_callback = (error) => {
+            this.props.notificarErrorAjaxAction(error);
+        };
         updateEntidad(
             id,
             values,
@@ -39,24 +58,7 @@ class EntidadesEditar extends Component {
                 notificarAction(`Se há actualizado correctamente la entidad ${response.nombre}`);
                 fetchEntidad(id);
             },
-            error => {
-                // const error_mensaje = Object.assign({}, error);
-                // if (error_mensaje.response && error_mensaje.response.data) {
-                //     const mensajes = error_mensaje.response.data;
-                //     console.log(mensajes);
-                //     mensajes.map(mensaje => {
-                //         this.notificar(mensaje, 'error')
-                //     })
-                // }
-                // console.log('error', error);
-                // console.log('errorType', typeof error);
-                // console.log('error', Object.assign({}, error));
-                // console.log('getOwnPropertyNames', Object.getOwnPropertyNames(error));
-                // console.log('stackProperty', Object.getOwnPropertyDescriptor(error, 'stack'));
-                // console.log('messageProperty', Object.getOwnPropertyDescriptor(error, 'message'));
-                // console.log('stackEnumerable', error.propertyIsEnumerable('stack'));
-                // console.log('messageEnumerable', error.propertyIsEnumerable('message'));
-            }
+            error_callback
         );
     }
 
@@ -134,7 +136,7 @@ class EntidadesEditar extends Component {
                         contactos={entidad.mis_contactos}
                         actualizarContactoEntidad={this.actualizarContactoEntidad.bind(this)}
                         eliminarContactoEntidad={this.eliminarContactoEntidad.bind(this)}
-                        traerEntidad={this.props.fetchEntidad}
+                        traerEntidad={this.traerEntidad.bind(this)}
                         notificarAction={notificarAction}
                     />
                 </div>
@@ -147,7 +149,7 @@ class EntidadesEditar extends Component {
                     </h3>
                     <TablaExamenes
                         examenes={entidad.mis_examenes}
-                        traerEntidad={this.props.fetchEntidad}
+                        traerEntidad={this.traerEntidad.bind(this)}
                         actualizarExamenEntidad={this.actualizarExamenEntidad.bind(this)}
                         notificarAction={notificarAction}
                     />

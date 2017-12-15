@@ -16,7 +16,7 @@ export default function (state = [], action) {
         case UPDATE_ENTIDAD:
             return {...state, [action.payload.data.id]: action.payload.data};
         case DELETE_ENTIDAD:
-            return _.omit(state, action.payload);
+            return _.omit(state, action.payload.id);
         default:
             return state;
     }

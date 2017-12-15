@@ -1,7 +1,6 @@
 import {
     CREATE_ORDEN_EXAMEN,
     UPDATE_ORDEN_EXAMEN,
-    DELETE_ORDEN_EXAMEN,
     FETCH_ORDENES_EXAMEN,
     FETCH_ORDEN_EXAMEN
 } from './02_types';
@@ -19,21 +18,19 @@ const FORMAT = 'format=json';
 
 export function fetchOrdenesExamenes(callback = null, callback_error = null) {
     return function (dispatch) {
-        const SUB_URL = 'ordenes_exames/';
-        const FULL_URL = `${ROOT_URL}${SUB_URL}?${FORMAT}`;
-        axios.get(FULL_URL)
-            .then(response => {
-                    dispatch({type: FETCH_ORDENES_EXAMEN, payload: response});
-                    if (callback) {
-                        callback(response.data);
-                    }
-                }
-            ).catch(error => {
-                if (callback_error) {
-                    callback_error(error);
-                }
-            }
-        );
+        const SUB_URL = '/';
+        const FULL_URL = `${SUB_URL}?${FORMAT}`;
+
+        const request = axios_instance.get(FULL_URL);
+        const dispatches = (response) => {
+            dispatch({type: FETCH_ORDENES_EXAMEN, payload: response})
+        };
+        createRequest(
+            request,
+            dispatches,
+            callback,
+            callback_error
+        )
     }
 }
 
@@ -73,23 +70,78 @@ export function fetchOrdenesExamenesEnProceso(callback = null, callback_error = 
     }
 }
 
-export function createOrdenExamen(values, callback = null, callback_error = null) {
+
+export function fetchOrdenesExamenesConResultados(callback = null, callback_error = null) {
     return function (dispatch) {
-        axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-        axios.defaults.xsrfCookieName = "csrftoken";
-        axios.post(`${ROOT_URL}ordenes_exames/`, values)
-            .then(response => {
-                dispatch({type: CREATE_ORDEN_EXAMEN, payload: response});
-                if (callback) {
-                    callback(response.data)
-                }
-            }).catch(error => {
-            if (callback_error) {
-                callback_error(error)
-            }
-        });
+        const SUB_URL = '/con_resultados/';
+        const FULL_URL = `${SUB_URL}?${FORMAT}`;
+        const request = axios_instance.get(FULL_URL);
+        const dispatches = (response) => {
+            dispatch({type: FETCH_ORDENES_EXAMEN, payload: response})
+        };
+        createRequest(
+            request,
+            dispatches,
+            callback,
+            callback_error
+        )
     }
 }
+
+
+export function fetchOrdenesExamenesVerificados(callback = null, callback_error = null) {
+    return function (dispatch) {
+        const SUB_URL = '/verificados/';
+        const FULL_URL = `${SUB_URL}?${FORMAT}`;
+        const request = axios_instance.get(FULL_URL);
+        const dispatches = (response) => {
+            dispatch({type: FETCH_ORDENES_EXAMEN, payload: response})
+        };
+        createRequest(
+            request,
+            dispatches,
+            callback,
+            callback_error
+        )
+    }
+}
+
+export function createOrdenExamen(values, callback = null, callback_error = null) {
+    return function (dispatch) {
+        axios_instance.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+        axios_instance.defaults.xsrfCookieName = "csrftoken";
+
+        const request = axios_instance.post(`/`, values);
+        const dispatches = (response) => {
+            dispatch({type: CREATE_ORDEN_EXAMEN, payload: response})
+        };
+        createRequest(
+            request,
+            dispatches,
+            callback,
+            callback_error
+        )
+    }
+}
+
+export function firmarOrdenExamen(id, callback = null, callback_error = null) {
+    return function (dispatch) {
+        axios_instance.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+        axios_instance.defaults.xsrfCookieName = "csrftoken";
+
+        const SUB_URL = `/${id}/firmar/`;
+        const FULL_URL = `${SUB_URL}`;
+
+        const request = axios_instance.post(FULL_URL);
+        createRequest(
+            request,
+            null,
+            callback,
+            callback_error
+        )
+    }
+}
+
 
 export function updateOrdenExamen(values, callback = null, callback_error = null) {
     return function (dispatch) {
@@ -113,18 +165,14 @@ export function updateOrdenExamen(values, callback = null, callback_error = null
 
 export function deleteOrdenExamen(id, callback = null, callback_error = null) {
     return function (dispatch) {
-        axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-        axios.defaults.xsrfCookieName = "csrftoken";
-        axios.delete(`${ROOT_URL}ordenes_exames/${id}/`)
-            .then(response => {
-                dispatch({type: DELETE_ORDEN_EXAMEN, payload: response});
-                if (callback) {
-                    callback(response.data)
-                }
-            }).catch(error => {
-            if (callback_error) {
-                callback_error(error)
-            }
-        });
+        axios_instance.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+        axios_instance.defaults.xsrfCookieName = "csrftoken";
+        const request = axios_instance.delete(`/${id}/`);
+        createRequest(
+            request,
+            null,
+            callback,
+            callback_error
+        )
     }
 }

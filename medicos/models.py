@@ -1,5 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User
 from model_utils.models import TimeStampedModel
+
+from imagekit.models import ProcessedImageField
+from imagekit.processors import ResizeToFit, ResizeCanvas
 
 
 class Especialidad(models.Model):
@@ -47,6 +51,7 @@ class Especialista(TimeStampedModel):
         ('F', 'Femenino'),
         ('M', 'Masculino')
     )
+    user = models.OneToOneField(User, related_name='especialista', on_delete=models.CASCADE)
     tipo_documento = models.CharField(max_length=2, choices=CHOICES_TIPO_DOCUMENTO, default='CC')
     nro_identificacion = models.CharField(max_length=30, unique=True)
     nombre = models.CharField(max_length=60)
@@ -61,8 +66,14 @@ class Especialista(TimeStampedModel):
                                      blank=True)
     universidad = models.CharField(max_length=100, blank=True, null=True)
     registro_profesional = models.CharField(max_length=100, null=True, blank=True)
-    firma = models.ImageField(null=True, blank=True)
-    activo = models.BooleanField(default=True)
+
+    firma = ProcessedImageField(
+        processors=[ResizeToFit(400, 300),ResizeCanvas(400, 300)],
+        format='PNG',
+        options={'quality': 100},
+        null=True,
+        blank=True
+    )
 
     class Meta:
         verbose_name_plural = 'Especialistas'

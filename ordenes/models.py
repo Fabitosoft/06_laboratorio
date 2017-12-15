@@ -5,7 +5,7 @@ from django.db.models.functions import Coalesce
 from model_utils.models import TimeStampedModel
 
 from pacientes.models import Paciente
-from medicos.models import MedicoRemitente
+from medicos.models import MedicoRemitente, Especialista
 from entidades.models import Entidad
 from examenes.models import Examen
 
@@ -45,7 +45,7 @@ class Orden(TimeStampedModel):
                                       verbose_name='Valor Final')
     examenes = models.ManyToManyField(Examen, through='OrdenExamen', related_name='mis_examenes')
 
-    estado = models.PositiveIntegerField(default=0)
+    estado = models.PositiveIntegerField(default=0, choices=ORDEN_ESTADO_CHOICES)
 
     def calcular_totales(self):
         totales = self.mis_examenes.aggregate(
@@ -61,7 +61,7 @@ class Orden(TimeStampedModel):
 
 class OrdenExamen(TimeStampedModel):
     EXAMEN_ESTADO_CHOICES = (
-        (0, 'Creado'),
+        (0, 'En Proceso'),
         (1, 'Con Resultados'),
         (2, 'Verificado'),
         (3, 'Impreso'),
@@ -93,6 +93,11 @@ class OrdenExamen(TimeStampedModel):
                                       verbose_name='Valor Final')
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if self.examen_estado in [0, 1]:
+            if self.resultado:
+                self.examen_estado = 1
+            else:
+                self.examen_estado = 0
         super().save(force_insert, force_update, using, update_fields)
         self.orden.calcular_totales()
 
@@ -101,6 +106,11 @@ class OrdenExamen(TimeStampedModel):
         delete = super().delete(using, keep_parents)
         orden.calcular_totales()
         return delete
+
+
+class OrdenExamenFirmas(TimeStampedModel):
+    orden_examen = models.ForeignKey(OrdenExamen, related_name='mis_firmas')
+    especialista = models.ForeignKey(Especialista, related_name='mis_examenes_firmados')
 
 
 class HistorialOrdenExamen(TimeStampedModel):

@@ -7,35 +7,46 @@ import {
 } from './02_types';
 
 import axios from 'axios';
+import {createRequest} from "./00_general_fuctions";
 
-const ROOT_URL = '/api/';
+const axios_instance = axios.create({
+    baseURL: '/api/medicos_remitentes'
+});
+
 const FORMAT = 'format=json';
 
-export function fetchMedicosRemitentes() {
+export function fetchMedicosRemitentes(callback = null, callback_error = null) {
     return function (dispatch) {
-        const SUB_URL = 'medicos_remitentes/';
-        const FULL_URL = `${ROOT_URL}${SUB_URL}?${FORMAT}`;
-        axios.get(FULL_URL)
-            .then(response => {
-                    dispatch({type: FETCH_MEDICOS_REMITENTES, payload: response})
-                }
-            ).catch(function (error) {
+        const SUB_URL = '/';
+        const FULL_URL = `${SUB_URL}?${FORMAT}`;
 
-        })
+        const request = axios_instance.get(FULL_URL);
+        const dispatches = (response) => {
+            dispatch({type: FETCH_MEDICOS_REMITENTES, payload: response})
+        };
+        createRequest(
+            request,
+            dispatches,
+            callback,
+            callback_error
+        )
     }
 }
 
-export function fetchMedicoRemitentexParametro(parametro) {
+export function fetchMedicoRemitentexParametro(parametro, callback = null, callback_error = null) {
     return function (dispatch) {
-        const SUB_URL = `medicos_remitentes/buscar_nombre?parametro=${parametro}`;
-        const FULL_URL = `${ROOT_URL}${SUB_URL}&${FORMAT}`;
-        axios.get(FULL_URL)
-            .then(response => {
-                    dispatch({type: FETCH_MEDICOS_REMITENTES, payload: response})
-                }
-            ).catch(function (error) {
-
-        })
+        const SUB_URL = `/buscar_nombre?parametro=${parametro}`;
+        const FULL_URL = `${SUB_URL}&${FORMAT}`;
+        const request = axios_instance.get(FULL_URL);
+        const dispatches = (response) => {
+            dispatch({type: FETCH_MEDICOS_REMITENTES, payload: response})
+        };
+        createRequest(
+            request,
+            dispatches,
+            callback,
+            callback_error
+        )
     }
 }
 
@@ -55,53 +66,52 @@ export function deleteMedicosRemitente(id) {
 
 export function fetchMedicosRemitente(id, callback = null, callback_error = null) {
     return function (dispatch) {
-        const SUB_URL = `medicos_remitentes/${id}/`;
-        const FULL_URL = `${ROOT_URL}${SUB_URL}?${FORMAT}`;
-        axios.get(FULL_URL)
-            .then(response => {
-                    dispatch({type: FETCH_MEDICO_REMITENTE, payload: response})
-                    if (callback) {
-                        callback(response.data);
-                    }
-                }
-            ).catch(error => {
-                if (callback_error) {
-                    callback_error(error);
-                }
-            }
-        );
+        const SUB_URL = `/${id}/`;
+        const FULL_URL = `${SUB_URL}?${FORMAT}`;
+
+        const request = axios_instance.get(FULL_URL);
+        const dispatches = (response) => {
+            dispatch({type: FETCH_MEDICO_REMITENTE, payload: response})
+        };
+        createRequest(
+            request,
+            dispatches,
+            callback,
+            callback_error
+        )
     }
 }
 
-
 export function crearMedicosRemitente(values, callback) {
-    axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-    axios.defaults.xsrfCookieName = "csrftoken";
-    const request = axios.post(`${ROOT_URL}medicos_remitentes/`, values).then(() => callback()).catch(error => {
-        console.log(error)
-    });
-    return {
-        type: CREATE_MEDICO_REMITENTE,
-        payload: request
+    axios_instance.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+    axios_instance.defaults.xsrfCookieName = "csrftoken";
+
+    const request = axios_instance.post(`/`, values);
+    const dispatches = (response) => {
+        dispatch({type: CREATE_MEDICO_REMITENTE, payload: response})
     };
+    createRequest(
+        request,
+        dispatches,
+        callback,
+        callback_error
+    )
 }
 
 export function updateMedicosRemitente(id, values, callback = null, callback_error = null) {
     return function (dispatch) {
-        axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-        axios.defaults.xsrfCookieName = "csrftoken";
-        axios.put(`${ROOT_URL}medicos_remitentes/${id}/`, values)
-            .then(response => {
-                    dispatch({type: UPDATE_MEDICO_REMITENTE, payload: response});
-                    if (callback) {
-                        callback(response.data);
-                    }
-                }
-            ).catch(error => {
-                if (callback_error) {
-                    callback_error(error);
-                }
-            }
-        );
+        axios_instance.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+        axios_instance.defaults.xsrfCookieName = "csrftoken";
+
+        const request = axios_instance.put(`/${id}/`, values)
+        const dispatches = (response) => {
+            dispatch({type: UPDATE_MEDICO_REMITENTE, payload: response})
+        };
+        createRequest(
+            request,
+            dispatches,
+            callback,
+            callback_error
+        )
     }
 }

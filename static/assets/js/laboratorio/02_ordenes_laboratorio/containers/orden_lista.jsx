@@ -28,7 +28,10 @@ class OrdenesLista extends Component {
     buscarOrden(busqueda) {
         this.setState({busqueda});
         if (busqueda.length >= 3) {
-            this.props.fetchOrdenesxParametro(busqueda);
+            const error_callback = (error) => {
+                this.props.notificarErrorAjaxAction(error);
+            };
+            this.props.fetchOrdenesxParametro(busqueda, null, error_callback);
         }
     }
 

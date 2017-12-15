@@ -19,7 +19,8 @@ export default class OrdenExamenes extends Component {
 
                     }}
                     setStateInstance={examen => {
-                        adicionarExamen(examen)
+                        adicionarExamen(examen);
+                        this.setState({searchText_examen: ""});
                     }}
                     searchText={searchText_examen}
                     setSearchText={searchText_examen => {

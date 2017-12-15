@@ -4,17 +4,17 @@ import {Link} from 'react-router-dom';
 
 export default class Tabla extends Component {
     renderPaciente(especialista) {
-        const {id, full_name, tipo_documento, nro_identificacion, activo, especialidad_nombre, universidad, firma_url} = especialista;
+        const {id, full_name, tipo_documento, nro_identificacion, is_active, especialidad_nombre, universidad, firma_url} = especialista;
         const link_to = `/app/especialista/editar/${id}`;
         let es_activo = null;
-        if (activo) {
+        if (is_active) {
             es_activo = <i
                 className="fa fa-check-square"
                 aria-hidden="true"
                 onClick={() => {
                     this.props.actualizarEspecialista({
                         ...especialista,
-                        activo: false
+                        is_active: false
                     }, 'Se ha inactivado el especialista')
                 }}
             />
@@ -23,7 +23,10 @@ export default class Tabla extends Component {
                 className="fa fa-square-o"
                 aria-hidden="true"
                 onClick={() => {
-                    this.props.actualizarEspecialista({...especialista, activo: true}, 'Se ha activado el especialista')
+                    this.props.actualizarEspecialista({
+                        ...especialista,
+                        is_active: true
+                    }, 'Se ha activado el especialista')
                 }
                 }
             />
@@ -38,7 +41,7 @@ export default class Tabla extends Component {
                 <td>{especialidad_nombre}</td>
                 <td>{universidad}</td>
                 <td>
-                    <img className="img-fluid" src={firma_url} alt=""/>
+                    <img className="img-fluid" style={{height: "100px"}} src={firma_url} alt=""/>
                 </td>
                 <td>{es_activo}</td>
             </tr>
