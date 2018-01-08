@@ -37,6 +37,7 @@ class OrdenExamenSerializer(serializers.ModelSerializer):
     entidad_nombre = serializers.CharField(source='orden.entidad.nombre', read_only=True)
     mis_bitacoras = HistorialOrdenExamenSerializer(many=True, read_only=True)
     mis_firmas = OrdenExamenFirmasSerializer(many=True, read_only=True)
+    multifirma = serializers.BooleanField(source='examen.multifirma', read_only=True)
 
     class Meta:
         model = OrdenExamen
@@ -59,30 +60,44 @@ class OrdenExamenSerializer(serializers.ModelSerializer):
             'valor_descuento',
             'valor_final',
             'mis_bitacoras',
-            'mis_firmas'
+            'mis_firmas',
+            'multifirma',
         ]
         extra_kwargs = {
             'resultado': {'required': False, 'allow_blank': True, 'allow_null': True},
             'examen_valor_referencia': {'required': False, 'allow_blank': True, 'allow_null': True},
             'examen_unidad_medida': {'required': False, 'allow_blank': True, 'allow_null': True},
-            'tecnica': {'required': False, 'allow_blank': True, 'allow_null': True}
+            'tecnica': {'required': False, 'allow_blank': True, 'allow_null': True},
         }
 
 
 class OrdenExamenParaOrdenSerializer(serializers.ModelSerializer):
     examen_estado_nombre = serializers.CharField(source='get_examen_estado_display', read_only=True)
+    sub_categoria_cup_nombre = serializers.CharField(source='examen.subgrupo_cups.nombre', read_only=True)
+    mis_firmas = OrdenExamenFirmasSerializer(many=True, read_only=True)
+    multifirma = serializers.BooleanField(source='examen.multifirma', read_only=True)
+
     class Meta:
         model = OrdenExamen
         fields = [
             'id',
             'examen_estado',
+            'sub_categoria_cup_nombre',
+            'resultado',
+            'mis_firmas',
+            'examen_valor_referencia',
+            'examen_unidad_medida',
             'examen_estado_nombre',
             'examen',
+            'paciente_nombre',
+            'orden',
+            'examen_codigo_cups',
             'examen_nombre',
             'descuento',
             'valor_total',
             'valor_descuento',
             'valor_final',
+            'multifirma',
         ]
 
 

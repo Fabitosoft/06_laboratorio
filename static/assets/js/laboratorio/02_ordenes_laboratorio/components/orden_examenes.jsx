@@ -5,7 +5,9 @@ import OrdenExamenesTabla from './orden_examenes_tabla';
 export default class OrdenExamenes extends Component {
     constructor(props) {
         super(props);
-        this.state = ({searchText_examen: ""})
+        this.state = ({
+            searchText_examen: ""
+        })
     }
 
     renderBuscarExamen() {
@@ -32,7 +34,13 @@ export default class OrdenExamenes extends Component {
     }
 
     render() {
-        const {eliminarExamen, cambiarDescuento, orden} = this.props;
+        const {
+            eliminarExamen,
+            cambiarDescuento,
+            orden,
+            addImprimir,
+            removeImprimir
+        } = this.props;
         return (
             <div className="col-12">
                 <h2>Exámenes</h2>
@@ -41,6 +49,8 @@ export default class OrdenExamenes extends Component {
                     orden={orden}
                     eliminarExamen={eliminarExamen}
                     cambiarDescuento={cambiarDescuento}
+                    removeImprimir={removeImprimir}
+                    addImprimir={addImprimir}
                 />
             </div>
         )

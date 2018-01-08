@@ -16,5 +16,8 @@ class ExamenSerializer(serializers.ModelSerializer):
             'unidad_medida',
             'costo_referencia',
             'subgrupo_cups',
-            'subgrupo_cups_nombre'
+            'subgrupo_cups_nombre',
+            'multifirma',
+            'especial',
+            'nro_plantilla'
         ]

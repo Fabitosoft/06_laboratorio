@@ -15,7 +15,11 @@ class OrdenViewSet(viewsets.ModelViewSet):
         'entidad',
         'elaborado_por'
     ).prefetch_related(
-        'mis_examenes__examen'
+        'mis_examenes__examen',
+        'mis_examenes__mis_firmas',
+        'mis_examenes__mis_firmas__especialista',
+        'mis_examenes__mis_firmas__especialista__especialidad',
+        'mis_examenes__examen__subgrupo_cups',
     ).all()
     serializer_class = OrdenSerializer
 
@@ -77,7 +81,12 @@ class OrdenExamenViewSet(viewsets.ModelViewSet):
         if hasattr(user, 'especialista'):
             especialista = user.especialista
             if hasattr(especialista, 'firma'):
-                if not orden_examen.mis_firmas.filter(especialista=especialista).exists():
+                if orden_examen.examen.multifirma:
+                    if not orden_examen.mis_firmas.filter(especialista=especialista).exists():
+                        orden_examen.mis_firmas.create(especialista=especialista)
+                else:
+                    for firma in orden_examen.mis_firmas.all():
+                        firma.delete()
                     orden_examen.mis_firmas.create(especialista=especialista)
                 return Response({'resultado': 'ok'})
             return Response({'error': 'No tiene firma'}, status=status.HTTP_400_BAD_REQUEST)

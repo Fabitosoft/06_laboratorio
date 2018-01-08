@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 export default class OrdenExamenesTablaItem extends Component {
     constructor(props) {
         super(props);
-        this.state = ({descuento: 0})
+        this.state = ({descuento: 0, imprimir: false})
     }
 
     componentDidMount() {
@@ -14,7 +14,12 @@ export default class OrdenExamenesTablaItem extends Component {
     }
 
     renderEliminar() {
-        const {examen, eliminarExamen, orden, examen: {examen_estado_nombre, examen_estado}} = this.props;
+        const {
+            examen,
+            eliminarExamen,
+            orden,
+            examen: {examen_estado_nombre, examen_estado}
+        } = this.props;
         const link_to = `/app/orden_examen/editar/${examen.id}`;
         if (orden.estado === 0) {
             return (
@@ -27,6 +32,33 @@ export default class OrdenExamenesTablaItem extends Component {
             return (
                 <span>{examen_estado === 2 || examen_estado === 3 ?
                     <Link to={link_to}>{examen_estado_nombre}</Link> : examen_estado_nombre}</span>
+            )
+        }
+    }
+
+    renderImprimir() {
+        const {
+            orden,
+            examen: {examen_estado, id},
+            addImprimir,
+            removeImprimir
+        } = this.props;
+        const {imprimir} = this.state;
+        if (orden.estado === 1 && (examen_estado === 2 || examen_estado === 3)) {
+            return (
+                <i
+                    className={`fa ${imprimir ? 'fa-check-square' : 'fa-square-o'}`}
+                    aria-hidden="true"
+                    onClick={() => {
+                        if (imprimir) {
+                            removeImprimir(id);
+                        } else {
+                            addImprimir(id);
+                        }
+                        this.setState({imprimir: !imprimir});
+                    }
+                    }
+                />
             )
         }
     }
@@ -66,6 +98,9 @@ export default class OrdenExamenesTablaItem extends Component {
                 <td scope="row">{formatMoney(Number(examen.valor_final), "$", 0, ".", ",")}</td>
                 <td scope="row">
                     {this.renderEliminar()}
+                </td>
+                <td scope="row">
+                    {this.renderImprimir()}
                 </td>
             </tr>
         )

@@ -5,7 +5,14 @@ import OrdenExamenesTablaItem from './orden_examenes_tabla_item';
 
 export default class OrdenExamenesTabla extends Component {
     render() {
-        const {orden, orden: {mis_examenes}, eliminarExamen, cambiarDescuento, examen_estado} = this.props;
+        const {
+            orden,
+            orden: {mis_examenes},
+            eliminarExamen,
+            cambiarDescuento,
+            addImprimir,
+            removeImprimir
+        } = this.props;
         return (
             <div className="col-12">
                 <table className='table table-striped'>
@@ -17,6 +24,7 @@ export default class OrdenExamenesTabla extends Component {
                         <th scope="col">Valor Descuento</th>
                         <th scope="col">Valor Final</th>
                         <th scope="col">{orden.estado === 0 ? "Eliminar" : "Estado"}</th>
+                        {orden.estado === 1 ? <th scope="col">Imprimir</th> : null}
                     </tr>
                     </thead>
                     <tbody>
@@ -30,6 +38,8 @@ export default class OrdenExamenesTabla extends Component {
                                 examen={examen}
                                 eliminarExamen={eliminarExamen}
                                 cambiarDescuento={cambiarDescuento}
+                                removeImprimir={removeImprimir}
+                                addImprimir={addImprimir}
                             />
                         )
                     })}

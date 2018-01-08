@@ -27,7 +27,6 @@ import OrdenExamenDetail from './04_examenes/containers/orden_examen/orden_exame
 
 import ExamenesEnProceso from './04_examenes/containers/orden_examen/en_proceso/examenes_en_proceso_lista';
 import ExamenesConResultados from './04_examenes/containers/orden_examen/con_resultados/examenes_con_resultados_lista';
-import ExamenesVerificados from './04_examenes/containers/orden_examen/verificados/examenes_verificados_lista';
 
 
 import EntidadesLista from './03_entidades/containers/entidad_lista';
@@ -82,8 +81,6 @@ ReactDOM.render(
 
                         <Route path='/app/examenes/en_proceso/lista/' component={ExamenesEnProceso}/>
                         <Route path='/app/examenes/con_resultados/lista/' component={ExamenesConResultados}/>
-                        <Route path='/app/examenes/verificados/lista/' component={ExamenesVerificados}/>
-
 
                         <Route path='/app/examenes_ordenes/por_resultados/' component={ExamenesPorResultadoLista}/>
                     </Switch>

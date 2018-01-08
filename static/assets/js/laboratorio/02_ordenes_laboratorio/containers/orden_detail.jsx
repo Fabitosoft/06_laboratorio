@@ -6,6 +6,7 @@ import OrdenEditarForm from '../components/orden_form_editar';
 import ExamenesOrden from '../components/orden_examenes';
 
 import OrdenImpresionRecibo from '../components/orden_recibo_impresion';
+import OrdenExamenesImpresionRecibo from '../components/orden_examenes_impresion';
 
 class EditarOrdenLaboratorio extends Component {
     constructor(props) {
@@ -16,7 +17,11 @@ class EditarOrdenLaboratorio extends Component {
             entidad: null,
             searchText_entidad: "",
             searchText_paciente: "",
-            searchText_medico_remitente: ""
+            searchText_medico_remitente: "",
+            lista_imprimir: [],
+            imprimirRecibo: false,
+            imprimirExamenes: false,
+            imprimirExamenesSeleccionados: false
         }
     }
 
@@ -42,6 +47,30 @@ class EditarOrdenLaboratorio extends Component {
             },
             error_callback
         );
+    }
+
+    addImprimir(id_examen) {
+        this.setState({
+            lista_imprimir: [...this.state.lista_imprimir, id_examen],
+            imprimirRecibo: false,
+            imprimirExamenes: false,
+            imprimirExamenesSeleccionados: false
+        });
+    }
+
+    removeImprimir(id_examen) {
+        const index = this.state.lista_imprimir.findIndex(element => {
+            return element === id_examen
+        });
+        this.setState({
+            lista_imprimir: [
+                ...this.state.lista_imprimir.slice(0, index),
+                ...this.state.lista_imprimir.slice(index + 1)
+            ],
+            imprimirRecibo: false,
+            imprimirExamenes: false,
+            imprimirExamenesSeleccionados: false
+        });
     }
 
     onSubmit(values) {
@@ -141,6 +170,8 @@ class EditarOrdenLaboratorio extends Component {
                         eliminarExamen={this.eliminarExamen.bind(this)}
                         cambiarDescuento={this.cambiarDescuento.bind(this)}
                         orden={orden}
+                        addImprimir={this.addImprimir.bind(this)}
+                        removeImprimir={this.removeImprimir.bind(this)}
                     />
                 )
             }
@@ -196,35 +227,142 @@ class EditarOrdenLaboratorio extends Component {
     }
 
     renderBotonImprimir() {
-        const {orden} = this.props;
+        const {orden, orden: {mis_examenes}} = this.props;
+        const {imprimirRecibo, imprimirExamenes, imprimirExamenesSeleccionados} = this.state;
+        const mis_examenes_para_imprimir = mis_examenes.filter(examen => {
+            return (examen.examen_estado === 2 || examen.examen_estado === 3)
+        });
+        const {lista_imprimir: {length}} = this.state;
         if (orden && orden.estado === 1) {
             return (
                 <div className="col-12">
                     <button
                         type="button"
-                        className='btn btn-primary'
+                        className={`btn ${imprimirRecibo ? 'btn-warning' : 'btn-primary'} p-1 m-1`}
                         onClick={
                             () => {
-                                print()
+                                if (!imprimirRecibo) {
+                                    this.setState({
+                                        imprimirRecibo: true,
+                                        imprimirExamenes: false,
+                                        imprimirExamenesSeleccionados: false
+                                    });
+                                } else {
+                                    print();
+                                    this.setState({
+                                        imprimirRecibo: false,
+                                        imprimirExamenes: false,
+                                        imprimirExamenesSeleccionados: false
+                                    });
+                                }
                             }
                         }>
-                        <i className="fa fa-print" aria-hidden="true"></i>
+                        <i className="fa fa-print" aria-hidden="true"> Recibo</i>
                     </button>
+                    {mis_examenes_para_imprimir.length > 0 &&
+                    <button
+                        type="button"
+                        className={`btn ${imprimirExamenes ? 'btn-warning' : 'btn-primary'} p-1 m-1`}
+                        onClick={
+                            () => {
+                                if (!imprimirExamenes) {
+                                    this.setState({
+                                        imprimirRecibo: false,
+                                        imprimirExamenes: true,
+                                        imprimirExamenesSeleccionados: false
+                                    });
+                                } else {
+                                    print();
+                                    this.setState({
+                                        imprimirRecibo: false,
+                                        imprimirExamenes: false,
+                                        imprimirExamenesSeleccionados: false
+                                    });
+                                }
+                            }
+                        }>
+                        <i className="fa fa-print" aria-hidden="true"> Exámenes</i>
+                    </button>
+                    }
+                    {length > 0 &&
+                    <button
+                        type="button"
+                        className={`btn ${imprimirExamenesSeleccionados ? 'btn-warning' : 'btn-primary'} p-1 m-1`}
+                        onClick={
+                            () => {
+                                if (!imprimirExamenesSeleccionados) {
+                                    this.setState({
+                                        imprimirRecibo: false,
+                                        imprimirExamenes: false,
+                                        imprimirExamenesSeleccionados: true
+                                    });
+                                } else {
+                                    print();
+                                    this.setState({
+                                        imprimirRecibo: false,
+                                        imprimirExamenes: false,
+                                        imprimirExamenesSeleccionados: false
+                                    });
+                                }
+                            }
+                        }>
+                        <i className="fa fa-print" aria-hidden="true"> Exámenes
+                            Seleccionados ({length})</i>
+                    </button>
+                    }
                 </div>
             )
         }
     }
 
-    renderImpresion() {
-        const {entidad, medico_remitente, paciente} = this.state;
+    renderImpresionRecibo() {
+        const {entidad, medico_remitente, paciente, imprimirRecibo} = this.state;
         const {orden} = this.props;
-        if (orden && orden.estado === 1) {
+        if (orden && orden.estado === 1 && imprimirRecibo) {
             return (
                 <OrdenImpresionRecibo
                     paciente={paciente}
                     orden={orden}
                     entidad={entidad}
                     medico_remitente={medico_remitente}
+                />
+            )
+        }
+    }
+
+    renderOrdenExamenesImpresion() {
+        const {entidad, medico_remitente, paciente, imprimirExamenes} = this.state;
+        const {orden, orden: {mis_examenes}} = this.props;
+        if (orden && orden.estado === 1 && imprimirExamenes) {
+            const mis_examenes_para_imprimir = mis_examenes.filter(examen => {
+                return (examen.examen_estado === 2 || examen.examen_estado === 3)
+            });
+            return (
+                <OrdenExamenesImpresionRecibo
+                    paciente={paciente}
+                    orden={orden}
+                    entidad={entidad}
+                    medico_remitente={medico_remitente}
+                    examenes={mis_examenes_para_imprimir}
+                />
+            )
+        }
+    }
+
+    renderOrdenExamenesSeleccionadosImpresion() {
+        const {entidad, medico_remitente, paciente, imprimirExamenesSeleccionados, lista_imprimir} = this.state;
+        const {orden, orden: {mis_examenes}} = this.props;
+        if (orden && orden.estado === 1 && imprimirExamenesSeleccionados) {
+            const mis_examenes_para_imprimir = mis_examenes.filter(examen => {
+                return lista_imprimir.indexOf(examen.id) >= 0
+            });
+            return (
+                <OrdenExamenesImpresionRecibo
+                    paciente={paciente}
+                    orden={orden}
+                    entidad={entidad}
+                    medico_remitente={medico_remitente}
+                    examenes={mis_examenes_para_imprimir}
                 />
             )
         }
@@ -255,7 +393,9 @@ class EditarOrdenLaboratorio extends Component {
                     </div>
                     {this.renderBotonImprimir()}
                 </div>
-                {this.renderImpresion()}
+                {this.renderImpresionRecibo()}
+                {this.renderOrdenExamenesImpresion()}
+                {this.renderOrdenExamenesSeleccionadosImpresion()}
             </div>
         )
     }

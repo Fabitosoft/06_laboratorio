@@ -8,7 +8,15 @@ const upper = value => value && value.toUpperCase();
 
 class OrdenExamenFormEditar extends Component {
     renderBotonFirmar() {
-        const {mi_cuenta_especialista, mi_cuenta_especialista: {firma_url}, onFirmar, orden_examen} = this.props;
+        const {
+            mi_cuenta_especialista,
+            mi_cuenta_especialista: {firma_url},
+            onFirmar,
+            orden_examen
+        } = this.props;
+        if ((!orden_examen.multifirma && orden_examen.mis_firmas.length === 1) ||(orden_examen.examen_estado===0)) {
+            return <div></div>
+        }
         const mis_firmas = orden_examen.mis_firmas.filter(firma => {
             return firma.especialista === mi_cuenta_especialista.id
         });
