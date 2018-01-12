@@ -90,7 +90,7 @@ export default class OrdenImpresionExamenes extends Component {
                 <div className="col-12 m-0 p-0">
                     <img className="img-fluid" src={doctor.firma_url} alt=""/>
                 </div>
-                <div className="col-12" style={{marginTop: "-40px"}}>
+                <div className="col-12" style={{marginTop: "-40px", fontSize: "8px"}}>
                     {doctor.firmado_por}<br/>
                     {doctor.especialidad}
                 </div>
@@ -128,8 +128,12 @@ export default class OrdenImpresionExamenes extends Component {
             examenes
         } = this.props;
 
-        const multifirma = examenes.filter(examen => examen.mis_firmas.length > 1);
-        const no_multifirma = examenes.filter(examen => examen.mis_firmas.length === 1);
+        const multifirma = examenes.filter(examen => {
+            return examen.mis_firmas.length > 1 && !examen.especial
+        });
+        const no_multifirma = examenes.filter(examen => {
+            return examen.mis_firmas.length === 1 && !examen.especial
+        });
 
         let doctores_no_multifirma = [];
 

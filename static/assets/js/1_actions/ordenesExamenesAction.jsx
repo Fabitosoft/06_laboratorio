@@ -142,6 +142,48 @@ export function firmarOrdenExamen(id, callback = null, callback_error = null) {
     }
 }
 
+export function firmarOrdenExamenComo(id, id_especialista, callback = null, callback_error = null) {
+    return function (dispatch) {
+        axios_instance.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+        axios_instance.defaults.xsrfCookieName = "csrftoken";
+
+        const SUB_URL = `/${id}/firmar/`;
+        const FULL_URL = `${SUB_URL}`;
+
+        var params = new URLSearchParams();
+        params.append('id_especialista', id_especialista);
+
+        const request = axios_instance.post(FULL_URL, params);
+        createRequest(
+            request,
+            null,
+            callback,
+            callback_error
+        )
+    }
+}
+
+export function quitarFirmaOrdenExamen(id, id_firma, callback = null, callback_error = null) {
+    return function (dispatch) {
+        axios_instance.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+        axios_instance.defaults.xsrfCookieName = "csrftoken";
+
+        const SUB_URL = `/${id}/quitar_firmar/`;
+        const FULL_URL = `${SUB_URL}`;
+
+        var params = new URLSearchParams();
+        params.append('id_firma', id_firma);
+
+        const request = axios_instance.post(FULL_URL, params);
+        createRequest(
+            request,
+            null,
+            callback,
+            callback_error
+        )
+    }
+}
+
 
 export function updateOrdenExamen(values, callback = null, callback_error = null) {
     return function (dispatch) {

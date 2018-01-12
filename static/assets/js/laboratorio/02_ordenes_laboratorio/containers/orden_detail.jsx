@@ -107,6 +107,7 @@ class EditarOrdenLaboratorio extends Component {
             examen: examen.examen_id,
             valor_total: parseFloat(examen.valor_examen),
             paciente_nombre: orden.paciente_nombre,
+            tecnica: examen.examen_tecnica,
             orden: id,
             descuento: 0,
             valor_descuento: 0,

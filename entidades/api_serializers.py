@@ -22,6 +22,7 @@ class EntidadExamenSerializer(serializers.ModelSerializer):
     examen_valor_referencia = serializers.CharField(source='examen.valor_referencia', read_only=True)
     examen_unidad_medida = serializers.CharField(source='examen.unidad_medida', read_only=True)
     examen_costo_referencia = serializers.CharField(source='examen.costo_referencia', read_only=True)
+    examen_tecnica = serializers.CharField(source='examen.tecnica', read_only=True)
 
     class Meta:
         model = EntidadExamen
@@ -36,7 +37,8 @@ class EntidadExamenSerializer(serializers.ModelSerializer):
             'examen_nombre',
             'examen_unidad_medida',
             'valor_examen',
-            'examen_costo_referencia'
+            'examen_costo_referencia',
+            'examen_tecnica'
         ]
 
 

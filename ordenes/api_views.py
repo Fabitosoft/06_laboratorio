@@ -3,6 +3,7 @@ from rest_framework.decorators import list_route, detail_route
 from rest_framework.response import Response
 
 from .models import Orden, OrdenExamen
+from medicos.models import Especialista
 from rest_framework import viewsets, status
 
 from .api_serializers import OrdenSerializer, OrdenExamenSerializer
@@ -77,30 +78,26 @@ class OrdenExamenViewSet(viewsets.ModelViewSet):
     @detail_route(methods=['post'])
     def firmar(self, request, pk=None):
         orden_examen = self.get_object()
-        user = self.request.user
-        if hasattr(user, 'especialista'):
-            especialista = user.especialista
-            if hasattr(especialista, 'firma'):
-                if orden_examen.examen.multifirma:
-                    if not orden_examen.mis_firmas.filter(especialista=especialista).exists():
-                        orden_examen.mis_firmas.create(especialista=especialista)
-                else:
-                    for firma in orden_examen.mis_firmas.all():
-                        firma.delete()
-                    orden_examen.mis_firmas.create(especialista=especialista)
-                return Response({'resultado': 'ok'})
-            return Response({'error': 'No tiene firma'}, status=status.HTTP_400_BAD_REQUEST)
+        id_especialista = self.request.POST.get('id_especialista')
+        especialista = None
+        if not id_especialista:
+            user = self.request.user
+            if hasattr(user, 'especialista'):
+                if hasattr(user.especialista, 'firma'):
+                    especialista = user.especialista
         else:
-            return Response({'error': 'No es especialista'}, status=status.HTTP_400_BAD_REQUEST)
+            especialista = Especialista.objects.get(id=id_especialista)
+        if especialista:
+            orden_examen.firmar(especialista)
+        return Response({'resultado': 'ok'})
 
     @detail_route(methods=['post', 'get'])
     def quitar_firmar(self, request, pk=None):
+        id_firma = int(request.POST.get('id_firma'))
         orden_examen = self.get_object()
-        user = self.request.user
-        if hasattr(user, 'especialista'):
-            especialista = user.especialista
-            orden_examen.mis_firmas.filter(especialista=especialista).all()
-            return Response({'resultado': 'ok'})
+        firma = orden_examen.mis_firmas.filter(id=id_firma).all()
+        firma.delete()
+        return Response({'resultado': 'ok'})
 
     def perform_create(self, serializer):
         serializer.save(creado_por=self.request.user)

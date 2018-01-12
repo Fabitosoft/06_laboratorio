@@ -24,11 +24,12 @@ class ExamenResource(ModelResource):
 
 
 class ExamenAdmin(ImportExportModelAdmin):
-    list_display = ['codigo_cups', 'nombre', 'subgrupo_cups', 'nombre_corto', 'valor_referencia', 'unidad_medida',
+    list_display = ['codigo_cups', 'nombre','especial', 'subgrupo_cups', 'nombre_corto', 'valor_referencia', 'unidad_medida',
                     'tecnica']
     search_fields = ['codigo_cups', 'nombre']
     resource_class = ExamenResource
-    list_filter = ['subgrupo_cups', 'subgrupo_cups__grupo']
+    list_filter = ['subgrupo_cups', 'subgrupo_cups__grupo','especial']
+    list_editable = ['especial',]
 
     def get_queryset(self, request):
         qs = Examen.objects.select_related('subgrupo_cups', 'subgrupo_cups__grupo')

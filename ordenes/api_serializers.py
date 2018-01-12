@@ -76,6 +76,8 @@ class OrdenExamenParaOrdenSerializer(serializers.ModelSerializer):
     sub_categoria_cup_nombre = serializers.CharField(source='examen.subgrupo_cups.nombre', read_only=True)
     mis_firmas = OrdenExamenFirmasSerializer(many=True, read_only=True)
     multifirma = serializers.BooleanField(source='examen.multifirma', read_only=True)
+    especial = serializers.BooleanField(source='examen.especial', read_only=True)
+    nro_plantilla = serializers.BooleanField(source='examen.nro_plantilla', read_only=True)
 
     class Meta:
         model = OrdenExamen
@@ -98,6 +100,8 @@ class OrdenExamenParaOrdenSerializer(serializers.ModelSerializer):
             'valor_descuento',
             'valor_final',
             'multifirma',
+            'especial',
+            'nro_plantilla',
         ]
 
 

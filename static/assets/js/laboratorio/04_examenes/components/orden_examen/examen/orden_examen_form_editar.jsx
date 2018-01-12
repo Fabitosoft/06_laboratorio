@@ -14,7 +14,7 @@ class OrdenExamenFormEditar extends Component {
             onFirmar,
             orden_examen
         } = this.props;
-        if ((!orden_examen.multifirma && orden_examen.mis_firmas.length === 1) ||(orden_examen.examen_estado===0)) {
+        if ((!orden_examen.multifirma && orden_examen.mis_firmas.length === 1) || (orden_examen.examen_estado === 0)) {
             return <div></div>
         }
         const mis_firmas = orden_examen.mis_firmas.filter(firma => {
@@ -40,7 +40,7 @@ class OrdenExamenFormEditar extends Component {
             onSubmit,
             reset,
             handleSubmit,
-            orden_examen: {examen_estado}
+            orden_examen: {examen_estado, examen_unidad_medida}
         } = this.props;
 
         let link_to = "/app/examenes/en_proceso/lista/";
@@ -83,6 +83,20 @@ class OrdenExamenFormEditar extends Component {
                                             autoComplete="off"
                                         />
                                     </div>
+                                    {
+                                        examen_unidad_medida ?
+                                            <div className="col-12">Unidad de Medida: {examen_unidad_medida}</div> :
+                                            <div className="col-12">
+                                                <Field
+                                                    fullWidth={true}
+                                                    name="examen_unidad_medida"
+                                                    component={TextField}
+                                                    hintText="Unidad"
+                                                    floatingLabelText="Unidad Medida"
+                                                    autoComplete="off"
+                                                />
+                                            </div>
+                                    }
                                     <div className="col-12">
                                         <Field
                                             fullWidth={true}
@@ -91,16 +105,6 @@ class OrdenExamenFormEditar extends Component {
                                             hintText="Resultado"
                                             floatingLabelText="Resultado"
                                             normalize={upper}
-                                            autoComplete="off"
-                                        />
-                                    </div>
-                                    <div className="col-12">
-                                        <Field
-                                            fullWidth={true}
-                                            name="examen_unidad_medida"
-                                            component={TextField}
-                                            hintText="Unidad"
-                                            floatingLabelText="Unidad Medida"
                                             autoComplete="off"
                                         />
                                     </div>

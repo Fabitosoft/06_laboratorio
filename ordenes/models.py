@@ -107,6 +107,15 @@ class OrdenExamen(TimeStampedModel):
         orden.calcular_totales()
         return delete
 
+    def firmar(self, especialista):
+        if self.examen.multifirma:
+            if not self.mis_firmas.filter(especialista=especialista).exists():
+                self.mis_firmas.create(especialista=especialista)
+        else:
+            for firma in self.mis_firmas.all():
+                firma.delete()
+            self.mis_firmas.create(especialista=especialista)
+
 
 class OrdenExamenFirmas(TimeStampedModel):
     orden_examen = models.ForeignKey(OrdenExamen, related_name='mis_firmas')
