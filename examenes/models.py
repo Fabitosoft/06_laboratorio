@@ -27,6 +27,11 @@ class CupsSubGrupo(models.Model):
 
 
 class Examen(models.Model):
+    FORMULARIO_PLANTILLA_CHOICES = (
+        (1, 'Biopsia'),
+        (2, 'Citología'),
+    )
+
     subgrupo_cups = models.ForeignKey(CupsSubGrupo, related_name="mis_examenes", null=True, blank=True,
                                       on_delete=models.PROTECT)
     codigo_cups = models.PositiveIntegerField(help_text='Código de clasificación única en procedimientos en salud',
@@ -40,7 +45,8 @@ class Examen(models.Model):
                                            verbose_name='Costo Referencia del Examen')
     multifirma = models.BooleanField(default=False, verbose_name='Multiple Firma')
     especial = models.BooleanField(default=False, verbose_name='Plantilla Especial')
-    nro_plantilla = models.PositiveIntegerField(verbose_name='Nro. Plantilla Especial', blank=True, null=True)
+    nro_plantilla = models.PositiveIntegerField(verbose_name='Nro. Plantilla Especial', blank=True, null=True,
+                                                choices=FORMULARIO_PLANTILLA_CHOICES)
 
     def __str__(self):
         return self.nombre

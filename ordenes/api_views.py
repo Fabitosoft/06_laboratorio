@@ -1,12 +1,12 @@
 from django.db.models import Q
 from rest_framework.decorators import list_route, detail_route
 from rest_framework.response import Response
-
-from .models import Orden, OrdenExamen
-from medicos.models import Especialista
 from rest_framework import viewsets, status
 
 from .api_serializers import OrdenSerializer, OrdenExamenSerializer
+from .models import Orden, OrdenExamen
+from medicos.models import Especialista
+from examenes_especiales.models import Biopsia, Citologia
 
 
 class OrdenViewSet(viewsets.ModelViewSet):
@@ -49,7 +49,9 @@ class OrdenExamenViewSet(viewsets.ModelViewSet):
         'orden',
         'orden__paciente',
         'examen__subgrupo_cups',
-        'orden__entidad'
+        'orden__entidad',
+        'mi_biopsia',
+        'mi_citologia'
     ).prefetch_related(
         'mis_bitacoras__generado_por',
         'mis_firmas__especialista',
@@ -100,7 +102,12 @@ class OrdenExamenViewSet(viewsets.ModelViewSet):
         return Response({'resultado': 'ok'})
 
     def perform_create(self, serializer):
-        serializer.save(creado_por=self.request.user)
+        orden_examen = serializer.save(creado_por=self.request.user)
+        if orden_examen.especial:
+            if orden_examen.nro_plantilla == 1:
+                Biopsia.objects.create(orden_examen=orden_examen)
+            if orden_examen.nro_plantilla == 2:
+                Citologia.objects.create(orden_examen=orden_examen)
 
     def perform_update(self, serializer):
         serializer.save(modificado_por=self.request.user)

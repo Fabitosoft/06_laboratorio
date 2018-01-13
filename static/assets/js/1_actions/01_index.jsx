@@ -9,4 +9,6 @@ export * from './especialistasAction';
 export * from './especialidadesAction';
 export * from './pruebaAction';
 export * from './mi_cuenta/miCuentaAction';
+export * from './examenes_especiales/examenEspecialBiopsiaAction';
+export * from './examenes_especiales/examenEspecialCitologiaAction';
 //export {createNotification} from 'react-redux-notify';

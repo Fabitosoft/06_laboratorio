@@ -98,6 +98,7 @@ class EditarOrdenLaboratorio extends Component {
     }
 
     adicionarExamen(examen) {
+        console.log(examen)
         const {match: {params: {id}}, createOrdenExamen, fetchOrden, notificarAction, orden} = this.props;
         const error_callback = (error) => {
             this.props.notificarErrorAjaxAction(error);
@@ -108,6 +109,8 @@ class EditarOrdenLaboratorio extends Component {
             valor_total: parseFloat(examen.valor_examen),
             paciente_nombre: orden.paciente_nombre,
             tecnica: examen.examen_tecnica,
+            nro_plantilla: examen.nro_plantilla,
+            especial: examen.especial,
             orden: id,
             descuento: 0,
             valor_descuento: 0,

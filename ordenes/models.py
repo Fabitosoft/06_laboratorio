@@ -72,6 +72,9 @@ class OrdenExamen(TimeStampedModel):
     tecnica = models.CharField(max_length=100, verbose_name='Técnica', blank=True, null=True)
     examen_valor_referencia = models.TextField(verbose_name='Valor de Referencia', blank=True, null=True)
 
+    especial = models.BooleanField(default=False, verbose_name='Plantilla Especial')
+    nro_plantilla = models.PositiveIntegerField(verbose_name='Nro. Plantilla Especial', blank=True, null=True)
+
     creado_por = models.ForeignKey(User, on_delete=models.PROTECT, blank=True, null=True,
                                    related_name='mis_examenes_creados')
     modificado_por = models.ForeignKey(User, on_delete=models.PROTECT, blank=True, null=True,

@@ -7,32 +7,6 @@ import {TextField} from "redux-form-material-ui";
 const upper = value => value && value.toUpperCase();
 
 class OrdenExamenFormEditar extends Component {
-    renderBotonFirmar() {
-        const {
-            mi_cuenta_especialista,
-            mi_cuenta_especialista: {firma_url},
-            onFirmar,
-            orden_examen
-        } = this.props;
-        if ((!orden_examen.multifirma && orden_examen.mis_firmas.length === 1) || (orden_examen.examen_estado === 0)) {
-            return <div></div>
-        }
-        const mis_firmas = orden_examen.mis_firmas.filter(firma => {
-            return firma.especialista === mi_cuenta_especialista.id
-        });
-        if (mis_firmas.length === 0) {
-            if (firma_url) {
-                return (
-                    <button type="button" onClick={() => {
-                        onFirmar()
-                    }} className="btn btn-primary">
-                        Firmar
-                    </button>
-                )
-            }
-        }
-    }
-
     render() {
         const {
             pristine,
@@ -40,6 +14,8 @@ class OrdenExamenFormEditar extends Component {
             onSubmit,
             reset,
             handleSubmit,
+            con_boton_firmar,
+            onFirmar,
             orden_examen: {examen_estado, examen_unidad_medida}
         } = this.props;
 
@@ -126,7 +102,13 @@ class OrdenExamenFormEditar extends Component {
                                 <button type="submit" className="btn btn-primary" disabled={pristine || submitting}>
                                     Guardar
                                 </button>
-                                {this.renderBotonFirmar()}
+                                {
+                                    con_boton_firmar && <button type="button" onClick={() => {
+                                        onFirmar()
+                                    }} className="btn btn-primary">
+                                        Firmar
+                                    </button>
+                                }
                             </div>
                         </div>
                     </form>

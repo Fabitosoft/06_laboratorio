@@ -10,6 +10,7 @@ moment.tz.setDefault("America/Bogota");
 export default class OrdenImpresionExamenes extends Component {
 
     renderExamen(examen) {
+        console.log(examen)
         return (
             <tr key={examen.id}>
                 <td>{examen.examen_nombre}</td>

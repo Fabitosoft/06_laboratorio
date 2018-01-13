@@ -2,6 +2,8 @@ from rest_framework import serializers
 
 from .models import Orden, OrdenExamen, HistorialOrdenExamen, OrdenExamenFirmas
 
+from examenes_especiales.api_serializers import BiopsiaSerializer, CitologiaSerializer
+
 
 class OrdenExamenFirmasSerializer(serializers.ModelSerializer):
     firmado_por = serializers.CharField(source='especialista.full_name', read_only=True)
@@ -38,6 +40,8 @@ class OrdenExamenSerializer(serializers.ModelSerializer):
     mis_bitacoras = HistorialOrdenExamenSerializer(many=True, read_only=True)
     mis_firmas = OrdenExamenFirmasSerializer(many=True, read_only=True)
     multifirma = serializers.BooleanField(source='examen.multifirma', read_only=True)
+    mi_biopsia = BiopsiaSerializer(read_only=True)
+    mi_citologia = CitologiaSerializer(read_only=True)
 
     class Meta:
         model = OrdenExamen
@@ -47,6 +51,8 @@ class OrdenExamenSerializer(serializers.ModelSerializer):
             'examen',
             'paciente_nombre',
             'orden',
+            'mi_biopsia',
+            'mi_citologia',
             'examen_nombre',
             'entidad_nombre',
             'tecnica',
@@ -62,12 +68,13 @@ class OrdenExamenSerializer(serializers.ModelSerializer):
             'mis_bitacoras',
             'mis_firmas',
             'multifirma',
+            'especial',
+            'nro_plantilla',
         ]
         extra_kwargs = {
             'resultado': {'required': False, 'allow_blank': True, 'allow_null': True},
             'examen_valor_referencia': {'required': False, 'allow_blank': True, 'allow_null': True},
-            'examen_unidad_medida': {'required': False, 'allow_blank': True, 'allow_null': True},
-            'tecnica': {'required': False, 'allow_blank': True, 'allow_null': True},
+            'examen_unidad_medida': {'required': False, 'allow_blank': True, 'allow_null': True}
         }
 
 
@@ -76,8 +83,6 @@ class OrdenExamenParaOrdenSerializer(serializers.ModelSerializer):
     sub_categoria_cup_nombre = serializers.CharField(source='examen.subgrupo_cups.nombre', read_only=True)
     mis_firmas = OrdenExamenFirmasSerializer(many=True, read_only=True)
     multifirma = serializers.BooleanField(source='examen.multifirma', read_only=True)
-    especial = serializers.BooleanField(source='examen.especial', read_only=True)
-    nro_plantilla = serializers.BooleanField(source='examen.nro_plantilla', read_only=True)
 
     class Meta:
         model = OrdenExamen
@@ -93,6 +98,7 @@ class OrdenExamenParaOrdenSerializer(serializers.ModelSerializer):
             'examen',
             'paciente_nombre',
             'orden',
+            'tecnica',
             'examen_codigo_cups',
             'examen_nombre',
             'descuento',

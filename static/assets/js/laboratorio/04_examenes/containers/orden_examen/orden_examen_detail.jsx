@@ -4,7 +4,12 @@ import * as actions from '../../../../1_actions/01_index';
 import {Link} from 'react-router-dom';
 
 import OrdenExamenForm from '../../components/orden_examen/examen/orden_examen_form_editar';
+import OrdenExamenBiopsiaForm from '../../components/orden_examen/examen/especiales/orden_examen_form_biopsia';
+import OrdenExamenCitologiaForm from '../../components/orden_examen/examen/especiales/orden_examen_form_citologia';
+
+
 import ExamenHistorialLista from '../../components/orden_examen/examen/historial/examen_historial_lista';
+import {DELETE_ESPECIALIDAD, FETCH_ESPECIALIDAD, FETCH_ESPECIALIDADES} from "../../../../1_actions/02_types";
 
 class OrdenExamenDetail extends Component {
 
@@ -18,6 +23,26 @@ class OrdenExamenDetail extends Component {
                 ver_firmar_como_activos: true
             }
         )
+    }
+
+    conBotonFirmar() {
+        const {
+            mi_cuenta_especialista,
+            mi_cuenta_especialista: {firma_url},
+            orden_examen
+        } = this.props;
+        if ((!orden_examen.multifirma && orden_examen.mis_firmas.length === 1) || (orden_examen.examen_estado === 0)) {
+            return false
+        }
+        const mis_firmas = orden_examen.mis_firmas.filter(firma => {
+            return firma.especialista === mi_cuenta_especialista.id
+        });
+        if (mis_firmas.length === 0) {
+            if (firma_url) {
+                return true
+            }
+        }
+        return false
     }
 
     tienePermiso(permiso_nombre) {
@@ -183,6 +208,44 @@ class OrdenExamenDetail extends Component {
         )
     }
 
+    renderFormularioEspecial(id_formulario) {
+        const {
+            orden_examen: {examen_estado},
+            orden_examen,
+            mi_cuenta_especialista
+        } = this.props;
+        if (examen_estado === 0 || examen_estado === 1) {
+            switch (id_formulario) {
+                case 1:
+                    return (
+                        <div className="col-12">
+                            <OrdenExamenBiopsiaForm
+                                mi_cuenta_especialista={mi_cuenta_especialista}
+                                onSubmit={this.onSubmit.bind(this)}
+                                orden_examen={orden_examen}
+                                mi_biopsia={orden_examen.mi_biopsia}
+                                onFirmar={this.onFirmar.bind(this)}
+                                con_boton_firmar={this.conBotonFirmar()}
+                            />
+                        </div>
+                    );
+                case 2:
+                    return (
+                        <div className="col-12">
+                            <OrdenExamenCitologiaForm
+                                mi_cuenta_especialista={mi_cuenta_especialista}
+                                onSubmit={this.onSubmit.bind(this)}
+                                orden_examen={orden_examen}
+                                mi_citologia={orden_examen.mi_citologia}
+                                onFirmar={this.onFirmar.bind(this)}
+                                con_boton_firmar={this.conBotonFirmar()}
+                            />
+                        </div>
+                    );
+            }
+        }
+    }
+
     renderFormularioResultados() {
         const {
             orden_examen: {examen_estado},
@@ -198,6 +261,7 @@ class OrdenExamenDetail extends Component {
                         onSubmit={this.onSubmit.bind(this)}
                         orden_examen={orden_examen}
                         onFirmar={this.onFirmar.bind(this)}
+                        con_boton_firmar={this.conBotonFirmar()}
                     />
                 </div>
             )
@@ -262,22 +326,47 @@ class OrdenExamenDetail extends Component {
     }
 
     onSubmit(values) {
+        const {
+            updateOrdenExamen,
+            notificarAction,
+            fetchOrdenExamen,
+            orden_examen,
+            updateBiopsia,
+            updateCitologia
+        } = this.props;
+
         const error_callback = (error) => {
             this.props.notificarErrorAjaxAction(error);
         };
-        const {updateOrdenExamen, notificarAction, fetchOrdenExamen} = this.props;
-
-        updateOrdenExamen(values,
-            response => {
-                fetchOrdenExamen(
-                    response.id, () => {
-                        notificarAction('Se ha guardado correctamente los resultados del exámen');
-                    },
-                    error_callback
-                );
-            },
-            error_callback
-        );
+        const fetchOrden = (orden_id) => {
+            fetchOrdenExamen(
+                orden_id, () => {
+                    notificarAction('Se ha guardado correctamente los resultados del exámen');
+                },
+                error_callback
+            );
+        };
+        if (!orden_examen.especial) {
+            updateOrdenExamen(values,
+                response => {
+                    fetchOrden(response.id);
+                },
+                error_callback
+            )
+        } else {
+            switch (orden_examen.nro_plantilla) {
+                case 1:
+                    updateBiopsia(values, () => {
+                        fetchOrden(orden_examen.id);
+                    });
+                    break;
+                case 2:
+                    updateCitologia(values, () => {
+                        fetchOrden(orden_examen.id);
+                    });
+                    break;
+            }
+        }
     }
 
     renderVerificar() {
@@ -414,7 +503,11 @@ class OrdenExamenDetail extends Component {
                     <h6><strong>Paciente:</strong> {orden_examen.paciente_nombre}</h6>
                     <h6><strong>Orden:</strong> <Link to={link_to}>{orden_examen.orden}</Link></h6>
                 </div>
-                {this.renderFormularioResultados()}
+                {
+                    orden_examen.especial ?
+                        this.renderFormularioEspecial(orden_examen.nro_plantilla) :
+                        this.renderFormularioResultados()
+                }
                 {this.renderSoloResultado()}
                 <div className="col-12">
                     <div className="row">
