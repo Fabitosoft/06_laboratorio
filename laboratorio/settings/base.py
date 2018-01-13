@@ -61,6 +61,7 @@ MY_APPS = [
     'entidades',
     'pacientes',
     'ordenes',
+    'permisos'
 ]
 
 THIRD_PART_APPS = [

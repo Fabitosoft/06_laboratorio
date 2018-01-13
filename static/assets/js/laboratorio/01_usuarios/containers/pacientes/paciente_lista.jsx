@@ -14,6 +14,11 @@ class PacienteLista extends Component {
         })
     }
 
+    componentDidMount() {
+        const {fetchMisPermisos} = this.props;
+        fetchMisPermisos();
+    }
+
     buscarPorParametro(busqueda) {
         const error_callback = (error) => {
             this.props.notificarErrorAjaxAction(error);
@@ -36,17 +41,26 @@ class PacienteLista extends Component {
         }
     }
 
+    tienePermiso(permiso_nombre) {
+        const {mis_permisos} = this.props;
+        return mis_permisos.includes(permiso_nombre)
+    }
+
     render() {
         const {busqueda} = this.state;
+        if(!this.tienePermiso('list_paciente')){
+            return <div className="col-12">No tiene permiso para ver lista de pacientes</div>
+        }
         return (
             <div className="row">
 
                 <div className="col-12">
-                    <h3 className="h3-responsive">Pacientes <Link to={`/app/paciente/crear/`}>
+                    <h3 className="h3-responsive">Pacientes {this.tienePermiso("add_paciente") &&
+                    <Link to={`/app/paciente/crear/`}>
                         <i
                             className="fa fa-plus"
                             aria-hidden="true"></i>
-                    </Link>
+                    </Link>}
                     </h3>
                 </div>
                 <div className="col-12">
@@ -68,7 +82,8 @@ class PacienteLista extends Component {
 
 function mapPropsToState(state, ownProps) {
     return {
-        pacientes: state.pacientes
+        pacientes: state.pacientes,
+        mis_permisos: state.mis_permisos
     }
 }
 

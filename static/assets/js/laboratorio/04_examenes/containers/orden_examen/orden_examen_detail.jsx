@@ -20,6 +20,11 @@ class OrdenExamenDetail extends Component {
         )
     }
 
+    tienePermiso(permiso_nombre) {
+        const {mis_permisos} = this.props;
+        return mis_permisos.includes(permiso_nombre)
+    }
+
     componentDidMount() {
         const error_callback = (error) => {
             this.props.notificarErrorAjaxAction(error);
@@ -28,11 +33,13 @@ class OrdenExamenDetail extends Component {
             match: {params: {id}},
             fetchOrdenExamen,
             fetchMiCuentaEspecialistaInfo,
-            fetchEspecialistas
+            fetchEspecialistas,
+            fetchMisPermisos
         } = this.props;
 
         fetchMiCuentaEspecialistaInfo();
         fetchEspecialistas();
+        fetchMisPermisos();
 
         fetchOrdenExamen(id, () => {
             },
@@ -103,7 +110,10 @@ class OrdenExamenDetail extends Component {
                         <h6>{firma.especialidad}</h6>
                     </div>
                     {
-                        mi_cuenta_especialista.id === firma.especialista &&
+                        (
+                            mi_cuenta_especialista.id === firma.especialista
+                            || this.tienePermiso("orden_examen_firmar_como")
+                        ) &&
                         orden_examen.examen_estado !== 2 &&
                         <span
                             style={{position: "absolute", cursor: "pointer", bottom: "5px", right: "25px"}}
@@ -340,6 +350,7 @@ class OrdenExamenDetail extends Component {
                     }
 
                     {
+                        this.tienePermiso("orden_examen_firmar_como") &&
                         (orden_examen.multifirma ||
                             (!orden_examen.multifirma && orden_examen.mis_firmas.length === 0)) &&
                         <div className="col-12 mt-2">
@@ -413,9 +424,8 @@ class OrdenExamenDetail extends Component {
                     </div>
                 </div>
                 <div className="col-12 mt-2">
-                    {this.renderVerificar()}
+                    {this.tienePermiso("orden_examen_verificar") && this.renderVerificar()}
                 </div>
-
                 {
                     orden_examen.examen_estado === 1 &&
                     <div style={{cursor: "pointer"}}
@@ -441,7 +451,8 @@ function mapPropsToState(state, ownProps) {
     return {
         orden_examen: state.ordenes_examenes[id],
         mi_cuenta_especialista: state.mi_cuenta_especialista,
-        especialistas: state.especialistas
+        especialistas: state.especialistas,
+        mis_permisos: state.mis_permisos
     }
 }
 

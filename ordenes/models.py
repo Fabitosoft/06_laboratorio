@@ -92,6 +92,13 @@ class OrdenExamen(TimeStampedModel):
     valor_final = models.DecimalField(max_digits=10, decimal_places=1, default=0,
                                       verbose_name='Valor Final')
 
+    class Meta:
+        permissions = [
+            ('orden_examen_firmar_como', 'Puede Firmar Examen como Otros'),
+            ('orden_examen_verificar', 'Puede Verificar Examen'),
+            ('orden_examen_cambiar_estado', 'Puede Cambiar Estado Examen'),
+        ]
+
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if self.examen_estado in [0, 1]:
             if self.resultado:

@@ -12,6 +12,11 @@ import {TextField} from "redux-form-material-ui";
 const lower = value => value && value.toLowerCase();
 
 class PacienteEditarForm extends Component {
+    tienePermiso(permiso_nombre) {
+        const {mis_permisos} = this.props;
+        return mis_permisos.includes(permiso_nombre)
+    }
+
     render() {
         const {
             pristine,
@@ -66,19 +71,28 @@ class PacienteEditarForm extends Component {
                         </div>
                         <div className="row">
                             <div className="col-12">
-                                <button type="button" className="btn btn-secondary"
-                                        onClick={reset}
-                                        disabled={pristine || submitting}>
-                                    Deshacer Cambios
-                                </button>
+                                {
+                                    this.tienePermiso("change_paciente") &&
+                                    <button type="button" className="btn btn-secondary"
+                                            onClick={reset}
+                                            disabled={pristine || submitting}>
+                                        Deshacer Cambios
+                                    </button>
+                                }
                                 <Link to="/app/paciente/lista/">
                                     <button type="button" className="btn btn-secondary">
                                         Cancelar
                                     </button>
                                 </Link>
-                                <button type="submit" className="btn btn-primary" disabled={pristine || submitting}>
-                                    Guardar
-                                </button>
+                                {
+                                    this.tienePermiso("change_paciente") &&
+                                    <button type="submit" className="btn btn-primary" disabled={pristine || submitting}>
+                                        Guardar
+                                    </button>
+                                }
+                            </div>
+                            <div className={'col-12'}>
+                                {!this.tienePermiso("change_paciente") && 'No tienes permiso para editar pacientes'}
                             </div>
                         </div>
                     </form>

@@ -16,6 +16,7 @@ export default class OrdenImpresionExamenes extends Component {
                 <td>{examen.resultado}</td>
                 <td>{examen.examen_unidad_medida}</td>
                 <td className={'text-multiline'}>{examen.examen_valor_referencia}</td>
+                <td>{examen.tecnica ? examen.tecnica : ''}</td>
             </tr>
         )
     }
@@ -35,6 +36,7 @@ export default class OrdenImpresionExamenes extends Component {
                             <th>Resultado</th>
                             <th>Unidades</th>
                             <th>Valores de Referencia</th>
+                            <th>Técnica</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -62,6 +64,7 @@ export default class OrdenImpresionExamenes extends Component {
                             <th>Resultado</th>
                             <th>Unidades</th>
                             <th>Valores de Referencia</th>
+                            <th>Técnica</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -70,6 +73,7 @@ export default class OrdenImpresionExamenes extends Component {
                             <td>{examen.resultado}</td>
                             <td>{examen.examen_unidad_medida}</td>
                             <td className={'text-multiline'}>{examen.examen_valor_referencia}</td>
+                            <td>{examen.tecnica ? examen.tecnica : ''}</td>
                         </tr>
                         </tbody>
                     </table>

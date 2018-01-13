@@ -1,8 +1,9 @@
 //utilidades
 export const FETCH_CIUDADES = 'fetch_ciudades';
 
-//mi_cuente
+//mi_cuenta
 export const FETCH_MI_CUENTA_ESPECIALISTA = 'fetch_mi_cuenta_especialista';
+export const FETCH_MIS_PERMISOS = 'fetch_mis_permisos';
 
 //ordenes
 export const FETCH_ORDENES = 'fetch_ordenes';

@@ -49,6 +49,9 @@ class Paciente(TimeStampedModel):
     class Meta:
         verbose_name_plural = 'Pacientes'
         verbose_name = 'Paciente'
+        permissions = [
+            ('list_paciente', 'Can list Paciente'),
+        ]
 
     def __str__(self):
         return '%s %s %s %s' % (self.nombre, self.nombre_segundo, self.apellido, self.apellido_segundo)

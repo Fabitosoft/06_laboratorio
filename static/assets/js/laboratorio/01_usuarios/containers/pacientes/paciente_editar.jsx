@@ -15,8 +15,9 @@ class PacienteEditar extends Component {
     }
 
     componentDidMount() {
-        const {match: {params: {id}}, fetchPaciente} = this.props;
+        const {match: {params: {id}}, fetchPaciente, fetchMisPermisos} = this.props;
         fetchPaciente(id);
+        fetchMisPermisos();
     }
 
     onSubmit(values) {
@@ -36,7 +37,7 @@ class PacienteEditar extends Component {
     }
 
     render() {
-        const {paciente} = this.props;
+        const {paciente, mis_permisos} = this.props;
         return (
             <div className="row">
                 <div className="col-12">
@@ -44,6 +45,7 @@ class PacienteEditar extends Component {
                 </div>
                 <div className="col-12">
                     <PacienteEditarForm
+                        mis_permisos={mis_permisos}
                         onSubmit={this.onSubmit.bind(this)}
                         paciente={paciente}
                     />
@@ -56,7 +58,8 @@ class PacienteEditar extends Component {
 function mapPropsToState(state, ownProps) {
     const {match: {params: {id}}} = ownProps;
     return {
-        paciente: state.pacientes[id]
+        paciente: state.pacientes[id],
+        mis_permisos: state.mis_permisos
     }
 }
 

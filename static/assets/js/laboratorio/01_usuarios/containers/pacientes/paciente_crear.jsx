@@ -14,6 +14,11 @@ class PacienteCrear extends Component {
         })
     }
 
+    componentDidMount() {
+        const {fetchMisPermisos} = this.props;
+        fetchMisPermisos();
+    }
+
     onSubmit(values) {
         const {crearPaciente, notificarAction, history} = this.props;
         const error_callback = (error) => {
@@ -27,7 +32,15 @@ class PacienteCrear extends Component {
         );
     }
 
+    tienePermiso(permiso_nombre) {
+        const {mis_permisos} = this.props;
+        return mis_permisos.includes(permiso_nombre)
+    }
+
     render() {
+        if (!this.tienePermiso("add_paciente")) {
+            return <div className="col-12">No tiene permisos suficientes para crear pacientes</div>
+        }
         return (
             <div className="row">
                 <div className="col-12">
@@ -52,4 +65,10 @@ class PacienteCrear extends Component {
     }
 }
 
-export default connect(null, actions)(PacienteCrear);
+function mapPropsToState(state, ownProps) {
+    return {
+        mis_permisos: state.mis_permisos
+    }
+}
+
+export default connect(mapPropsToState, actions)(PacienteCrear);
