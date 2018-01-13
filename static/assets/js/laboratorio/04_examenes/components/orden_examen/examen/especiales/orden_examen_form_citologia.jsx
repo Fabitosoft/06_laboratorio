@@ -215,11 +215,11 @@ class OrdenExamenFormCitologia extends Component {
                                             <div className="row pl-4">
                                                 <div className="col-12 col-lg-4">
                                                     <Field name="nci_ii" component={Checkbox}
-                                                           label="(Displacia moderada NIC II)"/>
+                                                           label="(Displasia moderada NIC II)"/>
                                                 </div>
                                                 <div className="col-12 col-lg-4">
                                                     <Field name="nci_iii" component={Checkbox}
-                                                           label="(Displacia severa /Carcinoma in situ NIC III)"/>
+                                                           label="(Displasia severa /Carcinoma in situ NIC III)"/>
                                                 </div>
                                             </div>
                                         }
