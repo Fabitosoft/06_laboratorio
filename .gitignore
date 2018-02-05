@@ -3,3 +3,10 @@ secretsLocal.json
 node_modules/**
 static/assets/bundles/deve/*
 /media
+/cosas.txt
+.ebextensions
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+.elasticbeanstalk

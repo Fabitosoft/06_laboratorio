@@ -10,7 +10,7 @@ export default class ImpresionCabezote extends Component {
         const fechaImpresion = moment(now, "YYYY MM DD", "es").format("DD MMMM YYYY");
         const horaImpresion = moment(now, "YYYY MM DD", "es").format("hh:mm:ss a");
         return (
-            <div className="row impresion">
+            <div id="cabezote" className="row impresion">
                 <div className="col-2">
                     <img className="img-fluid logo" src={logo} alt=""/>
                 </div>

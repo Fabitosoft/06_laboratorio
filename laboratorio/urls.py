@@ -21,12 +21,15 @@ from django.conf.urls.static import static
 from index.views import IndexView
 from laboratorio.api_urls import router
 
+from ordenes.views import ImpresionExamenesView
+
 urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^app/', IndexView.as_view(), name='index'),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^$', IndexView.as_view(), name='index'),
+    url(r'^print/(?P<pk>[^/]+)/$', ImpresionExamenesView.as_view(), name='orden-detail'),
 ]
 
 if settings.DEBUG:

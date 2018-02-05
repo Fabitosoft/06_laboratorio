@@ -18,6 +18,7 @@ export default class OrdenImpresionExamenes extends Component {
                 <td>{examen.examen_unidad_medida}</td>
                 <td className={'text-multiline'}>{examen.examen_valor_referencia}</td>
                 <td>{examen.tecnica ? examen.tecnica : ''}</td>
+                <td className={'text-multiline'}>{examen.observaciones}</td>
             </tr>
         )
     }
@@ -38,6 +39,7 @@ export default class OrdenImpresionExamenes extends Component {
                             <th>Unidades</th>
                             <th>Valores de Referencia</th>
                             <th>Técnica</th>
+                            <th>Observaciones</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -162,7 +164,7 @@ export default class OrdenImpresionExamenes extends Component {
         });
         return (
             <PrintTemplate>
-                <div className="impresion-orden-laboratorio">
+                <div id='imprimir' className="impresion-orden-laboratorio">
                     <ImpresionCabezote/>
                     <div className="orden mt-2">
                         <div className="row datos-generales">

@@ -3,7 +3,7 @@ import {
     FETCH_ORDEN,
     DELETE_ORDEN,
     CREATE_ORDEN,
-    UPDATE_ORDEN, DELETE_ENTIDAD
+    UPDATE_ORDEN
 } from './02_types';
 import axios from 'axios';
 import {createRequest} from "./00_general_fuctions";
@@ -122,6 +122,23 @@ export function deleteOrden(id, callback = null, callback_error = null) {
         createRequest(
             request,
             dispatches,
+            callback,
+            callback_error
+        )
+    }
+}
+
+export function enviar_email(id, callback = null, callback_error = null) {
+    return function (dispatch) {
+        axios_instance.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+        axios_instance.defaults.xsrfCookieName = "csrftoken";
+
+        const SUB_URL = `/${id}/enviar_email/`;
+        const FULL_URL = `${SUB_URL}`;
+        const request = axios_instance.post(FULL_URL);
+        createRequest(
+            request,
+            null,
             callback,
             callback_error
         )

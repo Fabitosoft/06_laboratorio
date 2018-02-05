@@ -1,12 +1,33 @@
-from django.db.models import Q
+import os
+
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.db.models import Q, Count, F
+from django.conf import settings
+from django.http import HttpResponse
+from django.shortcuts import render_to_response
+from io import BytesIO
+
+from django.template.loader import get_template, render_to_string
 from rest_framework.decorators import list_route, detail_route
 from rest_framework.response import Response
 from rest_framework import viewsets, status
+from xhtml2pdf import pisa
 
 from .api_serializers import OrdenSerializer, OrdenExamenSerializer
-from .models import Orden, OrdenExamen
+from .models import Orden, OrdenExamen, OrdenExamenFirmas
 from medicos.models import Especialista
 from examenes_especiales.models import Biopsia, Citologia
+
+
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    if not pdf.err:
+        print('si retorno pdf')
+        return result.getvalue()
+    return None
 
 
 class OrdenViewSet(viewsets.ModelViewSet):
@@ -23,6 +44,59 @@ class OrdenViewSet(viewsets.ModelViewSet):
         'mis_examenes__examen__subgrupo_cups',
     ).all()
     serializer_class = OrdenSerializer
+
+    @detail_route(methods=['post'])
+    def enviar_email(self, request, pk=None):
+        orden = self.get_object()
+
+        multifirma = OrdenExamen.objects.select_related(
+            'examen',
+        ).prefetch_related(
+            'mis_firmas',
+            'mis_firmas__especialista',
+            'mis_firmas__especialista__especialidad',
+        ).annotate(
+            can_firmas=Count("mis_firmas")
+        ).filter(
+            orden=orden,
+            can_firmas__gt=1,
+            examen__especial=False,
+        )
+
+        una_firma = OrdenExamenFirmas.objects.select_related(
+            'especialista',
+            'especialista__especialidad',
+            'orden_examen',
+            'orden_examen__examen',
+            'orden_examen__examen__subgrupo_cups',
+        ).annotate(
+            especialist=F('especialista'),
+            can_firmas=Count("orden_examen__mis_firmas")
+        ).filter(
+            orden_examen__orden=orden,
+            orden_examen__examen__especial=False,
+            can_firmas=1
+        ).order_by('especialist')
+
+        pdf = render_to_pdf('prueba.html', {
+            'una_firma': una_firma,
+            'multifirma': multifirma
+        })
+        text_content = render_to_string('prueba.html', {
+            'una_firma': una_firma,
+            'multifirma': multifirma
+        })
+
+        msg = EmailMultiAlternatives(
+            'prueba',
+            text_content,
+            'fabio.garcia.sanchez@gmail.com',
+            to=['fabio.garcia.sanchez@gmail.com']
+        )
+        msg.attach_alternative(text_content, "text/html")
+        msg.attach('prueba', pdf, 'application/pdf')
+        msg.send()
+        return Response({'resultado': 'ok'})
 
     @list_route(methods=['get'])
     def buscar_x_parametro(self, request):

@@ -70,6 +70,7 @@ THIRD_PART_APPS = [
     'webpack_loader',
     'rest_framework',
     'imagekit',
+    'crispy_forms',
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

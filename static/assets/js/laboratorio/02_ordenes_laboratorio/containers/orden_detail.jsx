@@ -372,6 +372,29 @@ class EditarOrdenLaboratorio extends Component {
         }
     }
 
+    prueba() {
+        const {orden} = this.props;
+        // let doc = new jsPDF();
+        // const specialElementHandlers = {
+        //     '#editor': function (element, renderer) {
+        //         return true;
+        //     },
+        //     '#cabezote': function (element, renderer) {
+        //         return true;
+        //     }
+        // };
+        // doc.fromHTML($('#imprimir').html(), 15, 15, {
+        //         'width': 100,
+        //         'elementHandlers': specialElementHandlers
+        //     },
+        //     () => {
+        //         doc.save('bola')
+        //     }
+        // );
+
+        this.props.enviar_email(orden.id)
+    }
+
     render() {
         const {orden} = this.props;
         document.title = 'Orden Laboratorio';
@@ -400,6 +423,11 @@ class EditarOrdenLaboratorio extends Component {
                 {this.renderImpresionRecibo()}
                 {this.renderOrdenExamenesImpresion()}
                 {this.renderOrdenExamenesSeleccionadosImpresion()}
+                <button onClick={() => {
+                    this.prueba()
+                }}>
+                    cosa
+                </button>
             </div>
         )
     }

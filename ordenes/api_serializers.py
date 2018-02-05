@@ -70,6 +70,7 @@ class OrdenExamenSerializer(serializers.ModelSerializer):
             'multifirma',
             'especial',
             'nro_plantilla',
+            'observaciones'
         ]
         extra_kwargs = {
             'resultado': {'required': False, 'allow_blank': True, 'allow_null': True},
@@ -108,6 +109,7 @@ class OrdenExamenParaOrdenSerializer(serializers.ModelSerializer):
             'multifirma',
             'especial',
             'nro_plantilla',
+            'observaciones'
         ]
 
 

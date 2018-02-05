@@ -64,3 +64,7 @@ class Citologia(TimeStampedModel):
                                                  help_text='Anomalidades del epitelio glandular de naturaleza indeterminada')
 
     adenocarcinoma = models.BooleanField(default=False, help_text='Adenocarcinoma')
+
+
+class Hemograma(TimeStampedModel):
+    pass

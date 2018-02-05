@@ -86,6 +86,18 @@ class OrdenExamenFormEditar extends Component {
                                     </div>
                                 </div>
                             </div>
+                            <div className="col-12">
+                                <Field
+                                    fullWidth={true}
+                                    name="observaciones"
+                                    component={TextField}
+                                    hintText="Observaciones"
+                                    floatingLabelText="Observaciones"
+                                    multiLine={true}
+                                    rows={5}
+                                    autoComplete="off"
+                                />
+                            </div>
                         </div>
                         <div className="row">
                             <div className="col-12">
