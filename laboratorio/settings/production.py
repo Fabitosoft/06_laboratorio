@@ -126,7 +126,7 @@ DEFAULT_FROM_EMAIL = os.environ["DEFAULT_FROM_EMAIL"]
 
 WEBPACK_LOADER = {
     'DEFAULT': {
-        'BUNDLE_DIR_NAME': 'www/assets/bundles/dist/',
+        'BUNDLE_DIR_NAME': 'assets/bundles/dist/',
         'STATS_FILE': os.path.join(SITE_ROOT, 'webpack-stats-prod.json'),
     }
 }
