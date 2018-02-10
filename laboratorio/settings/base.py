@@ -154,14 +154,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'laboratoriodb',
-    }
-}
-
 ########## STATIC FILE CONFIGURATION
 STATICFILES_DIRS = [
     os.path.normpath(os.path.join(SITE_ROOT, "static"))
