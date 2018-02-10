@@ -123,3 +123,10 @@ EMAIL_USE_SSL = str_to_bool(os.environ["EMAIL_USE_SSL"])
 
 DEFAULT_FROM_EMAIL = os.environ["DEFAULT_FROM_EMAIL"]
 ########## END EMAIL CONFIGURATION
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'www/assets/bundles/dist/',
+        'STATS_FILE': os.path.join(SITE_ROOT, 'webpack-stats-prod.json'),
+    }
+}
