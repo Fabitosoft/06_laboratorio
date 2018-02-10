@@ -1,10 +1,7 @@
 import os
 
-from django.core.mail import send_mail, EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives
 from django.db.models import Q, Count, F
-from django.conf import settings
-from django.http import HttpResponse
-from django.shortcuts import render_to_response
 from io import BytesIO
 
 from django.template.loader import get_template, render_to_string
@@ -90,7 +87,7 @@ class OrdenViewSet(viewsets.ModelViewSet):
         msg = EmailMultiAlternatives(
             'prueba',
             text_content,
-            'fabio.garcia.sanchez@gmail.com',
+            'webmaster@clinicadramor.com',
             to=['fabio.garcia.sanchez@gmail.com']
         )
         msg.attach_alternative(text_content, "text/html")
